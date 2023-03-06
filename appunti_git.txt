@@ -1,0 +1,7 @@
+Lavorare ognuno su un proprio branch
+Se si lavora su task che richiedono una collaborazione (Front-end e back-end)
+ si può lavorare su un singolo branch, 
+tenendosi aggiornati su quando pushare e pullare
+CREARE BRANCH DAL MAIN -> git checkout -b "your branch name" fare un branch sempre dall'ultima
+versione del main disponibile, per evitare di perdere informazioni
+
