@@ -1,4 +1,4 @@
-package Classes;
+package org.example.progettouni.entities;
 
 public class Location {
     int id_location;
