@@ -1,4 +1,4 @@
-package Classes;
+package org.example.progettouni.entities;
 
 //Classe per istanziare utenti nel sistema
 public class User {
