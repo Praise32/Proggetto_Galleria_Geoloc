@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS luogo (
 );
 
 CREATE TABLE IF NOT EXISTS fotografia (
-                        id_foto INTEGER,
+                        id_foto INTEGER SERIAL NOT NULL,
                         username_autore VARCHAR(30) REFERENCES utente(username) ON DELETE CASCADE,  --CASCADE elimina tutte le foto di quell'utente quando l'utente viene eliminato
                         titolo VARCHAR(30) NOT NULL default 'foto.jpg',
                         dati_foto BYTEA,
