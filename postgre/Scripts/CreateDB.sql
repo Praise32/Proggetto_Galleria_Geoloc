@@ -30,7 +30,6 @@ CREATE TABLE IF NOT EXISTS fotografia (
 
 CREATE TABLE IF NOT EXISTS collezione (                               --la collezione personale la creiamo con una view
                         id_collezione INTEGER NOT NULL,
-                        id_foto INTEGER,
                         username VARCHAR(30) NOT NULL,
                         titolo VARCHAR(30) NOT NULL,
                         DataCollezione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
