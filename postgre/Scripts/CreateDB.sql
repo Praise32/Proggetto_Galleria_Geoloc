@@ -6,11 +6,6 @@ CREATE TABLE IF NOT EXISTS utente (
                         CONSTRAINT utente_pk PRIMARY KEY (username)
 );
 
-insert into utente (username, password, admin) values
-                       ('ggsolaire', 'password', false),
-                       ('Cippolean', 'AOO', default),
-                       ('Genny', 'IAmVengeance', true);
-
 CREATE TABLE IF NOT EXISTS luogo (
                         latitudine FLOAT,
                         longitudine FLOAT,
@@ -39,19 +34,6 @@ CREATE TABLE IF NOT EXISTS fotografia (
                         CONSTRAINT fotografia_autore_fk FOREIGN KEY (username_autore) REFERENCES utente(username),
                         CONSTRAINT fotografia_luogo_fk FOREIGN KEY (latitudine, longitudine) REFERENCES luogo(latitudine,longitudine)
 );
-/*
-INSERT INTO fotografia (username_proprietario, titolo, dati_foto, dispositivo, condivisa, posizione)
-VALUES ('ggsolaire', 'Festa in giardino', '0x454F46...', 'iPhone X', false, 'Null Island');
-
-INSERT INTO fotografia (username_proprietario, titolo, dati_foto, condivisa, posizione)
-VALUES ('Cippolean', 'Panorama', '0x54875A...', true, 'Piazza San Marco');
-
-INSERT INTO fotografia (username_proprietario, titolo, dati_foto, dispositivo, condivisa)
-VALUES ('Genny', 'Il mio cane', '0x897EBA...', 'Samsung Galaxy', true);
-
-INSERT INTO fotografia (username_proprietario, titolo, dati_foto, dispositivo, condivisa)
-VALUES ('Cippolean', 'Vacanza estiva', '0xA23C5F...', 'Canon EOS', false);*/
-
 
 CREATE TABLE IF NOT EXISTS collezione (                               --la collezione personale la creiamo con una view
                         id_collezione INTEGER NOT NULL,
@@ -116,45 +98,3 @@ CREATE TABLE IF NOT EXISTS tag_soggetto(
     CONSTRAINT tagsottetto_soggetto_fk (nome_soggetto) REFERENCES soggetto(nome),
     CONSTRAINT tagsoggetto_fotografia_fk (id_foto) REFERENCES fotografia(id_foto)
 );
-/*
-CREATE PROCEDURE insert_frame_in_video(@id_video INTEGER, @id_foto INTEGER)
-    LANGUAGE SQL
-    AS $$
-
-        INSERT INTO frame (id_video, id_foto, ordine)
-        VALUES (@id_video, @id_foto, (SELECT MAX(ordine) from frame WHERE id_video = @id_video));
-    $$;*/
-    
-/*
---select * from fotografia JOIN luogo ON fotografia.posizione = luogo.nome WHERE luogo.nome = 'Null Island';
---Dopo il nome del campo posso inserire anche un alias ed usare quello al posto del nome
---Esempio fotografia t1 JOIN luogo t2 ON t1.posizione = t2.nome ...
---Scrivere sempre tutti i nomi dei campi negli insert così da evitare problemi qualora si aggiungesse una nuova colonna
-*/
-/*
-    One - to - One
-   +-----------+     +----------------+
-   | Employees |     | EmployeeDetails |
-   +-----------+     +----------------+
-   | EmployeeID|-----| EmployeeID      |
-   | Name      |     | Address        |
-   | Email     |     | Phone          |
-   +-----------+     +----------------+
-    One - to - Many
-   +-----------+     +-------------+
-   | Customers |     | Orders      |
-   +-----------+     +-------------+
-   | CustomerID|-----| CustomerID  |
-   | Name      |     | OrderDate   |
-   | Email     |     | OrderNumber |
-   +-----------+     | TotalPrice  |
-                     +-------------+
-    Many - to - Many
-   +-----------+     +---------+     +------------+
-   | Students  |     |Enrollments|   |  Courses   |
-   +-----------+     +---------+     +------------+
-   | StudentID |----| StudentID|----| CourseID   |
-   | Name      |     | CourseID |    | Name      |
-   | Email     |     +---------+     |Description|
-   +-----------+                     +------------+
- */
