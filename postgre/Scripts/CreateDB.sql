@@ -7,19 +7,12 @@ CREATE TABLE IF NOT EXISTS utente (
 );
 
 CREATE TABLE IF NOT EXISTS luogo (
-                        latitudine FLOAT,
-                        longitudine FLOAT,
+                        latitudine FLOAT NOT NULL,
+                        longitudine FLOAT NOT NULL,
                         nome VARCHAR(50) UNIQUE,  --Poiché non esistono due posti con lo stesso nome
                         categoria VARCHAR(30) DEFAULT '-',
                         CONSTRAINT Luogo_pk PRIMARY KEY (latitudine, longitudine)
 );
-
-INSERT INTO luogo (latitudine, longitudine, nome, categoria) VALUES 
-                    (12.3375, 45.4341, 'Piazza San Marco', 'Piazza')
-                    (12.4924, 41.8902, 'Colosseo', 'Monumento')
-                    (11.2549, 43.7764, 'Biblioteca Nazionale Centrale di Firenze', 'Biblioteca')
-;
-
 
 CREATE TABLE IF NOT EXISTS fotografia (
                         id_foto INTEGER,
@@ -55,7 +48,7 @@ CREATE TABLE IF NOT EXISTS contenuto(
 );
 
 CREATE TABLE IF NOT EXISTS tag_utente(
-                        username VARCHAR NOT NULL,
+                        username VARCHAR(30) NOT NULL,
                         id_foto INTEGER NOT NULL,
                         CONSTRAINT tag_utente_pk PRIMARY KEY (username, id_foto),
                         CONSTRAINT tagutente_utente_fk FOREIGN KEY(username) REFERENCES utente(username) ON DELETE CASCADE,
@@ -73,7 +66,7 @@ CREATE TABLE IF NOT EXISTS video (
 );
 
 CREATE TABLE IF NOT EXISTS frame(
-    id_frame SERIAL NOT NULL,
+    id_frame INTEGER SERIAL NOT NULL,
     id_foto INTEGER,
     durata INTEGER NOT NULL DEFAULT 0,
     ordine INTEGER SERIAL NOT NULL DEFAULT 0 --Inserito un Default per avere un valore da cui partire con la funzione di inserimento
