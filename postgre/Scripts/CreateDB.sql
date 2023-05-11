@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS luogo (
                         longitudine FLOAT NOT NULL,
                         nome VARCHAR(50) UNIQUE,  --Poiché non esistono due posti con lo stesso nome
                         categoria VARCHAR(30) DEFAULT '-',
-                        CONSTRAINT Luogo_pk PRIMARY KEY (latitudine, longitudine)
+                        CONSTRAINT luogo_pk PRIMARY KEY (latitudine, longitudine)
 );
 
 CREATE TABLE IF NOT EXISTS fotografia (
@@ -32,8 +32,8 @@ CREATE TABLE IF NOT EXISTS collezione (                               --la colle
                         id_collezione INTEGER NOT NULL,
                         username VARCHAR(30) NOT NULL,
                         titolo VARCHAR(30) NOT NULL,
-                        DataCollezione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        Numero_Elementi INTEGER NOT NULL DEFAULT 0,
+                        data_collezione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        numero_elementi INTEGER NOT NULL DEFAULT 0,
                         CONSTRAINT collezione_pk PRIMARY KEY (id_collezione),
                         CONSTRAINT collezione_utente_fk FOREIGN KEY (username) REFERENCES utente(username) ON DELETE CASCADE
 );
@@ -60,17 +60,19 @@ CREATE TABLE IF NOT EXISTS video (
     titolo VARCHAR(30) NOT NULL DEFAULT 'video.mp4',
     numero_frames INTEGER NOT NULL DEFAULT 0,
     durata INTEGER NOT NULL DEFAULT 0,
+    descrizione VARCHAR(225),
     CONSTRAINT video_pk PRIMARY KEY (id_video),
     CONSTRAINT video_autore_fk FOREIGN KEY (autore) REFERENCES utente(username) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS frame(
-    id_frame INTEGER SERIAL NOT NULL,
+    id_video INTEGER NOT NULL,
     id_foto INTEGER,
     durata INTEGER NOT NULL DEFAULT 0,
     ordine INTEGER SERIAL NOT NULL DEFAULT 0 --Inserito un Default per avere un valore da cui partire con la funzione di inserimento
                                              --Così facendo il primo frame avrà ordine 1
-    CONSTRAINT frame_pk PRIMARY KEY (id_frame),
+    CONSTRAINT frame_pk PRIMARY KEY (id_video),
+    CONSTRAINT frame_video_fk FOREIGN KEY (id_video) REFERENCES video(id_video) ON DELETE CASCADE,
     CONSTRAINT frame_fotografia_fk FOREIGN KEY (id_foto) REFERENCES fotografia(id_foto) ON DELETE SET NULL
                                                                                     --"ON DELETE SET NULL" indica che quando una riga
                                                                                     --nella tabella padre viene eliminata, il valore della colonna
