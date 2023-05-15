@@ -31,16 +31,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION FotoLuogo(latitudine luogo.latitudine%TYPE, longitudine foto.longitudine%TYPE, utente utente.username%TYPE) RETURNS SETOF fotografia AS
+CREATE OR REPLACE FUNCTION FotoLuogo(latitudine luogo.latitudine%TYPE, longitudine foto.longitudine%TYPE) RETURNS SETOF fotografia AS
 $$
 BEGIN
     RETURN QUERY (
         SELECT *
         FROM fotografia
         WHERE fotografia.latitudine = latitudine AND 
-        fotografia.longitudine = longitudine AND (
-            fotografia.username_proprietario = utente OR fotografia.condivisa = TRUE
-        )
+        fotografia.longitudine = longitudine AND
+        fotografia.condivisa = TRUE
     );
 END;
 $$ LANGUAGE plpgsql;
