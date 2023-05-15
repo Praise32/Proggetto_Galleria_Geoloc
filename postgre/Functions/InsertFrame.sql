@@ -20,6 +20,17 @@ BEGIN
 END;
 $$LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION ContenutoCollezione (collezione collezione.id_collezione%TYPE) RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY(
+        SELECT fotografia.*
+        FROM contenuto NATURAL JOIN fotografia
+        WHERE id_collezione = collezione
+    );
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE VIEW ClassificaLuoghi AS
         SELECT latitudine, longitudine, nome, categoria, COUNT(id_foto) AS NumeroFotografie
         FROM luogo NATURAL LEFT JOIN fotografia
