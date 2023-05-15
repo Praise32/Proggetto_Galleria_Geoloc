@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS frame(
     id_video INTEGER NOT NULL,
     id_foto INTEGER,
     durata INTEGER NOT NULL DEFAULT 0,
-    ordine NOT NULL DEFAULT 0, --Inserito un Default per avere un valore da cui partire con la funzione di inserimento
+    ordine INTEGER NOT NULL DEFAULT 0, --Inserito un Default per avere un valore da cui partire con la funzione di inserimento
                                              --Così facendo il primo frame avrà ordine 1
     CONSTRAINT frame_pk PRIMARY KEY (id_video),
     CONSTRAINT frame_video_fk FOREIGN KEY (id_video) REFERENCES video(id_video) ON DELETE CASCADE,
