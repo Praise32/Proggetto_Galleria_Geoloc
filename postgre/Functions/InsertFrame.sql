@@ -1,10 +1,10 @@
-CREATE OR REPLACE FUNCTION GalleriaUtente (Proprietario utente.username%TYPE, Utente utente.username%TYPE) RETURNS SETOF fotografia AS
+CREATE OR REPLACE FUNCTION GalleriaUtente (Utente utente.username%TYPE, Richiedente utente.username%TYPE) RETURNS SETOF fotografia AS
 $$
 BEGIN
     RETURN QUERY (
         SELECT * FROM fotografia
-        WHERE fotografia.username_autore = Proprietario AND (
-            fotografia.username_autore = utente OR fotografia.condivisa = TRUE
+        WHERE fotografia.username_autore = Utente AND (
+            fotografia.username_autore = Richiedente OR fotografia.condivisa = TRUE
         )
     );
 END;
