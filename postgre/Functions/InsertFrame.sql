@@ -4,7 +4,7 @@ BEGIN
     RETURN QUERY (
         SELECT * FROM fotografia
         WHERE fotografia.username_autore = Proprietario AND (
-            fotografia.username_autore = utente OR fotografia.condivisa
+            fotografia.username_autore = utente OR fotografia.condivisa = TRUE
         )
     );
 END;
