@@ -16,15 +16,15 @@ CREATE TABLE IF NOT EXISTS luogo (
 
 CREATE TABLE IF NOT EXISTS fotografia (
                         id_foto SERIAL NOT NULL, --SERIAL indica un BIG INT con sequenza auto gestita dal DB
-                        username_autore VARCHAR(30) REFERENCES utente(username) ON DELETE CASCADE,  --CASCADE elimina tutte le foto di quell'utente quando l'utente viene eliminato
-                        titolo VARCHAR(30) NOT NULL default 'foto.jpg',
+                        username_autore VARCHAR(30),
                         dati_foto BYTEA,
                         dispositivo VARCHAR(30) NOT NULL DEFAULT 'Sconosciuto',
                         latitudine FLOAT,
                         longitudine FLOAT,
                         condivisa BOOLEAN NOT NULL default false,
                         CONSTRAINT fotografia_pk PRIMARY KEY (id_foto),
-                        CONSTRAINT fotografia_autore_fk FOREIGN KEY (username_autore) REFERENCES utente(username),
+                        CONSTRAINT fotografia_autore_fk FOREIGN KEY (username_autore) REFERENCES utente(username) ON DELETE CASCADE, --CASCADE elimina tutte le foto di quell'utente quando l'utente viene eliminato
+                        titolo VARCHAR(30) NOT NULL default 'foto.jpg',
                         CONSTRAINT fotografia_luogo_fk FOREIGN KEY (latitudine, longitudine) REFERENCES luogo(latitudine,longitudine)
 );
 
