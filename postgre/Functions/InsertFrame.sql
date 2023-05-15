@@ -31,5 +31,18 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION FotoLuogo(latitudine luogo.latitudine%TYPE, longitudine foto.longitudine%TYPE, utente utente.username%TYPE) RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT *
+        FROM fotografia
+        WHERE fotografia.latitudine = latitudine AND 
+        fotografia.longitudine = longitudine AND (
+            fotografia.username_proprietario = utente OR fotografia.condivisa = TRUE
+        )
+    );
+END;
+$$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION insert_frame_in_video(input_id_video video.id_video%TYPE, input_ordine frame.ordine%TYPE)
