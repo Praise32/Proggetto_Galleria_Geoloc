@@ -31,7 +31,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION fotografia_per_soggetto(nome_soggetto tag_soggetto.nome_soggetto%TYPE)
+CREATE OR REPLACE FUNCTION fotografia_per_soggetto(nome_soggetto tag_soggetto.nome_soggetto%TYPE, utente utente.username%TYPE)
 RETURNS SETOF fotografia AS
 $$
 BEGIN
@@ -39,7 +39,9 @@ BEGIN
         SELECT fotografia.*
         FROM fotografia
         JOIN tag_soggetto ON fotografia.id_foto = tag_soggetto.id_foto
-        WHERE tag_soggetto.nome_soggetto = nome_soggetto
+        WHERE tag_soggetto.nome_soggetto = nome_soggetto AND (
+            fotografia.username_autore = utente OR fotografia.condivisa = TRUE
+        )
     );
 END;
 $$ LANGUAGE plpgsql;
