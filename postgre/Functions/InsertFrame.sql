@@ -36,7 +36,8 @@ RETURNS SETOF fotografia AS
 $$
 BEGIN
     RETURN QUERY (
-    SELECT fotografia.id_foto, fotografia.username_autore, fotografia.titolo, fotografia.dati_foto, fotografia.dispositivo, fotografia.latitudine, fotografia.longitudine, fotografia.condivisa, soggetto.nome
+    SELECT fotografia.id_foto, fotografia.username_autore, fotografia.titolo, fotografia.dati_foto,
+    fotografia.dispositivo, fotografia.latitudine, fotografia.longitudine, fotografia.condivisa, soggetto.nome
     FROM fotografia f JOIN tag_soggetto t ON f.id_foto = t.id_foto JOIN soggetto s ON t.nome_soggetto = s.nome
     WHERE s.nome = nome_soggetto AND (
             fotografia.username_autore = utente_foto OR fotografia.condivisa = TRUE
