@@ -12,3 +12,7 @@ se non è esso l'autore
 
 AutoIncrement:
 trigger che aggiorna l'attributo "numero_elementi" ad ogni insert
+
+Trigger Admin1:
+L'amministratore del sistema può eliminare un utente: in tal caso, tutte le foto dell'utente verranno cancellate dalla libreria,
+eccetto quelle che contengono come soggetto un altro degli utenti della galleria condivisa
