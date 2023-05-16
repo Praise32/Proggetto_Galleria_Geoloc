@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS luogo (
                         latitudine FLOAT NOT NULL,
                         longitudine FLOAT NOT NULL,
                         nome VARCHAR(50) UNIQUE,  --Poiché non esistono due posti con lo stesso nome
-                        categoria VARCHAR(30) DEFAULT '-',
+                        descrizione VARCHAR(225),
                         CONSTRAINT luogo_pk PRIMARY KEY (latitudine, longitudine)
 );
 
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS fotografia (
                         CONSTRAINT fotografia_luogo_fk FOREIGN KEY (latitudine, longitudine) REFERENCES luogo(latitudine,longitudine)
 );
 
-CREATE TABLE IF NOT EXISTS collezione (                               --la collezione personale la creiamo con una view
+CREATE TABLE IF NOT EXISTS collezione (         
                         id_collezione INTEGER NOT NULL,
                         username VARCHAR(30) NOT NULL,
                         titolo VARCHAR(30) NOT NULL,
