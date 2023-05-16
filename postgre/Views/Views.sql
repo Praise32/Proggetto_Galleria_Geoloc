@@ -1,3 +1,8 @@
+CREATE OR REPLACE VIEW foto_per_luogo AS
+SELECT *
+FROM fotografia
+WHERE latitudine = $1 AND longitudine = $2;
+
 CREATE OR REPLACE VIEW ClassificaLuoghi AS
 SELECT latitudine, longitudine, nome, categoria, COUNT(id_foto) AS NumeroFotografie
 FROM luogo NATURAL LEFT JOIN fotografia
