@@ -31,6 +31,19 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION fotografia_per_soggetto(nome_soggetto tag_soggetto.nome_soggetto%TYPE)
+RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY(
+        SELECT fotografia.*
+        FROM fotografia
+        JOIN tag_soggetto ON fotografia.id_foto = tag_soggetto.id_foto
+        WHERE tag_soggetto.nome_soggetto = nome_soggetto
+    );
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION FotoLuogo(latitudine luogo.latitudine%TYPE, longitudine foto.longitudine%TYPE, utente utente.username%TYPE) RETURNS SETOF fotografia AS
 $$
 BEGIN
