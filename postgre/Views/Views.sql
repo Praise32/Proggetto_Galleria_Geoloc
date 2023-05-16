@@ -1,7 +1,3 @@
-CREATE OR REPLACE VIEW foto_per_luogo AS
-SELECT *
-FROM fotografia
-WHERE latitudine = $1 AND longitudine = $2;
 
 CREATE OR REPLACE VIEW ClassificaLuoghi AS
 SELECT latitudine, longitudine, nome, categoria, COUNT(id_foto) AS NumeroFotografie
@@ -10,7 +6,7 @@ GROUP BY latitudine, longitudine, nome, categoria
 ORDER BY NumeroFotografie DESC, nome ASC
 LIMIT 3;
 
-CREATE OR REPLACE VIEW ListaUtenti AS
+CREATE OR REPLACE VIEW ShowUser AS
 SELECT DISTINCT username
 FROM utente;
 
