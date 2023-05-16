@@ -31,20 +31,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION fotografia_per_soggetto(nome_soggetto tag_soggetto.nome_soggetto%TYPE, utente utente.username%TYPE)
+CREATE OR REPLACE FUNCTION foto_per_soggetto(nome_soggetto soggetto.nome%TYPE, utente_foto fotografia.username_autore%TYPE)
 RETURNS SETOF fotografia AS
 $$
 BEGIN
-    RETURN QUERY(
-        SELECT fotografia.*
-        FROM fotografia
-        JOIN tag_soggetto ON fotografia.id_foto = tag_soggetto.id_foto
-        WHERE tag_soggetto.nome_soggetto = nome_soggetto AND (
-            fotografia.username_autore = utente OR fotografia.condivisa = TRUE
+    RETURN QUERY (
+    SELECT fotografia.id_foto, fotografia.username_autore, fotografia.titolo, fotografia.dati_foto, fotografia.dispositivo, fotografia.latitudine, fotografia.longitudine, fotografia.condivisa, soggetto.nome
+    FROM fotografia f JOIN tag_soggetto t ON f.id_foto = t.id_foto JOIN soggetto s ON t.nome_soggetto = s.nome
+    WHERE s.nome = nome_soggetto AND (
+            fotografia.username_autore = utente_foto OR fotografia.condivisa = TRUE
         )
     );
 END;
-$$ LANGUAGE plpgsql;
+$$
+LANGUAGE PLPGSQL;
 
 CREATE OR REPLACE FUNCTION foto_per_luogo(nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
 RETURNS SETOF fotografia AS
