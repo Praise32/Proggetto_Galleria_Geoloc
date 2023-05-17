@@ -15,5 +15,8 @@ SELECT DISTINCT username, admin
 FROM utente
 WHERE admin = true;
 
+--View per visualizzare i dati di ogni frame che è utilizzato in almeno un video
 CREATE OR REPLACE VIEW ContenutoFrame AS
-SELECT
+SELECT fotografia.dati_foto, frame.*
+FROM fotografia
+INNER JOIN frame ON fotografia.id_foto = frame.id_foto;
