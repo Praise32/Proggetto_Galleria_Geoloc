@@ -71,12 +71,11 @@ CREATE TABLE IF NOT EXISTS frame(
     durata INTEGER NOT NULL DEFAULT 0,
     ordine INTEGER NOT NULL DEFAULT 0, --Inserito un Default per avere un valore da cui partire con la funzione di inserimento
                                              --Così facendo il primo frame avrà ordine 1
-    CONSTRAINT frame_pk PRIMARY KEY (id_video),
+    CONSTRAINT frame_pk PRIMARY KEY (id_video, ordine),
     CONSTRAINT frame_video_fk FOREIGN KEY (id_video) REFERENCES video(id_video) ON DELETE CASCADE,
     CONSTRAINT frame_fotografia_fk FOREIGN KEY (id_foto) REFERENCES fotografia(id_foto) ON DELETE SET NULL
                                                                                     --"ON DELETE SET NULL" indica che quando una riga
-                                                                                    --nella tabella padre viene eliminata, il valore della colonna
-                                                                                    --corrispondente nella tabella figlia deve essere impostato a NULL. 
+                                                                                    --nella tabella padre viene eliminata, il valore della colonna                                                                              --corrispondente nella tabella figlia deve essere impostato a NULL.
 );
 
 CREATE TABLE IF NOT EXISTS soggetto (

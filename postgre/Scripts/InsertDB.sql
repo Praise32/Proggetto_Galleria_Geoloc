@@ -11,9 +11,17 @@ INSERT INTO luogo (latitudine, longitudine, nome, categoria) VALUES
 ;
 
 INSERT INTO fotografia (username_autore, titolo, dati_foto, dispositivo, condivisa, latitudine, longitudine)
-VALUES ('ggsolaire', 'Festa in giardino', '0x454F46...', 'iPhone X', false, 0,0),
-       ('Cippolean', 'Panorama', '0x54875A...', true, 12.3375, 45.4341);
+VALUES ('ggsolaire', 'Festa in giardino', '0x454F46...', 'iPhone X', false, 0,0);
 
+--Senza dispositivo
+INSERT INTO fotografia (username_autore, titolo, dati_foto, condivisa, latitudine, longitudine)
+VALUES ('Cippolean', 'Panorama', '0x54875A...', true, 12.3375, 45.4341);
+
+--Senza coordinate
 INSERT INTO fotografia (username_autore, titolo, dati_foto, dispositivo, condivisa)
 VALUES ('Genny', 'Il mio cane', '0x897EBA...', 'Samsung Galaxy', true),
        ('Cippolean', 'Vacanza estiva', '0xA23C5F...', 'Canon EOS', false);
+
+--Video di test
+INSERT INTO video
+VALUES (0, 'ggsolaire', 'Fet stu scurreggion', 1, 10, 'T piac eh');
