@@ -18,7 +18,7 @@ RETURNS TRIGGER AS $$
 BEGIN
     -- Verifica che l'utente da eliminare non sia un admin
     IF OLD.admin = TRUE AND (SELECT COUNT(*) FROM utente WHERE admin = true) = 1 THEN
-        RAISE EXCEPTION 'Non è possibile eliminare l\'unica utente amministratore';
+        RAISE EXCEPTION 'Non è possibile eliminare l\'unico utente amministratore';
     END IF;
 
     RETURN OLD;
