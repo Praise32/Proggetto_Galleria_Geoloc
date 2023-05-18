@@ -20,3 +20,8 @@ CREATE OR REPLACE VIEW ContenutoFrame AS
 SELECT fotografia.dati_foto, frame.*
 FROM fotografia
 INNER JOIN frame ON fotografia.id_foto = frame.id_foto;
+
+--View per visualizzare una lista delle categorie dei soggetti nel database
+CREATE OR REPLACE VIEW CategorieSoggetto AS
+SELECT DISTINCT Soggetto.Categoria
+FROM Soggetto;
