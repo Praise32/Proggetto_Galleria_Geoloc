@@ -1,2 +1,2 @@
 ContenutoFrame  FATTO
-CategorieSoggetto 
+CategorieSoggetto FATTO
