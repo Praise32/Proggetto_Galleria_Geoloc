@@ -62,4 +62,22 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE FUNCTION scelta_elenco_video() AS 
+$$
+DECLARE
+    parametro1 video.titolo%TYPE;
+    parametro2 video.autore%TYPE;
+BEGIN
+    -- Esegui la query sulla vista
+    SELECT * FROM mostra_tutti_video;
+    
+    -- Chiedi all'utente di inserire i valori dei parametri
+    parametro1 := $1;
+    parametro2 := $2;
+    
+    -- Esegui la funzione desiderata con i parametri forniti dall'utente
+    PERFORM visualizza_video(parametro1, parametro2);
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION insert_frame_in_video(input_id_video video.id_video%TYPE, input_ordine frame.ordine%TYPE)
