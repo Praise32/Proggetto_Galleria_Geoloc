@@ -65,19 +65,37 @@ $$ LANGUAGE plpgsql;
 CREATE FUNCTION scelta_elenco_video() AS 
 $$
 DECLARE
-    parametro1 video.titolo%TYPE;
-    parametro2 video.autore%TYPE;
+    titolo video.titolo%TYPE;
+    autore video.autore%TYPE;
 BEGIN
     -- Esegui la query sulla vista
     SELECT * FROM mostra_tutti_video;
     
     -- Chiedi all'utente di inserire i valori dei parametri
-    parametro1 := $1;
-    parametro2 := $2;
+
+    RAISE NOTICE 'inserisci il titolo del video da visualizzare';
+    READ titolo;
+    RAISE NOTICE 'inserisci l\'autore del video';
+    READ autore;
     
     -- Esegui la funzione desiderata con i parametri forniti dall'utente
-    PERFORM visualizza_video(parametro1, parametro2);
+    PERFORM visualizza_video(titolo, autore);
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION visualizza_video(titolo video.titolo%TYPE, autore video.autore%TYPE)
+RETURNS SETOF video AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT *
+        FROM video
+        JOIN luogo ON video.id_video = frame.id_video
+        WHERE video.titolo = titolo AND video.autore = autore
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+
 
 CREATE OR REPLACE FUNCTION insert_frame_in_video(input_id_video video.id_video%TYPE, input_ordine frame.ordine%TYPE)
