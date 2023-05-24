@@ -1,0 +1,108 @@
+\documentclass[a4paper,12pt,oneside]{book}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{pifont}
+\usepackage{enumitem}
+\usepackage[colorlinks]{hyperref}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{geometry}
+
+\hypersetup{
+    hidelinks,
+    colorlinks=true,
+    linkcolor=black,      
+    pdftitle={Documentazione Galleria Condivisa},
+    pdfpagemode=FullScreen,
+}
+\geometry{a4paper, top = 3cm, bottom = 3cm, left = 3.5cm, right = 3.5cm, heightrounded, bindingoffset = 5mm}
+\pagestyle{plain}
+
+
+\title{\textrm{Documentazione\\Galleria Fotografica Geolocalizzata}}
+\author{Gennaro Ventrone\and Luigi Solaro\and Mariano Sommella}
+\date{\textsc{\large anno accademico 2022-2023}}
+%\includegraphics{unina.png}
+
+
+
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\begin{document}
+    \begin{titlepage}
+        \maketitle
+    \end{titlepage}
+        \frontmatter
+        \tableofcontents
+        \mainmatter
+
+        
+    \chapter{Specifiche Progetto}
+    
+    \section{Introduzione Documentazione}
+
+    Nelle seguenti pagine si riporta la documentazione relativa ad una progettazione e implementazione di un sistema di basi di dati per la gestione di collezioni fotografiche geolocalizzate condivise.
+    
+
+    \section{Elenco Specifiche}
+   Vengono qui elencate le caratteristiche che l'applicativo deve garantire:
+    \begin{enumerate}
+        \item \emph{Informazioni sulla foto:} Possibilità di visualizzare per ogni foto l'utente che l'ha scattata, il dispositivo utilizzato e il luogo in cui è stata scattata. Il luogo può essere identificato da coordinate geografiche o da un nome mnemonico unico all'interno del sistema.
+        
+        \item \emph{Identificazione dei soggetti:} Ogni foto può raffigurare diversi soggetti o utenti, in entrambi i casi devono essere identificati univocamente e categorizzati.
+
+        \item \emph{Accesso a collezioni fotografiche:} Ogni utente ha sempre la possibilità di vedere la propria personale galleria fotografica, che comprende esclusivamente le foto scattate da lui. Un utente può partecipare a collezioni condivise con altri utenti che possono contenere foto scattate da questi utenti. 
+        
+         \item \emph{Accesso alla foto:} Ogni utente deve avere la possibilità di accedere solo alle proprie foto o a quelle condivise con gli altri utenti. Le foto private non verranno condivise con gli altri utenti.
+         
+        \item \emph{Eliminazione delle foto:} Gli utenti devono avere la possibilità di eliminare le proprie foto, ma solo l'amministratore del sistema può eliminare un utente e tutte le sue foto (eccetto le fotografie che contengono come soggetto un altro utente).
+
+        \item \emph{Operazione di ricerca:} Il sistema deve permettere la ricerca di foto in base al luogo in cui sono state scattate o al soggetto rappresentato. Inoltre, deve essere possibile visualizzare una classifica dei 3 luoghi più immortalati.
+        \item \emph{Gestione dei video:} Ogni fotografia può essere visualizzata in sequenza, andando a formare quindi un video.
+
+        \item \emph{Sicurezza:} Il sistema deve garantire la sicurezza delle informazioni, in particolare per quanto riguarda la gestione degli account degli utenti e la protezione dei dati personali. Inoltre, il sistema deve essere in grado di gestire la concorrenza tra utenti per evitare problemi di accesso simultaneo alle stesse informazioni.
+    \end{enumerate}
+    \par
+    
+    Il sistema prevede che le categorie di utenti siano così rappresentate:
+    \begin{itemize}
+        \item \textbf{Utente:} Può effettuare i punti dal 1 al 7 (In particolare esiste un servizio riservato al ruolo di \emph{amministratore} nel punto 5).
+
+        \item \textbf{Soggetto:} Può essere ritratto in una fotografia ed essere categorizzato.
+
+        \item \textbf{Amministratore:} Può effettuare il punto 5 e avere accesso agli stessi servizi di \emph{Utente}.
+    \end{itemize} 
+    \chapter{Modello Concettuale}
+    \section{Passaggio dal minimondo al modello concettuale}\par
+    Il \emph{mini-world} è una rappresentazione semplificata del mondo reale che ci fa intuire le informazioni che devono essere salvate nel database.
+    Superata la prima fase che consiste quindi nella raccolta e analisi dei requisiti, la seconda fase consiste nel tradurre in entità e relazioni mediante un costrutto grafico.\par
+    In seguito alla sezione precedente si è costruito il seguente schema\par concettuale espresso mediante il Diagramma UML:
+    \section{Ristrutturazione del modello concettuale}
+      La terza fase della progettazione di un sistema di basi di dati consiste nel passaggio dal modello concettuale al modello logico. La ristrutturazione del modello concettuale è un processo che si occupa di migliorare il modello concettuale, in questo caso quello precedentemente realizzato, per renderlo più efficiente e aggiornato alle esigenze degli utenti.Può essere realizzato nel seguento modo:
+    \subsection{Analisi delle ridondanze}
+  
+\subsection{Eliminazione delle Gerarchie}
+
+    \subsection{Eliminazione di Attributi Multivalori e Composti}
+    \subsection{Partizionamento/Accorpamento delle Entità}
+    \subsection{Analisi degli Identificativi}
+    \section{Diagramma Ristrutturato}
+    \subsection{Diagramma ER}
+    \subsection{Diagramma UML}
+    \section{Dizionario delle Entità}
+    \section{Dizionario delle Associazioni}
+    \section{Dizionario dei Vincoli}
+
+    \chapter{Progettazione Locica}
+    \section{Passaggio dal Diagramma ER al Modello Logico}
+    \section{Mapping delle Entità e delle Associazioni}
+    \section{Schema Logico}
+    \chapter{Codice SQL}
+    \section{Definizioni preliminari}
+    \section{Creazioni Tabelle}
+    \section{View}
+    \section{Trigger}
+\end{document}
