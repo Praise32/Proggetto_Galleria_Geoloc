@@ -25,3 +25,8 @@ INNER JOIN frame ON fotografia.id_foto = frame.id_foto;
 CREATE OR REPLACE VIEW CategoriaSoggetto AS
 SELECT DISTINCT soggetto.categoria
 FROM soggetto;
+
+--View per lista di tutti i video
+CREATE OR REPLACE VIEW ShowVideos AS
+SELECT titolo AS "Titolo", autore AS "Autore", descrizione AS "Info"
+FROM video;
