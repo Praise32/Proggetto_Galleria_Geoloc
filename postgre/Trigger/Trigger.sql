@@ -19,7 +19,7 @@ EXECUTE FUNCTION aggiorna_numero_elementi();
 
 -- Trigger che impedisce ad un'utente di inserire all'interno di una Galleria delle
 -- Fotografie  private se non è l'autore di esse
-	
+
 CREATE OR REPLACE FUNCTION controllo_autore() RETURNS TRIGGER AS $$
 BEGIN
     IF NOT EXISTS (SELECT * FROM fotografia WHERE id_foto = NEW.id_foto AND ((condivisa = true) OR (username_autore = NEW.autore))) THEN
@@ -34,7 +34,7 @@ $$ LANGUAGE plpgsql;
 	BEFORE INSERT ON Contenuto
 	FOR EACH ROW
 	EXECUTE FUNCTION controllo_autore();
-    
+
     --Trigger che impedisce ad un'utente che di utilizzare foto private se non ne è l'autore
 
 CREATE OR REPLACE FUNCTION controllo_autore() RETURNS TRIGGER AS $$
@@ -95,38 +95,39 @@ BEGIN
     FROM video v JOIN frame fr ON v.id_video = fr.id_video JOIN fotografia f ON f.id_foto = f.id_foto
     WHERE v.id_video = video AND (
             v.autore = utente_video OR f.condivisa = TRUE
-        );
-		ORDER BY fr.ordine;
+        )
+    ORDER BY fr.ordine
+    );
 END;
 $$
 LANGUAGE PLPGSQL;
 
-    
+
 
 
 CREATE OR REPLACE FUNCTION aggiorna_elementi_galleria() RETURNS TRIGGER AS $$
 BEGIN
     IF (TG_OP = 'INSERT') THEN
-        UPDATE galleria SET numero_elementi = numero_elementi + 1 WHERE id_galleria = NEW.id_galleria;
+        UPDATE collezione SET numero_elementi = numero_elementi + 1 WHERE id_collezione = NEW.id_collezione;
     ELSIF (TG_OP = 'DELETE') THEN
-        UPDATE galleria SET numero_elementi = numero_elementi - 1 WHERE id_galleria = OLD.id_galleria;
+        UPDATE collezione SET numero_elementi = numero_elementi - 1 WHERE id_collezione = OLD.id_collezione;
     END IF;
     RETURN NULL;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE PLPGSQL;
 
 CREATE TRIGGER aggiorna_elementi_galleria_trigger
 AFTER INSERT OR DELETE ON contenuto
 FOR EACH ROW
 EXECUTE FUNCTION aggiorna_elementi_galleria();
 
-`
+
 CREATE OR REPLACE FUNCTION verify_admin()
 RETURNS TRIGGER AS $$
 BEGIN
     -- Verifica che l'utente da eliminare non sia un admin
     IF OLD.admin = TRUE AND (SELECT COUNT(*) FROM utente WHERE admin = true) = 1 THEN
-        RAISE EXCEPTION 'Non è possibile eliminare l\'unico utente amministratore';
+        RAISE EXCEPTION 'Non è possibile eliminare l''unico utente amministratore';
     END IF;
 
     RETURN OLD;
@@ -136,7 +137,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER verify_admin_trigger
 BEFORE DELETE ON utente
 FOR EACH ROW
-EXECUTE FUNCTION verifica_admin();
+EXECUTE FUNCTION verify_admin();
 
 
 
@@ -180,7 +181,7 @@ $check_contenuto_collezione_fk$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION check_contenuto_fotografia_fk() RETURNS TRIGGER AS $check_contenuto_fotografia_fk$
 BEGIN
-  IFNOT EXISTS (SELECT 1 FROM fotografia WHERE id_foto = NEW.id_foto) THEN
+  IF NOT EXISTS (SELECT 1 FROM fotografia WHERE id_foto = NEW.id_foto) THEN
     RAISE EXCEPTION 'La fotografia non esiste';
   END IF;
   RETURN NEW;
@@ -253,7 +254,7 @@ END;
 $check_tag_soggetto_fotografia_fk$ LANGUAGE plpgsql;
 
 CREATE TRIGGER tag_soggetto_soggetto_fk_trigger
-  BEFOREINSERT OR UPDATE ON tag_soggetto
+  BEFORE INSERT OR UPDATE ON tag_soggetto
   FOR EACH ROW
   EXECUTE FUNCTION check_tag_soggetto_soggetto_fk();
 
