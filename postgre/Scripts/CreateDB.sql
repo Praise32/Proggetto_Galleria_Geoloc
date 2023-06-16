@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS fotografia (
                         username_autore VARCHAR(30),
                         dati_foto BYTEA,
                         dispositivo VARCHAR(30) NOT NULL DEFAULT 'Sconosciuto',
+                        data_foto DATE NOT NULL DEFAULT 'Sconosciuta',
                         latitudine FLOAT,
                         longitudine FLOAT,
                         condivisa BOOLEAN NOT NULL default false,
@@ -32,7 +33,7 @@ CREATE TABLE IF NOT EXISTS collezione (
                         id_collezione INTEGER NOT NULL,
                         username VARCHAR(30) NOT NULL,
                         titolo VARCHAR(30) NOT NULL,
-                        data_collezione TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        data_collezione DATE NOT NULL DEFAULT 'Sconosciuta',
                         numero_elementi INTEGER NOT NULL DEFAULT 0,
                         CONSTRAINT collezione_pk PRIMARY KEY (id_collezione),
                         CONSTRAINT collezione_utente_fk FOREIGN KEY (username) REFERENCES utente(username) ON DELETE CASCADE
