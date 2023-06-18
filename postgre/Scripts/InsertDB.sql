@@ -42,7 +42,17 @@ INSERT INTO fotografia (username_autore, dati_foto, dispositivo, data_foto, lati
   ('mariano','11100101', 'Samsung', '2022-12-27 12:00:00', 60.3453, 18.1928, true, 'casetta.jpg'),
   ('mariano','11100101', 'Samsung', '2022-12-27 13:00:00', 60.3653, 18.1238, true, 'falzarego.jpg'),
   ('mariano','11100101', 'Samsung', '2022-12-28 16:00:00', 60.3656, 18.7538, true, 'stadio.jpg'),
-  ('mariano','11100101', 'Samsung', '2022-12-29 10:00:00', 60.7653, 18.3338, true, 'snowpark.jpg');
+  ('mariano','11100101', 'Samsung', '2022-12-29 10:00:00', 60.7653, 18.3338, true, 'snowpark.jpg'),
+  ('gennaro', '01010101', 'iPhone', '2023-06-02 01:20:00', 40.3423, 10.9835, true, 'reggia.jpg'),
+  ('luigi', '01010101', 'iPhone', '2023-06-02 01:20:00', 40.3423, 10.9835, true, 'reggia.jpg'),
+  ('mariano', '01110101', 'Samsung', '2023-06-02 01:20:00', 40.3423, 10.9835, true, 'reggia.jpg'),
+  ('gennaro', '01110101', 'iPhone', '2023-06-01 21:20:00', 40.3663, 10.9135, true, 'flora.jpg'),
+  ('gennaro', '11010101', 'iPhone', '2023-06-01 21:00:00', 40.3663, 10.9135, true, 'flora.jpg'),
+  ('luigi', '01110101', 'Samsung', '2023-06-01 22:00:00', 40.3663, 10.9634, true, 'comune.jpg'),
+  ('mariano', '01000101', 'Samsung', '2023-06-01 22:40:00', 40.3934, 10.9217, true, 'viavico.jpg'),
+  ('mariano', '01000101', 'Samsung', '2023-06-01 23:20:00', 40.3016, 10.9982, true, 'mcdonald.jpg'),
+  ('luigi', '01010001', 'Samsung', '2023-06-01 20:00:00', 40.3486, 10.9779, true, 'pizza.jpg'),
+  ('gennaro', '01011101', 'iPhone', '2023-06-01 22:20:00', 40.398, 10.9799, true, 'viaferry.jpg');
 
 
 
@@ -51,8 +61,8 @@ INSERT INTO fotografia (username_autore, dati_foto, dispositivo, data_foto, lati
 INSERT INTO collezione (id_collezione, username, titolo, data_collezione, numero_elementi) VALUES
   (1, 'gennaro', 'Vacanza a Roma', '2022-06-01 10:00:00', 5),
   (2, 'luigi', 'Viaggio a Parigi', '2023-01-20 11:00:00', 4),
-  (3, 'mariano', 'Weekend in montagna', '2022-12-27 12:00:00', 4);
-
+  (3, 'mariano', 'Weekend in montagna', '2022-12-27 12:00:00', 4),
+	(4, 'gennaro', 'sabato sera a Caserta', '2023-06-01 20:00:00', 1);
 --Inserimento dei contenuti delle collezioni
 INSERT INTO contenuto (id_collezione, id_foto) VALUES
   (1, 1),
