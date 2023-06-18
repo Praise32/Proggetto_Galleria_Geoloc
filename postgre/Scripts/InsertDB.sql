@@ -62,7 +62,7 @@ INSERT INTO collezione (id_collezione, username, titolo, data_collezione, numero
   (1, 'gennaro', 'Vacanza a Roma', '2022-06-01 10:00:00', 5),
   (2, 'luigi', 'Viaggio a Parigi', '2023-01-20 11:00:00', 4),
   (3, 'mariano', 'Weekend in montagna', '2022-12-27 12:00:00', 4),
-	(4, 'gennaro', 'sabato sera a Caserta', '2023-06-01 20:00:00', 1);
+  (4, 'gennaro', 'sabato sera a Caserta', '2023-06-01 20:00:00', 0);
 --Inserimento dei contenuti delle collezioni
 INSERT INTO contenuto (id_collezione, id_foto) VALUES
   (1, 1),
