@@ -89,7 +89,7 @@ INSERT INTO contenuto (id_collezione, id_foto) VALUES
   (4, 22),
   (4, 23);
 
-/*
+
 --Inserimento dei tag degli utenti
 INSERT INTO tag_utente (username, id_foto) VALUES
   ('mariano', 14),
@@ -105,7 +105,7 @@ INSERT INTO tag_utente (username, id_foto) VALUES
   ('mariano', 23),
   ('luigi', 23),
   ('gennaro', 23);
-
+/*
 --Inserimento dei video
 INSERT INTO video (autore, titolo, numero_frames, durata, descrizione) VALUES
   ('mario', 'Viaggio in Giappone', 100, 600, 'Video del nostro viaggio in Giappone'),
