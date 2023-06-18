@@ -16,10 +16,27 @@ EXECUTE FUNCTION aggiorna_numero_elementi();
 
 
 -- Trigger che aggiorna l'attributo "numero_elementi" ad ogni Insert o delete
+--Trigger che impedisce ad un'utente di inserire all'interno di una Galleria o video
+--Fotografie private
+CREATE OR REPLACE FUNCTION controllo_accessibilità() RETURNS TRIGGER AS $$
+BEGIN
+    IF (SELECT condivisa FROM fotografia WHERE fotografia.id_foto = NEW.id_foto) = false THEN
+        RAISE EXCEPTION 'Non sei autorizzato ad utilizzare questa foto';
+		RETURN NULL;
+	ELSE														
+		RETURN NEW;												
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
 
+
+	CREATE TRIGGER inserimento_Galleria
+	BEFORE INSERT ON Contenuto
+	FOR EACH ROW
+	EXECUTE FUNCTION controllo_accessibilità();
 -- Trigger che impedisce ad un'utente di inserire all'interno di una Galleria delle
--- Fotografie  private se non è l'autore di esse
-
+-- Fotografie  private se non è l'autore di esse [DA RIVEDERE]
+/*
 CREATE OR REPLACE FUNCTION controllo_autore() RETURNS TRIGGER AS $$
 BEGIN
     IF NOT EXISTS (SELECT * FROM fotografia WHERE id_foto = NEW.id_foto AND ((condivisa = true) OR (username_autore = NEW.autore))) THEN
@@ -36,15 +53,7 @@ $$ LANGUAGE plpgsql;
 	EXECUTE FUNCTION controllo_autore();
 
     --Trigger che impedisce ad un'utente che di utilizzare foto private se non ne è l'autore
-
-CREATE OR REPLACE FUNCTION controllo_autore() RETURNS TRIGGER AS $$
-BEGIN
-    IF NOT EXISTS (SELECT * FROM fotografia WHERE id_foto = NEW.id_foto AND ((condivisa = true) OR (username_autore = NEW.autore))) THEN
-        RAISE EXCEPTION 'Non sei autorizzato ad utilizzare questa foto';
-    END IF;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
+*/
 
 CREATE TRIGGER inserimento_frame
 BEFORE INSERT ON frame
