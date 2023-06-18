@@ -58,7 +58,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER inserimento_frame
 BEFORE INSERT ON frame
 FOR EACH ROW
-EXECUTE FUNCTION controllo_autore();
+EXECUTE FUNCTION controllo_accessibilità();
 
 -- Trigger per aggiornare automaticamente il valore dell'attributo "numero_frames"
 -- quando si inserisce o si elimina un frame nella tabella "frame":
