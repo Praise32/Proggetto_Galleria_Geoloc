@@ -18,7 +18,14 @@ INSERT INTO luogo (latitudine, longitudine, nome, descrizione) VALUES
   (60.3453, 18.1928, 'Cortina dAmpezzo', 'Località Sciistica'),
   (60.3653, 18.1238, 'Passo di Falzarego', 'Zona pista sci'), 
   (60.3656, 18.7538, 'Stadio Olimpico del Ghiaccio', 'Stadio Olimpico di Sci'),
-  (60.7653, 18.3338, ' Tofane', 'Snowpark');
+  (60.7653, 18.3338, ' Tofane', 'Snowpark'),
+  (40.3423, 10.9835, 'Reggia di caserta', 'Monumento'),
+  (40.3663, 10.9135, 'Flora', 'Luogo di ritrovo'),
+  (40.3663, 10.9634, 'Comune di caserta', 'Palazzo comunale'),
+  (40.3934, 10.9217, 'Via Vico', 'Via trafficata'),
+  (40.3016, 10.9982, 'MCDonald di caserta', 'Ristorante'),
+  (40.3486, 10.9779, 'Pizza Napoli', 'Pizzeria'),
+  (40.398, 10.9799, 'Via Ferrante', 'Via trafficata');
 
 
 --Inserimento delle fotografie
