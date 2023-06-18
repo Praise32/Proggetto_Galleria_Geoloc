@@ -1,27 +1,98 @@
+--Inserimento degli utenti
 INSERT INTO utente (username, password, admin) VALUES
-                       ('ggsolaire', 'password', false),
-                       ('Cippolean', 'AOO', default),
-                       ('Genny', 'IAmVengeance', true);
+  ('gennaro', 'password1', true),
+  ('luigi', 'password2', false),
+  ('mariano', 'password3', false);
 
-INSERT INTO luogo (latitudine, longitudine, nome, categoria) VALUES
-                    (0, 0, 'Null Island', 'Punto d''interesse'),
-                    (12.3375, 45.4341, 'Piazza San Marco', 'Piazza'),
-                    (12.4924, 41.8902, 'Colosseo', 'Monumento'),
-                    (11.2549, 43.7764, 'Biblioteca Nazionale Centrale di Firenze', 'Biblioteca')
-;
+--Inserimento dei luoghi
+INSERT INTO luogo (latitudine, longitudine, nome, descrizione) VALUES
+  (41.9028, 12.4964, 'Colosseo', 'Anfiteatro Flavio'),
+  (41.8644, 12.7497, 'Bar Callisto', 'Bar storico di Trastevere'),
+  (41.8919, 12.5113, 'Fontana di Trevi','Fontana Barocca'),
+  (41.9060, 12.4534, 'Villa Borghese', 'Il Pincio'),
+  (41.7468, 12.1548, 'Giardino degli aranci', 'Parco Savello'),
+  (40.3759, 11.8538, 'Tour Eiffel', 'Torre autoportante di ferro battuto'),
+  (40.3942, 11.5977, 'Museo dOrsay', 'Museo Impressionismo e Post-Impressionismo'),
+  (40.3234, 11.7647, 'Museo del Louvre', 'Tra i musei più famosi al mondo'),
+  (40.2342, 11.9879, 'Arco Di Trionfo', 'Simbolo architettonico di una vittoria'),
+  (60.3453, 18.1928, 'Cortina dAmpezzo', 'Località Sciistica'),
+  (60.3653, 18.1238, 'Passo di Falzarego', 'Zona pista sci'), 
+  (60.3656, 18.7538, 'Stadio Olimpico del Ghiaccio', 'Stadio Olimpico di Sci'),
+  (60.7653, 18.3338, ' Tofane', 'Snowpark');
 
-INSERT INTO fotografia (username_autore, titolo, dati_foto, dispositivo, condivisa, latitudine, longitudine)
-VALUES ('ggsolaire', 'Festa in giardino', '0x454F46...', 'iPhone X', false, 0,0);
 
---Senza dispositivo
-INSERT INTO fotografia (username_autore, titolo, dati_foto, condivisa, latitudine, longitudine)
-VALUES ('Cippolean', 'Panorama', '0x54875A...', true, 12.3375, 45.4341);
+--Inserimento delle fotografie
+INSERT INTO fotografia (username_autore, dati_foto, dispositivo, data_foto, latitudine, longitudine, condivisa, titolo) VALUES
+  ('gennaro', '01010101', 'iPhone', '2022-06-01 10:00:00', 41.9028, 12.4964, true, 'colosseo.jpg'),
+  ('gennaro', '10101010', 'iPhone', '2022-06-02 11:00:00', 41.8919, 12.5113, true, 'fontana.jpg'),
+  ('gennaro', '00110011', 'iPhone', '2022-06-03 12:00:00', 41.9060, 12.4534, true, 'villaborghese.jpg'),
+  ('gennaro', '11010010', 'iPhone', '2022-06-02 18:00:00', 41.7468, 12.1548, false, 'Giardino.jpg'),
+  ('gennaro', '01001101', 'iPhone', '2022-06-03 16:00:00', 41.8644, 12.7497, false, 'barcallisto.jpg'),
+  ('luigi','00101101', 'Samsung', '2023-01-20 10:30:00', 40.3759, 11.8538, true, 'eiffel.jpg'),
+  ('luigi','00111101', 'Samsung', '2023-01-20 12:30:00', 40.3942, 11.5977 ,false, 'dorsay.jpg'),
+  ('luigi','00101001', 'Samsung', '2023-01-21 10:00:00', 40.3234, 11.7647 ,false, 'louvre.jpg'),
+  ('luigi','10101101', 'Samsung', '2023-01-21 14:30:00', 40.2342, 11.9879, true, 'arco.jpg'),
+  ('mariano','11100101', 'Samsung', '2022-12-27 12:00:00', 60.3453, 18.1928, true, 'casetta.jpg'),
+  ('mariano','11100101', 'Samsung', '2022-12-27 13:00:00', 60.3653, 18.1238, true, 'falzarego.jpg'),
+  ('mariano','11100101', 'Samsung', '2022-12-28 16:00:00', 60.3656, 18.7538, true, 'stadio.jpg'),
+  ('mariano','11100101', 'Samsung', '2022-12-29 10:00:00', 60.7653, 18.3338, true, 'snowpark.jpg');
 
---Senza coordinate
-INSERT INTO fotografia (username_autore, titolo, dati_foto, dispositivo, condivisa)
-VALUES ('Genny', 'Il mio cane', '0x897EBA...', 'Samsung Galaxy', true),
-       ('Cippolean', 'Vacanza estiva', '0xA23C5F...', 'Canon EOS', false);
 
---Video di test
-INSERT INTO video
-VALUES (0, 'ggsolaire', 'Fet stu scurreggion', 1, 10, 'T piac eh');
+
+
+--Inserimento delle collezioni
+INSERT INTO collezione (id_collezione, username, titolo, data_collezione, numero_elementi) VALUES
+  (1, 'gennaro', 'Vacanza a Roma', '2022-06-01 10:00:00', 5),
+  (2, 'luigi', 'Viaggio a Parigi', '2023-01-20 11:00:00', 4),
+  (3, 'mariano', 'Weekend in montagna', '2022-12-27 12:00:00', 4);
+
+--Inserimento dei contenuti delle collezioni
+INSERT INTO contenuto (id_collezione, id_foto) VALUES
+  (1, 1),
+  (1, 2),
+  (1, 3),
+  (1, 4),
+  (1, 5),
+  (2, 6),
+  (2, 7),
+  (2, 8),
+  (2, 9),
+  (3, 10),
+  (3, 11),
+  (3, 12),
+  (3, 13);
+
+/*
+--Inserimento dei tag degli utenti
+INSERT INTO tag_utente (username, id_foto) VALUES
+  ('mario', 1),
+  ('giuseppe', 2),
+  ('valentina', 3);
+
+--Inserimento dei video
+INSERT INTO video (autore, titolo, numero_frames, durata, descrizione) VALUES
+  ('mario', 'Viaggio in Giappone', 100, 600, 'Video del nostro viaggio in Giappone'),
+  ('giuseppe', 'Festa di compleanno', 50, 300, 'Video della festa di compleanno di mio figlio'),
+  ('valentina', 'Vacanza al mare', 80, 480, 'Video della nostra vacanza al mare');
+
+--Inserimento dei frames dei video
+INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
+  (1, 1, 6, 1),
+  (1, 2, 8, 2),
+  (1, 3, 10, 3),
+  (2, 2, 6, 1),
+  (2, 3, 8, 2),
+  (3, 1, 6, 1),
+  (3, 3, 8, 2);
+
+--Inserimento dei soggetti
+INSERT INTO soggetto (nome, categoria) VALUES
+  ('Cane', 'Animale'),
+  ('Gatto', 'Animale'),
+  ('Montagna', 'Paesaggio');
+
+--Inserimento dei tag dei soggetti
+INSERT INTO tag_soggetto (nome_soggetto, id_foto) VALUES
+  ('Cane', 1),
+  ('Gatto', 2),
+  ('Montagna', 3);
