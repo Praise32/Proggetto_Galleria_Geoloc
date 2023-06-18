@@ -108,9 +108,9 @@ INSERT INTO tag_utente (username, id_foto) VALUES
 /*
 --Inserimento dei video
 INSERT INTO video (autore, titolo, numero_frames, durata, descrizione) VALUES
-  ('mario', 'Viaggio in Giappone', 100, 600, 'Video del nostro viaggio in Giappone'),
-  ('giuseppe', 'Festa di compleanno', 50, 300, 'Video della festa di compleanno di mio figlio'),
-  ('valentina', 'Vacanza al mare', 80, 480, 'Video della nostra vacanza al mare');
+  ('gennaro', 'caserta con i miei amici', 0 , 0, 'Video di un sabato sera a caserta con mariano e luigi'),
+  ('luigi', 'Parigi', 0, 0, 'Video del mio viaggio a Parigi, viaggio indimenticabile!'),
+  ('mariano', 'Sci', 0, 0, 'Video compilation di acrobazie folli e paesaggi innevati');
 
 --Inserimento dei frames dei video
 INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
