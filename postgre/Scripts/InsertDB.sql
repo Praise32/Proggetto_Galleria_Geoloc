@@ -77,7 +77,17 @@ INSERT INTO contenuto (id_collezione, id_foto) VALUES
   (3, 10),
   (3, 11),
   (3, 12),
-  (3, 13);
+  (3, 13),
+  (4, 14),
+  (4, 15),
+  (4, 16),
+  (4, 17),
+  (4, 18),
+  (4, 19),
+  (4, 20),
+  (4, 21),
+  (4, 22),
+  (4, 23);
 
 /*
 --Inserimento dei tag degli utenti
