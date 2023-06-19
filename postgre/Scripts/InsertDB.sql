@@ -110,11 +110,14 @@ INSERT INTO tag_utente (username, id_foto) VALUES
   ('luigi', 23),
   ('gennaro', 23);
 
+
 --Inserimento dei video
 INSERT INTO video (autore, titolo, numero_frames, durata, descrizione) VALUES
-  ('gennaro', 'caserta con i miei amici', 0 , 0, 'Video di un sabato sera a caserta con mariano e luigi'),
+  ('gennaro', 'Roma', 0 , 0, 'Monumenti e paesaggi visti nel mio viaggio a Roma'),
   ('luigi', 'Parigi', 0, 0, 'Video del mio viaggio a Parigi, viaggio indimenticabile!'),
-  ('mariano', 'Sci', 0, 0, 'Video compilation di acrobazie folli e paesaggi innevati');
+  ('mariano', 'Sci', 0, 0, 'Video compilation di acrobazie folli e paesaggi innevati'),
+  ('gennaro', 'Caserta', 0 , 0, 'Video di un sabato sera a caserta con mariano e luigi');
+
 
 --Inserimento dei frames dei video
 INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
@@ -125,6 +128,20 @@ INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
   (2, 3, 8, 2),
   (3, 1, 6, 1),
   (3, 3, 8, 2);
+
+/*  
+--CASO 1: foto privata dell'autore del video
+INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
+  (4, 14, 6, 1),
+  (4, 17, 8, 2),
+  (4, 18, 10, 3),
+  (4, 23, 8, 2);
+  
+  --CASO 2: foto private ma non del possessore del video
+INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
+  (4, 16, 6, 1),
+  (4, 19, 8, 2);
+*/
 
 --Inserimento dei soggetti
 INSERT INTO soggetto (nome, categoria) VALUES
