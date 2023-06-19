@@ -1,3 +1,4 @@
+-- Trigger che aggiorna l'attributo "numero_elementi" ad ogni Insert o delete
 CREATE OR REPLACE FUNCTION aggiorna_numero_elementi()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -8,20 +9,17 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 CREATE TRIGGER aggiorna_numero_elementi_trigger
 AFTER INSERT ON collezione
 FOR EACH ROW
 EXECUTE FUNCTION aggiorna_numero_elementi();
 
-
--- Trigger che aggiorna l'attributo "numero_elementi" ad ogni Insert o delete
 --Trigger che impedisce ad un'utente di inserire all'interno di una Galleria o video
 --Fotografie private
 CREATE OR REPLACE FUNCTION controllo_accessibilità() RETURNS TRIGGER AS $$
 BEGIN
     IF (SELECT condivisa FROM fotografia WHERE fotografia.id_foto = NEW.id_foto) = false THEN
-        RAISE EXCEPTION 'Non sei autorizzato ad utilizzare questa foto';
+        RAISE EXCEPTION 'Non è possibile inserire foto private';
 		RETURN NULL;
 	ELSE														
 		RETURN NEW;												
@@ -29,11 +27,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-
 	CREATE TRIGGER inserimento_Galleria
 	BEFORE INSERT ON Contenuto
 	FOR EACH ROW
 	EXECUTE FUNCTION controllo_accessibilità();
+
+	CREATE TRIGGER inserimento_frame
+	BEFORE INSERT ON frame
+	FOR EACH ROW
+	EXECUTE FUNCTION controllo_accessibilità();
+
 -- Trigger che impedisce ad un'utente di inserire all'interno di una Galleria delle
 -- Fotografie  private se non è l'autore di esse [DA RIVEDERE]
 /*
@@ -54,11 +57,6 @@ $$ LANGUAGE plpgsql;
 
     --Trigger che impedisce ad un'utente che di utilizzare foto private se non ne è l'autore
 */
-
-CREATE TRIGGER inserimento_frame
-BEFORE INSERT ON frame
-FOR EACH ROW
-EXECUTE FUNCTION controllo_accessibilità();
 
 -- Trigger per aggiornare automaticamente il valore dell'attributo "numero_frames"
 -- quando si inserisce o si elimina un frame nella tabella "frame":
