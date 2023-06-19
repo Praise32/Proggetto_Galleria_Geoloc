@@ -63,20 +63,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION foto_per_luogo(in_nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
-RETURNS SETOF fotografia AS
-$$
-BEGIN
-    RETURN QUERY (
-        SELECT *
-        FROM fotografia
-        JOIN luogo ON fotografia.latitudine = luogo.latitudine AND fotografia.longitudine = luogo.longitudine
-        WHERE luogo.nome = in_nome AND (
-            fotografia.username_autore = utente OR fotografia.condivisa = TRUE
-        )
-    );
-END;
-$$ LANGUAGE plpgsql;
+
 
 
 CREATE OR REPLACE FUNCTION visualizza_video(in_titolo video.titolo%TYPE)
