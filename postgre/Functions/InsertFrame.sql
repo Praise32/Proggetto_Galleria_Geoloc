@@ -10,6 +10,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
 CREATE OR REPLACE FUNCTION CollezioniUtente(utente utente.username%TYPE) RETURNS SETOF collezione AS
 $$
 BEGIN
@@ -19,6 +20,7 @@ BEGIN
     );
 END;
 $$LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION ContenutoCollezione (collezione collezione.id_collezione%TYPE) RETURNS SETOF fotografia AS
 $$
@@ -30,6 +32,7 @@ BEGIN
     );
 END;
 $$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION foto_per_soggetto(in_nome_soggetto soggetto.nome%TYPE, utente_foto fotografia.username_autore%TYPE)
 RETURNS SETOF fotografia AS
@@ -47,6 +50,7 @@ END;
 $$
 LANGUAGE PLPGSQL;
 
+
 CREATE OR REPLACE FUNCTION foto_per_luogo(in_nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
 RETURNS SETOF fotografia AS
 $$
@@ -63,19 +67,16 @@ END;
 $$ LANGUAGE plpgsql;
 
 
-CREATE OR REPLACE FUNCTION visualizza_video(titolo video.titolo%TYPE, autore video.autore%TYPE)
-RETURNS SETOF video AS
+CREATE OR REPLACE FUNCTION visualizza_video(in_titolo video.titolo%TYPE)
+RETURNS SETOF frame AS
 $$
 BEGIN
     RETURN QUERY (
-        SELECT *
-        FROM video
-        JOIN frame ON frame.id_video = video.id_video
-        WHERE video.titolo = titolo AND video.autore = autore
+        SELECT frame.*
+        FROM frame
+        JOIN video ON video.id_video = frame.id_video
+        WHERE video.titolo = in_titolo
+		ORDER BY ordine
     );
 END;
 $$ LANGUAGE plpgsql;
-
-
-
---CREATE OR REPLACE FUNCTION insert_frame_in_video(input_id_video video.id_video%TYPE, input_ordine frame.ordine%TYPE)
