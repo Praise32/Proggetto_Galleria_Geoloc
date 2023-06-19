@@ -51,6 +51,20 @@ $$
 LANGUAGE PLPGSQL;
 
 
+CREATE OR REPLACE FUNCTION foto_per_tag_utente(in_username tag_utente.username%TYPE)
+RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT fotografia.*
+        FROM fotografia
+        JOIN tag_utente ON tag_utente.id_foto = fotografia.id_foto
+        WHERE tag_utente.username = in_username
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+
 CREATE OR REPLACE FUNCTION foto_per_luogo(in_nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
 RETURNS SETOF fotografia AS
 $$
