@@ -90,27 +90,6 @@ BEFORE INSERT ON frame
 FOR EACH ROW
 EXECUTE FUNCTION generate_frame_order();
 
--- Funzione che consente di vedere il contenuto di un video prendendo in input l'ID del video e l'ID dell'utente
-
-
-CREATE OR REPLACE FUNCTION visualizza_video(video video.id_video%TYPE, utente_video video.autore%TYPE)
-RETURNS SETOF video AS
-$$
-BEGIN
-    RETURN QUERY (
-    SELECT fr.ordine, f.id_foto, f.dati_foto, fr.durata
-    FROM video v JOIN frame fr ON v.id_video = fr.id_video JOIN fotografia f ON f.id_foto = fr.id_foto
-    WHERE v.id_video = video AND (
-            v.autore = utente_video OR f.condivisa = TRUE
-        )
-    ORDER BY fr.ordine
-    );
-END;
-$$
-LANGUAGE PLPGSQL;
-
-
-
 
 CREATE OR REPLACE FUNCTION aggiorna_elementi_galleria() RETURNS TRIGGER AS $$
 BEGIN
