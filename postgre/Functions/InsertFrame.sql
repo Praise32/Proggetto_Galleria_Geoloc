@@ -70,7 +70,7 @@ BEGIN
     RETURN QUERY (
         SELECT *
         FROM video
-        JOIN luogo ON video.id_video = frame.id_video
+        JOIN frame ON frame.id_video = video.id_video
         WHERE video.titolo = titolo AND video.autore = autore
     );
 END;
