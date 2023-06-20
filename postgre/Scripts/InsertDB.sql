@@ -145,12 +145,20 @@ INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
 
 --Inserimento dei soggetti
 INSERT INTO soggetto (nome, categoria) VALUES
-  ('Cane', 'Animale'),
-  ('Gatto', 'Animale'),
-  ('Montagna', 'Paesaggio');
+  ('Colosseo', 'Monumento'),
+  ('Fontana di Trevi', 'Monumento'),
+  ('Villa Borghese', 'Monumento'),
+  ('Città', 'Vista panoramica'),
+  ('Opera dArte', 'Quadro'),
+  ('Casa', 'Edificio');
 
 --Inserimento dei tag dei soggetti
 INSERT INTO tag_soggetto (nome_soggetto, id_foto) VALUES
-  ('Cane', 1),
-  ('Gatto', 2),
-  ('Montagna', 3);
+  ('Colosseo', 1),
+  ('Fontana di Trevi', 2),
+  ('Villa Borghese', 3),
+  ('Città', 4),
+  ('Città', 6),
+  ('Opera dArte', 7),
+  ('Opera dArte', 8),
+  ('Casa', 10);
