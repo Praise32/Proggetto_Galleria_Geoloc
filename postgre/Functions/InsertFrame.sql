@@ -63,6 +63,19 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION foto_per_tag_soggetto(in_nome_soggetto tag_soggetto.nome_soggetto%TYPE, utente_richiedente fotografia.username_autore%TYPE)
+RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT fotografia.*
+        FROM fotografia
+        JOIN tag_soggetto ON tag_soggetto.id_foto = fotografia.id_foto
+        WHERE tag_soggetto.nome_soggetto = in_nome_soggetto AND (
+			fotografia.username_autore= utente_richiedente OR fotografia.condivisa = TRUE)
+    );
+END;
+$$ LANGUAGE plpgsql;
 
 
 
