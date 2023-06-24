@@ -11,6 +11,7 @@
 \usepackage{soul}
 \usepackage{titlepic}
 \usepackage{mdframed}
+\usepackage{booktabs}
 \sethlcolor{blue}
 \hypersetup{
     hidelinks,
@@ -136,7 +137,48 @@
     \includegraphics[scale=0.50]{UML.png}
     
     \section{Dizionario delle Entità}
-    
+    sdsds
+    \begin{table}[]
+        \centering
+        \begin{tabular}{c|c}
+             &  \\
+             & 
+        \end{tabular}
+        \caption{Caption}
+        \label{tab:my_label}
+    \end{table}
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+\begin{table}[]
+\centering
+\begin{tabular}{@{}|l|l|l|@{}}
+\toprule
+\textbf{Entità} &
+  \textbf{Descrizione} &
+  \textbf{Attributi} \\ \midrule
+Utente &
+  User Account della collezione. &
+  \begin{tabular}[c]{@{}l@{}}Username(String):nome univoco associato\\ a ciascun account utente.\\ Password(String): password dell'utente\\ necessaria per l'accesso.\\ Admin(Bool): flag che indica se un utente\\ ha privilegi di amministratore o meno.\end{tabular} \\ \midrule
+Fotografia &
+  Immagine caricata nel sistema. &
+  \begin{tabular}[c]{@{}l@{}}Id_foto(Int): valore numerico che rappresenta\\ l'identificatore univoco di una fotografia.\\ Dati_foto(Bytea): campo che memorizza dati binari\\ dell'immagine.\\ Dispositivo(String): nome del dispositivo usato\\ per scattare la foto.\\ Data_foto(Date): data dello scatto di una fotografia.\\ Condivisa(Bool): flag che indica se una fotografia\\ è pubblica o privata.\\ Titolo(String): titolo della fotografia ricercabile.\\ Non è univoco.\end{tabular} \\ \midrule
+Luogo &
+  \begin{tabular}[c]{@{}l@{}}Locazione geografica in cui\\  possono essere scattate le \\ fotografie\end{tabular} &
+  \begin{tabular}[c]{@{}l@{}}Latitudine(Float): valore di tipo float che rappresenta\\ la latitudine del luogo. È parte della chiave primaria.\\ Longitudine(Float): valore di tipo float che rappresenta\\ la longitudine del luogo. È parte della chiave primaria.\\ Nome(String): rappresenta il nome unico del luogo.\\ Descrizione(String): blocco testuale che permette di descrivere una foto.\end{tabular} \\ \midrule
+Collezione &
+  \begin{tabular}[c]{@{}l@{}}Album fotografico che può \\ contenere foto pubbliche visibili\\ da altri utenti. Un utente avrà una\\ propria collezione contenente\\ fotografie pubbliche e private.\end{tabular} &
+  \begin{tabular}[c]{@{}l@{}}Id_collezione(Int): identificatore univoco di una collezione.\\ Titolo(String): titolo della descrizione. Non è univoco.\\ Data_collezione(Date): data creazione della collezione.\\ Numero_elementi(Int): numero di fotografie presenti in un album.\end{tabular} \\ \midrule
+Soggetto &
+  Oggetto, concetto o entitàraffigurata in fotografia. &
+  \begin{tabular}[c]{@{}l@{}}Nome(String): identificatore univoco del soggetto.\\ Categoria(String): categoria a cui appartiene il soggetto.\end{tabular} \\ \midrule
+Frame &
+  Singolo elemento di un video. &
+  \begin{tabular}[c]{@{}l@{}}Ordine(Int): indice del frame che compone il corrispondente video.\\ È parte della chiave primaria.\\ Id_video(Int): identificatore univoco del video a cui appartiene.\\ È parte della chiave primaria.\\ Durata(Int): durata della riproduzione del frame.\end{tabular} \\ \midrule
+Video &
+  Insieme di frame ordinati e riprodotti in sequenza. &
+  \begin{tabular}[c]{@{}l@{}}Id_video(Int): identificatore univoco di un video.\\ Titolo(String): nome del video. Non è univoco.\\ Numero_frames(Int): numero di frame contenuti in un video.\\ Durata(Int): durata totale del video.\\ Descrizione(String): blocco testuale che permette di descrivere un video.\end{tabular} \\ \bottomrule
+\end{tabular}
+\end{table}
     \section{Dizionario delle Associazioni}
     \section{Dizionario dei Vincoli}
 
