@@ -1,17 +1,17 @@
 --Script da lanciare una singola volta per creare le tabelle e inserire una demo dei dati
 CREATE TABLE IF NOT EXISTS utente (
-                        username VARCHAR(30) NOT NULL,
-                        password VARCHAR(30) NOT NULL,
-                        admin BOOLEAN NOT NULL DEFAULT false,
-                        CONSTRAINT utente_pk PRIMARY KEY (username)
+	username VARCHAR(30) NOT NULL,
+	password VARCHAR(30) NOT NULL,
+	admin BOOLEAN NOT NULL DEFAULT false,
+	CONSTRAINT utente_pk PRIMARY KEY (username)
 );
 
 CREATE TABLE IF NOT EXISTS luogo (
-                        latitudine FLOAT NOT NULL,
-                        longitudine FLOAT NOT NULL,
-                        nome VARCHAR(50) UNIQUE,  --Poiché non esistono due posti con lo stesso nome
-                        descrizione VARCHAR(225),
-                        CONSTRAINT luogo_pk PRIMARY KEY (latitudine, longitudine)
+	latitudine FLOAT NOT NULL,
+	longitudine FLOAT NOT NULL,
+	nome VARCHAR(50) UNIQUE,  --Poiché non esistono due posti con lo stesso nome
+	descrizione VARCHAR(225),
+	CONSTRAINT luogo_pk PRIMARY KEY (latitudine, longitudine)
 );
 
 CREATE TABLE IF NOT EXISTS fotografia (
