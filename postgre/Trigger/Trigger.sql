@@ -1,18 +1,19 @@
--- Trigger che aggiorna l'attributo "numero_elementi" ad ogni Insert o delete
-CREATE OR REPLACE FUNCTION aggiorna_numero_elementi()
-RETURNS TRIGGER AS $$
+--Trigger che aggiorna gli elementi di una galleria
+CREATE OR REPLACE FUNCTION aggiorna_elementi_galleria() RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE collezione
-    SET numero_elementi = (SELECT COUNT(*) FROM collezione WHERE id_collezione = NEW.id_collezione)
-    WHERE id_collezione = NEW.id_collezione;
-    RETURN NEW;
+    IF (TG_OP = 'INSERT') THEN
+        UPDATE collezione SET numero_elementi = numero_elementi + 1 WHERE id_collezione = NEW.id_collezione;
+    ELSIF (TG_OP = 'DELETE') THEN
+        UPDATE collezione SET numero_elementi = numero_elementi - 1 WHERE id_collezione = OLD.id_collezione;
+    END IF;
+    RETURN NULL;
 END;
-$$ LANGUAGE plpgsql;
+$$ LANGUAGE PLPGSQL;
 
-CREATE TRIGGER aggiorna_numero_elementi_trigger
-AFTER INSERT ON collezione
+CREATE TRIGGER aggiorna_elementi_galleria_trigger
+AFTER INSERT OR DELETE ON contenuto
 FOR EACH ROW
-EXECUTE FUNCTION aggiorna_numero_elementi();
+EXECUTE FUNCTION aggiorna_elementi_galleria();
 
 
 -- Trigger che impedisce ad un'utente di inserire all'interno di una Galleria delle
@@ -94,22 +95,6 @@ BEFORE INSERT ON frame
 FOR EACH ROW
 EXECUTE FUNCTION generate_frame_order();
 
-
-CREATE OR REPLACE FUNCTION aggiorna_elementi_galleria() RETURNS TRIGGER AS $$
-BEGIN
-    IF (TG_OP = 'INSERT') THEN
-        UPDATE collezione SET numero_elementi = numero_elementi + 1 WHERE id_collezione = NEW.id_collezione;
-    ELSIF (TG_OP = 'DELETE') THEN
-        UPDATE collezione SET numero_elementi = numero_elementi - 1 WHERE id_collezione = OLD.id_collezione;
-    END IF;
-    RETURN NULL;
-END;
-$$ LANGUAGE PLPGSQL;
-
-CREATE TRIGGER aggiorna_elementi_galleria_trigger
-AFTER INSERT OR DELETE ON contenuto
-FOR EACH ROW
-EXECUTE FUNCTION aggiorna_elementi_galleria();
 
 
 CREATE OR REPLACE FUNCTION verify_admin()
