@@ -173,7 +173,24 @@ CREATE TRIGGER contenuto_fotografia_fk_trigger
   FOR EACH ROW
   EXECUTE FUNCTION check_contenuto_fotografia_fk();
 
+CREATE TRIGGER save_tagphoto_trigger
+BEFORE DELETE ON utente
+FOR EACH ROW
+EXECUTE FUNCTION save_tagphoto();
 
+CREATE OR REPLACE FUNCTION save_tagphoto()
+RETURN TRIGGER AS
+$$
+BEGIN
+	UPDATE fotografia
+	SET username = NULL
+	WHERE username= OLD.username AND condivisa = TRUE AND EXISTS (
+		SELECT * FROM tag_utente
+		WHERE tag_utente.id_foto = OLD.id_foto AND tag_utente.username<>fotografia.username		
+	);
+	RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
 
 
 -- Trigger per la tabella "tag_utente"
