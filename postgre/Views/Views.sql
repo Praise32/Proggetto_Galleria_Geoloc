@@ -34,3 +34,153 @@ FROM soggetto;
 CREATE OR REPLACE VIEW ShowVideos AS
 SELECT titolo AS "Titolo", autore AS "Autore", descrizione AS "Info"
 FROM video;
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+--Funzioni per mostrare la galleria personale di un utente
+-- "Ogni utente ha sempre la possibilità di vedere la propria personale galleria fotografica, che comprende esclusivamente le foto scattate da lui."
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION GalleriaUtente (Utente utente.username%TYPE, Richiedente utente.username%TYPE) RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT * FROM fotografia
+        WHERE fotografia.username_autore = Utente AND (
+            fotografia.username_autore = Richiedente OR fotografia.condivisa = TRUE
+        )
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+
+--Collezioni codivise di cui fa parte un utente
+CREATE OR REPLACE FUNCTION CollezioniUtente(utente utente.username%TYPE) RETURNS SETOF collezione AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT * FROM collezione
+        WHERE collezione.username = utente
+    );
+END;
+$$LANGUAGE plpgsql;
+
+--Contenuto di una Collezione condivisa
+CREATE OR REPLACE FUNCTION ContenutoCollezione (collezione collezione.id_collezione%TYPE) RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY(
+        SELECT fotografia.*
+        FROM contenuto NATURAL JOIN fotografia
+        WHERE id_collezione = collezione
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+--Recupero di tutte le fotografie che sono state scattate nello stesso luogo;
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION foto_per_luogo(nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
+RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT *
+        FROM fotografia
+        JOIN luogo ON fotografia.latitudine = luogo.latitudine AND fotografia.longitudine = luogo.longitudine
+        WHERE luogo.nome = nome AND (
+            fotografia.username_autore = utente OR fotografia.condivisa = TRUE
+        )
+    );
+END;
+$$ LANGUAGE plpgsql
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+--Recupero di tutte le fotografie che sono state scattate nello stesso luogo SECONDO
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION foto_per_luogo(in_nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
+RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT fotografia.*
+        FROM fotografia
+        JOIN luogo ON fotografia.latitudine = luogo.latitudine AND fotografia.longitudine = luogo.longitudine
+        WHERE luogo.nome = in_nome AND (
+            fotografia.username_autore = utente OR fotografia.condivisa = TRUE
+        )
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+--Recupero di tutte le fotografie che condividono lo stesso utente come soggetto
+---------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION foto_per_tag_utente(in_username tag_utente.username%TYPE)
+RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT fotografia.*
+        FROM fotografia
+        JOIN tag_utente ON tag_utente.id_foto = fotografia.id_foto
+        WHERE tag_utente.username = in_username
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+--Recupero di tutte le fotografie che condividono lo stesso soggetto;
+---------------------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION foto_per_tag_soggetto(in_nome_soggetto tag_soggetto.nome_soggetto%TYPE, utente_richiedente fotografia.username_autore%TYPE)
+RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT fotografia.*
+        FROM fotografia
+        JOIN tag_soggetto ON tag_soggetto.id_foto = fotografia.id_foto
+        WHERE tag_soggetto.nome_soggetto = in_nome_soggetto AND (
+			fotografia.username_autore= utente_richiedente OR fotografia.condivisa = TRUE)
+    );
+END;
+$$ LANGUAGE plpgsql;
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+--Recupero di tutte le fotografie che condividono lo stesso soggetto SECONDO
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION foto_per_soggetto(nome_soggetto soggetto.nome%TYPE, utente_foto fotografia.username_autore%TYPE)
+RETURNS SETOF fotografia AS
+$$
+BEGIN
+    RETURN QUERY (
+    SELECT f.id_foto, f.username_autore, f.titolo, f.dati_foto, f.dispositivo, f.latitudine, f.longitudine, f.condivisa, s.nome
+    FROM fotografia f JOIN tag_soggetto t ON f.id_foto = t.id_foto JOIN soggetto s ON t.nome_soggetto = s.nome
+    WHERE s.nome = nome_soggetto AND (
+            f.username_autore = utente_foto OR f.condivisa = TRUE
+        );
+END;
+$$
+LANGUAGE PLPGSQL;
+
+
+--view per visualizzare un video come un insieme di frame
+CREATE OR REPLACE FUNCTION visualizza_video(in_titolo video.titolo%TYPE)
+RETURNS SETOF frame AS
+$$
+BEGIN
+    RETURN QUERY (
+        SELECT frame.*
+        FROM frame
+        JOIN video ON video.id_video = frame.id_video
+        WHERE video.titolo = in_titolo
+		ORDER BY ordine
+    );
+END;
+$$ LANGUAGE plpgsql;
