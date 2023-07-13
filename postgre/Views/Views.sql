@@ -1,4 +1,6 @@
-
+---------------------------------------------------------------------------------------------------------------------------------------------
+--Classifica dei top 3 luoghi più immortalati.
+---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE VIEW ClassificaLuoghi AS
 SELECT latitudine, longitudine, nome, descrizione, COUNT(id_foto) AS NumeroFotografie
 FROM luogo NATURAL LEFT JOIN fotografia
@@ -6,10 +8,12 @@ GROUP BY latitudine, longitudine, nome, descrizione
 ORDER BY NumeroFotografie DESC, nome ASC
 LIMIT 3;
 
+--View per mostrare gli utenti dell'applicativo
 CREATE OR REPLACE VIEW ShowUser AS
 SELECT DISTINCT username
 FROM utente;
 
+--View per mostrare gli admin dell'applicativo
 CREATE OR REPLACE VIEW ShowAdmin AS
 SELECT DISTINCT username, admin
 FROM utente
