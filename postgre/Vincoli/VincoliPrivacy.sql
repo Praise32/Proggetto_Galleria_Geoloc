@@ -47,21 +47,6 @@ $$ LANGUAGE plpgsql;
 	FOR EACH ROW
 	EXECUTE FUNCTION controllo_autore_video();
 
----------------------------------------------------------------------------------------------------------------------------------------------
--- Trigger per generare automaticamente il valore dell'attributo "ordine"
--- quando si inserisce un nuovo frame nella tabella "frame":
----------------------------------------------------------------------------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION generate_frame_order() RETURNS TRIGGER AS $$
-BEGIN
-    NEW.ordine := (SELECT COALESCE(MAX(ordine), 0) FROM frame WHERE id_video = NEW.id_video) + 1;
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER frame_order_trigger
-BEFORE INSERT ON frame
-FOR EACH ROW
-EXECUTE FUNCTION generate_frame_order();
 
 
 
