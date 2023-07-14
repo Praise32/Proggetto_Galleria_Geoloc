@@ -53,13 +53,8 @@ CREATE TRIGGER contenuto_fotografia_fk_trigger
   FOR EACH ROW
   EXECUTE FUNCTION check_contenuto_fotografia_fk();
 
-CREATE TRIGGER save_tagphoto_trigger
-BEFORE DELETE ON utente
-FOR EACH ROW
-EXECUTE FUNCTION save_tagphoto();
-
 CREATE OR REPLACE FUNCTION save_tagphoto()
-RETURN TRIGGER AS
+RETURNS TRIGGER AS
 $$
 BEGIN
 	UPDATE fotografia
@@ -71,6 +66,11 @@ BEGIN
 	RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE TRIGGER save_tagphoto_trigger
+BEFORE DELETE ON utente
+FOR EACH ROW
+EXECUTE FUNCTION save_tagphoto();
 
 
 -- Trigger per la tabella "tag_utente"
