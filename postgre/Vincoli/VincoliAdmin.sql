@@ -36,6 +36,41 @@ BEFORE DELETE ON utente
 FOR EACH ROW
 EXECUTE FUNCTION delete_user_and_set_autore_fotografia_null(current_user);
 
+---------------------------------------------------------------------------------------------------------------------------------------------
+-- Oltre a settare a NULL l'username_autore dobbiamo anche verificare che la foto condivisa sia effettivamente presente in qualche video o collezione
+-- Se autore_username è NULL e la fotografia non è presente in nessuna collezione o video, la fotografia viene eliminata
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION check_and_delete_photo() RETURNS TRIGGER AS $$
+DECLARE
+    count_collection INTEGER;
+    count_video INTEGER;
+BEGIN
+    -- Verifica se la fotografia è presente in una collezione
+    SELECT COUNT(*) INTO count_collection
+    FROM contenuto
+    WHERE id_foto = NEW.id_foto;
+    
+    -- Verifica se la fotografia è presente in un video
+    SELECT COUNT(*) INTO count_video
+    FROM frame
+    WHERE id_foto = NEW.id_foto;
+    
+    -- Se la fotografia non è presente in nessuna collezione o video, la elimina
+    IF (NEW.username_autore IS NULL AND count_collection = 0 AND count_video = 0) THEN
+        DELETE FROM fotografia WHERE id_foto = NEW.id_foto;
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_and_delete_photo_trigger
+AFTER UPDATE ON fotografia
+FOR EACH ROW
+EXECUTE PROCEDURE check_and_delete_photo();
+
+
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
 -- Trigger che vieta ad un amministatore di eliminare altri amministratori di sistema
