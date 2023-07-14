@@ -86,4 +86,4 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER verify_admin_trigger
 BEFORE DELETE ON utente
 FOR EACH ROW
-EXECUTE FUNCTION verifica_admin();
+EXECUTE FUNCTION verify_admin();
