@@ -160,5 +160,4 @@ INSERT INTO tag_soggetto (nome_soggetto, id_foto) VALUES
   ('Città', 4),
   ('Città', 6),
   ('Opera dArte', 7),
-  ('Opera dArte', 8),
-  ('Casa', 10);
+  ('Opera dArte', 8);
