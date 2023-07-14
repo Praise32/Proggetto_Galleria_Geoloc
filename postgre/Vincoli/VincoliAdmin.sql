@@ -6,32 +6,24 @@
 --L'utente verranno eliminate solo le foto non condivise grazie al "Delete on Cascade" nella tabella fotografia
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
-CREATE OR REPLACE FUNCTION delete_user_and_set_autore_fotografia_null(utente_corrente utente.username%TYPE)
-RETURNS TRIGGER AS $$
-DECLARE
-  is_current_user_admin BOOLEAN;
+CREATE OR REPLACE FUNCTION save_tagphoto()
+RETURNS TRIGGER AS
+$$
 BEGIN
-  -- Verifica se l'utente corrente ha il ruolo di amministratore
-  SELECT admin INTO is_current_user_admin FROM utente WHERE username = utente_corrente;
-
-  IF is_current_user_admin THEN
-    -- Imposta a NULL il campo "username_autore" nelle fotografie condivise dell'utente eliminato
-    IF OLD.admin THEN
-      UPDATE fotografia
-      SET username = NULL
-	WHERE username= OLD.username AND condivisa = TRUE AND EXISTS (
+	UPDATE fotografia
+	SET username_autore = NULL
+	WHERE username_autore= OLD.username AND condivisa = TRUE AND EXISTS (
 		SELECT * FROM tag_utente
-		WHERE tag_utente.id_foto = OLD.id_foto AND tag_utente.username<>fotografia.username		
+		WHERE tag_utente.id_foto = fotografia.id_foto AND tag_utente.username<>fotografia.username_autore	
 	);
 	RETURN OLD;
-    END IF;
-
-  ELSE
-    RAISE EXCEPTION 'Solo gli admin possono eliminare gli altri utenti';
-  END IF;
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE TRIGGER save_tagphoto_trigger
+BEFORE DELETE ON utente
+FOR EACH ROW
+EXECUTE FUNCTION save_tagphoto();
 
 --current_user è un'identità di sessione predefinita in PostgreSQL
 CREATE TRIGGER delete_user_and_set_autore_fotografia_null_trigger
