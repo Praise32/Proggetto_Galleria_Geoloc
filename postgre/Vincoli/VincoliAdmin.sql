@@ -2,7 +2,7 @@
 --“L’amministratore del sistema può eliminare un utente: in tal caso, tutte le foto dell’utente verranno cancellate dalla libreria, eccetto
 --quelle che contengono come soggetto un altro degli utenti della galleria condivisa."
 
---Per eseguire questo vincolo setteremo a NULL tutte le foto che ha scattato l'utente che sono condivise, in questo modo quando andremo ad eliminare
+--Per eseguire questo vincolo setteremo a NULL tutte le foto che ha scattato l'utente dove ha un tag_utente in questo modo quando andremo ad eliminare
 --L'utente verranno eliminate solo le foto non condivise grazie al "Delete on Cascade" nella tabella fotografia
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -18,11 +18,14 @@ BEGIN
     -- Imposta a NULL il campo "username_autore" nelle fotografie condivise dell'utente eliminato
     IF OLD.admin THEN
       UPDATE fotografia
-      SET username_autore = NULL
-      WHERE username_autore = OLD.username AND condivisa = true;
+      SET username = NULL
+	WHERE username= OLD.username AND condivisa = TRUE AND EXISTS (
+		SELECT * FROM tag_utente
+		WHERE tag_utente.id_foto = OLD.id_foto AND tag_utente.username<>fotografia.username		
+	);
+	RETURN OLD;
     END IF;
 
-    RETURN OLD;
   ELSE
     RAISE EXCEPTION 'Solo gli admin possono eliminare gli altri utenti';
   END IF;
