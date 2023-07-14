@@ -55,7 +55,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
---Collezioni codivise di cui fa parte un utente
+--Collezioni di un utente
 CREATE OR REPLACE FUNCTION CollezioniUtente(utente utente.username%TYPE) RETURNS SETOF collezione AS
 $$
 BEGIN
