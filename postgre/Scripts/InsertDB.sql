@@ -40,7 +40,6 @@ INSERT INTO fotografia (username_autore, dati_foto, dispositivo, data_foto, lati
   ('luigi','00111101', 'Samsung', '2023-01-20 12:30:00', 40.3942, 11.5977 ,false, 'dorsay.jpg'),
   ('luigi','00101001', 'Samsung', '2023-01-21 10:00:00', 40.3234, 11.7647 ,false, 'louvre.jpg'),
   ('luigi','10101101', 'Samsung', '2023-01-21 14:30:00', 40.2342, 11.9879, true, 'arco.jpg'),
-  ('mariano','11100101', 'Samsung', '2022-12-27 12:00:00', 60.3453, 18.1928, true, 'casetta.jpg'),
   ('mariano','11100101', 'Samsung', '2022-12-27 13:00:00', 60.3653, 18.1238, true, 'falzarego.jpg'),
   ('mariano','11100101', 'Samsung', '2022-12-28 16:00:00', 60.3656, 18.7538, true, 'stadio.jpg'),
   ('mariano','11100101', 'Samsung', '2022-12-29 10:00:00', 60.7653, 18.3338, true, 'snowpark.jpg'),
@@ -149,8 +148,7 @@ INSERT INTO soggetto (nome, categoria) VALUES
   ('Fontana di Trevi', 'Monumento'),
   ('Villa Borghese', 'Monumento'),
   ('Città', 'Vista panoramica'),
-  ('Opera dArte', 'Quadro'),
-  ('Casa', 'Edificio');
+  ('Opera dArte', 'Quadro');
 
 --Inserimento dei tag dei soggetti
 INSERT INTO tag_soggetto (nome_soggetto, id_foto) VALUES
