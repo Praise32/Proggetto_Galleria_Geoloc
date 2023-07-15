@@ -77,7 +77,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER update_video_duration
-AFTER INSERT OR UPDATE OF durata ON frame
+AFTER INSERT OR UPDATE ON frame
 FOR EACH ROW
 EXECUTE FUNCTION update_video_duration();
 
