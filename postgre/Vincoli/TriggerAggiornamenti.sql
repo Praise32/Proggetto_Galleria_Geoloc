@@ -59,9 +59,25 @@ FOR EACH ROW
 EXECUTE FUNCTION generate_frame_order();
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
--- Trigger pper aggiorare automaticamente il valore dell' attributo "durata" nella tabella "video"
+-- Trigger per aggiorare automaticamente il valore dell' attributo "durata" nella tabella "video"
 -- quando si inserisce un nuovo frame nella tabella "frame" oppure si modifica la durata di un frame:
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
+CREATE OR REPLACE FUNCTION update_video_duration() RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE video
+  SET durata = (
+    SELECT SUM(durata)
+    FROM frame
+    WHERE id_video = NEW.id_video
+  )
+  WHERE id_video = NEW.id_video;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
 
+CREATE TRIGGER update_video_duration
+AFTER INSERT OR UPDATE OF durata ON frame
+FOR EACH ROW
+EXECUTE FUNCTION update_video_duration();
 
