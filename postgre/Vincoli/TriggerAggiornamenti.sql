@@ -58,6 +58,10 @@ BEFORE INSERT ON frame
 FOR EACH ROW
 EXECUTE FUNCTION generate_frame_order();
 
+---------------------------------------------------------------------------------------------------------------------------------------------
+-- Trigger pper aggiorare automaticamente il valore dell' attributo "durata" nella tabella "video"
+-- quando si inserisce un nuovo frame nella tabella "frame" oppure si modifica la durata di un frame:
+---------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
