@@ -1,3 +1,31 @@
+
+
+/*
+CHAT GTP4 DICE QUESTO COMUNQUE QUINDI TUTTI QUESTI VINCOLI SONO INUTILI
+
+Nel tuo schema, i vincoli di integrità referenziale sono già definiti attraverso i vincoli FOREIGN KEY in ogni tabella. 
+Questi vincoli assicurano che i dati nelle tabelle collegate rimangano consistenti. 
+Per esempio, i vincoli ON DELETE CASCADE assicurano che quando un record padre viene eliminato, anche tutti i record figli corrispondenti vengono eliminati. 
+Allo stesso modo, il vincolo ON DELETE SET NULL imposta il valore della chiave esterna a NULL quando il record padre corrispondente viene eliminato.
+
+I trigger che hai creato non sono inutili, ma sono in gran parte ridondanti se hai già definito i vincoli di chiave esterna (FOREIGN KEY) nelle tue tabelle. 
+I vincoli di chiave esterna in SQL fanno esattamente quello che fanno questi trigger: 
+verificano che un valore inserito in una colonna esista come un valore chiave in un'altra tabella. 
+Se il valore non esiste, l'operazione di inserimento o di aggiornamento fallisce.
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
 ---------------------------------------------------------------------------------------------------------------------------------------------
 --TRIGGER D'INTEGRITA REFERENZIALE
 /*
