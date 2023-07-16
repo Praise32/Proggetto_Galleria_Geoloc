@@ -95,26 +95,9 @@ BEGIN
         )
     );
 END;
-$$ LANGUAGE plpgsql
-
----------------------------------------------------------------------------------------------------------------------------------------------
---Recupero di tutte le fotografie che sono state scattate nello stesso luogo SECONDO
----------------------------------------------------------------------------------------------------------------------------------------------
-
-CREATE OR REPLACE FUNCTION foto_per_luogo(in_nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
-RETURNS SETOF fotografia AS
-$$
-BEGIN
-    RETURN QUERY (
-        SELECT fotografia.*
-        FROM fotografia
-        JOIN luogo ON fotografia.latitudine = luogo.latitudine AND fotografia.longitudine = luogo.longitudine
-        WHERE luogo.nome = in_nome AND (
-            fotografia.username_autore = utente OR fotografia.condivisa = TRUE
-        )
-    );
-END;
 $$ LANGUAGE plpgsql;
+
+
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -151,23 +134,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---------------------------------------------------------------------------------------------------------------------------------------------
---Recupero di tutte le fotografie che condividono lo stesso soggetto SECONDO
----------------------------------------------------------------------------------------------------------------------------------------------
-
-CREATE OR REPLACE FUNCTION foto_per_soggetto(nome_soggetto soggetto.nome%TYPE, utente_foto fotografia.username_autore%TYPE)
-RETURNS SETOF fotografia AS
-$$
-BEGIN
-    RETURN QUERY (
-    SELECT f.id_foto, f.username_autore, f.titolo, f.dati_foto, f.dispositivo, f.latitudine, f.longitudine, f.condivisa, s.nome
-    FROM fotografia f JOIN tag_soggetto t ON f.id_foto = t.id_foto JOIN soggetto s ON t.nome_soggetto = s.nome
-    WHERE s.nome = nome_soggetto AND (
-            f.username_autore = utente_foto OR f.condivisa = TRUE
-        );
-END;
-$$
-LANGUAGE PLPGSQL;
 
 
 --view per visualizzare un video come un insieme di frame
