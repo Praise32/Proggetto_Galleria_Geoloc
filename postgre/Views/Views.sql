@@ -8,29 +8,48 @@ GROUP BY latitudine, longitudine, nome, descrizione
 ORDER BY NumeroFotografie DESC, nome ASC
 LIMIT 3;
 
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 --View per mostrare gli utenti dell'applicativo
+---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE VIEW ShowUser AS
 SELECT DISTINCT username
 FROM utente;
 
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 --View per mostrare gli admin dell'applicativo
+---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE VIEW ShowAdmin AS
 SELECT DISTINCT username, admin
 FROM utente
 WHERE admin = true;
 
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 --View per visualizzare i dati di ogni frame che è utilizzato in almeno un video
+---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE VIEW ContenutoFrame AS
 SELECT fotografia.dati_foto, frame.*
 FROM fotografia
 INNER JOIN frame ON fotografia.id_foto = frame.id_foto;
 
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 --View per visualizzare una lista delle categorie dei soggetti nel database
+---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE VIEW CategoriaSoggetto AS
 SELECT DISTINCT soggetto.categoria
 FROM soggetto;
 
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 --View per lista di tutti i video
+---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE VIEW ShowVideos AS
 SELECT titolo AS "Titolo", autore AS "Autore", descrizione AS "Info"
 FROM video;
@@ -41,7 +60,6 @@ FROM video;
 --Funzioni per mostrare la galleria personale di un utente
 -- "Ogni utente ha sempre la possibilità di vedere la propria personale galleria fotografica, che comprende esclusivamente le foto scattate da lui."
 ---------------------------------------------------------------------------------------------------------------------------------------------
-
 CREATE OR REPLACE FUNCTION GalleriaUtente (Utente utente.username%TYPE, Richiedente utente.username%TYPE) RETURNS SETOF fotografia AS
 $$
 BEGIN
@@ -55,7 +73,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 --Collezioni di un utente
+---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION CollezioniUtente(utente utente.username%TYPE) RETURNS SETOF collezione AS
 $$
 BEGIN
@@ -66,7 +87,11 @@ BEGIN
 END;
 $$LANGUAGE plpgsql;
 
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
 --Contenuto di una Collezione condivisa
+---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION ContenutoCollezione (collezione collezione.id_collezione%TYPE) RETURNS SETOF fotografia AS
 $$
 BEGIN
@@ -78,10 +103,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+
 ---------------------------------------------------------------------------------------------------------------------------------------------
 --Recupero di tutte le fotografie che sono state scattate nello stesso luogo;
 ---------------------------------------------------------------------------------------------------------------------------------------------
-
 CREATE OR REPLACE FUNCTION foto_per_luogo(nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
 RETURNS SETOF fotografia AS
 $$
@@ -117,6 +143,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
 ---------------------------------------------------------------------------------------------------------------------------------------------
 --Recupero di tutte le fotografie che condividono lo stesso soggetto;
 ---------------------------------------------------------------------------------------------------------------------------------------------
@@ -136,17 +163,36 @@ $$ LANGUAGE plpgsql;
 
 
 
+---------------------------------------------------------------------------------------------------------------------------------------------
 --view per visualizzare un video come un insieme di frame
+---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION visualizza_video(in_titolo video.titolo%TYPE)
-RETURNS SETOF frame AS
+RETURNS TABLE (
+    id_video INTEGER,
+    id_foto INTEGER,
+    durata INTEGER,
+    ordine INTEGER
+) AS
 $$
 BEGIN
     RETURN QUERY (
-        SELECT frame.*
-        FROM frame
-        JOIN video ON video.id_video = frame.id_video
-        WHERE video.titolo = in_titolo
-		ORDER BY ordine
+        SELECT 
+            f.id_video,
+            f.id_foto,
+            f.durata,
+            f.ordine
+        FROM 
+            frame f
+        JOIN 
+            video v ON f.id_video = v.id_video
+        WHERE 
+            v.titolo = in_titolo
+        ORDER BY 
+            f.ordine
     );
 END;
 $$ LANGUAGE plpgsql;
+
+--per provarla
+SELECT * FROM visualizza_video('titolo_del_video');
+
