@@ -108,15 +108,15 @@ $$ LANGUAGE plpgsql;
 ---------------------------------------------------------------------------------------------------------------------------------------------
 --Recupero di tutte le fotografie che sono state scattate nello stesso luogo;
 ---------------------------------------------------------------------------------------------------------------------------------------------
-CREATE OR REPLACE FUNCTION foto_per_luogo(nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
+CREATE OR REPLACE FUNCTION foto_per_luogo(in_nome luogo.nome%TYPE, utente fotografia.username_autore%TYPE)
 RETURNS SETOF fotografia AS
 $$
 BEGIN
     RETURN QUERY (
-        SELECT *
+        SELECT fotografia.*
         FROM fotografia
         JOIN luogo ON fotografia.latitudine = luogo.latitudine AND fotografia.longitudine = luogo.longitudine
-        WHERE luogo.nome = nome AND (
+        WHERE luogo.nome = in_nome AND (
             fotografia.username_autore = utente OR fotografia.condivisa = TRUE
         )
     );
@@ -167,32 +167,15 @@ $$ LANGUAGE plpgsql;
 --view per visualizzare un video come un insieme di frame
 ---------------------------------------------------------------------------------------------------------------------------------------------
 CREATE OR REPLACE FUNCTION visualizza_video(in_titolo video.titolo%TYPE)
-RETURNS TABLE (
-    id_video INTEGER,
-    id_foto INTEGER,
-    durata INTEGER,
-    ordine INTEGER
-) AS
+RETURNS SETOF frame AS
 $$
 BEGIN
     RETURN QUERY (
-        SELECT 
-            f.id_video,
-            f.id_foto,
-            f.durata,
-            f.ordine
-        FROM 
-            frame f
-        JOIN 
-            video v ON f.id_video = v.id_video
-        WHERE 
-            v.titolo = in_titolo
-        ORDER BY 
-            f.ordine
+        SELECT frame.*
+        FROM frame
+        JOIN video ON video.id_video = frame.id_video
+        WHERE video.titolo = in_titolo
+		ORDER BY ordine
     );
 END;
 $$ LANGUAGE plpgsql;
-
---per provarla
-SELECT * FROM visualizza_video('titolo_del_video');
-
