@@ -81,3 +81,22 @@ AFTER INSERT OR UPDATE ON frame
 FOR EACH ROW
 EXECUTE FUNCTION update_video_duration();
 
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+-- Trigger che riordina i frame all'interno di un video dopo l'eliminazione di un frame
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION riordina_frame() RETURNS TRIGGER AS $$
+BEGIN
+    -- Riduci l'ordine dei frame successivi a quello eliminato
+    UPDATE frame
+    SET ordine = ordine - 1
+    WHERE id_video = OLD.id_video AND ordine > OLD.ordine;
+    
+    RETURN NULL; -- il valore di ritorno non è rilevante per un trigger AFTER DELETE
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER riordina_frame_trigger
+AFTER DELETE ON frame
+FOR EACH ROW EXECUTE FUNCTION riordina_frame();
