@@ -75,39 +75,24 @@ INSERT INTO contenuto (id_collezione, id_foto) VALUES
   (3, 10),
   (3, 11),
   (3, 12),
-  (3, 13),
-  (4, 15),
-  (4, 18),
+  (4, 13),
+  (4, 14),
+  (4, 17),
   (4, 20),
   (4, 21),
-  (4, 22),
-  (4, 23);
-  
-  /* insert di prova per testare i trigger
-  CASO 1: foto privata ma l'autore è anche il possessore della collezione
-  INSERT INTO contenuto (id_collezione, id_foto) VALUES
-  (4, 14),
-  (4, 17);
-  
-  CASO 2: foto private ma gli autori non sono i possessori della collezione
-  INSERT INTO contenuto (id_collezione, id_foto) VALUES
-  (4, 16),
-  (4, 19);*/
---Inserimento dei tag degli utenti
+  (4, 22);
+ 
 INSERT INTO tag_utente (username, id_foto) VALUES
   ('mariano', 14),
-  ('luigi', 14),
-  ('mariano', 15),
+  ('gennaro', 14),
   ('luigi', 16),
   ('gennaro', 16),
   ('mariano', 17),
-  ('gennaro', 17),
-  ('mariano', 18),
+  ('luigi', 17),
   ('luigi', 19),
   ('gennaro', 20),
-  ('mariano', 23),
-  ('luigi', 23),
-  ('gennaro', 23);
+  ('mariano', 21),
+  ('gennaro', 21);
 
 
 --Inserimento dei video
@@ -126,21 +111,13 @@ INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
   (2, 2, 6, 1),
   (2, 3, 8, 2),
   (3, 1, 6, 1),
-  (3, 3, 8, 2);
-
-/*  
---CASO 1: foto privata dell'autore del video
-INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
-  (4, 14, 6, 1),
-  (4, 17, 8, 2),
-  (4, 18, 10, 3),
-  (4, 23, 8, 2);
-  
-  --CASO 2: foto private ma non del possessore del video
-INSERT INTO frame (id_video, id_foto, durata, ordine) VALUES
-  (4, 16, 6, 1),
-  (4, 19, 8, 2);
-*/
+  (3, 3, 8, 2),
+  (4, 14, 4, 1),
+  (4, 17, 5, 2),
+  (4, 19, 2, 3),
+  (4, 20, 3, 4),
+  (4, 21, 5, 5),
+  (4, 22, 7, 6);
 
 --Inserimento dei soggetti
 INSERT INTO soggetto (nome, categoria) VALUES
