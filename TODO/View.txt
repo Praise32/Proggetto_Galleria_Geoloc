@@ -1,5 +1,0 @@
-ContenutoFrame  FATTO
-CategorieSoggetto FATTO
-
-DA FARE:
-vista 'mostra_tutti_video' (funzione prototipo 'scelta_elenco_video)
