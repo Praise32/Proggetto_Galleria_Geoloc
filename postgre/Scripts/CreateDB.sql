@@ -1,4 +1,4 @@
---Script da lanciare una singola volta per creare le tabelle e inserire una demo dei dati
+--Script da lanciare una singola volta per creare le tabelle e le varie funzioni
 CREATE TABLE IF NOT EXISTS utente (
 	username VARCHAR(30) NOT NULL,
 	password VARCHAR(30) NOT NULL,
@@ -92,3 +92,4 @@ CREATE TABLE IF NOT EXISTS tag_soggetto(
     CONSTRAINT tagsottetto_soggetto_fk FOREIGN KEY (nome_soggetto) REFERENCES soggetto(nome),
     CONSTRAINT tagsoggetto_fotografia_fk FOREIGN KEY (id_foto) REFERENCES fotografia(id_foto)
 );
+
