@@ -1,5 +1,8 @@
 package org.example.progettouni.entities;
 
+/**
+ * TODO Da ristrutturare in base al modello di database
+ */
 public class Location {
     int id_location;
     float latitude, longitude;

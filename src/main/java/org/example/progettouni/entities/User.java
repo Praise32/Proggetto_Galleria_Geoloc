@@ -3,20 +3,33 @@ package org.example.progettouni.entities;
 //Classe per istanziare utenti nel sistema
 public class User {
     //Variabili
-    int id_user;      //ID Utente
-    String username;    //Nome utente
-    boolean admin;      //Flag permessi di admin nel db
+    private String username, password;    //Nome utente
+    private boolean admin;      //Flag permessi di admin nel db
 
     /**
      * Costruttore usato dopo aver ricevuto i dati dal database
-     * @param id_user
-     * @param username
-     * @param admin
+     * @param username USERNAME - PK
+     * @param password PASSWORD
+     * @param admin    FLAG ADMIN
      */
-    User(int id_user, String username, boolean admin){
-        this.id_user = id_user;
+    public User(String username, String password, boolean admin){
         this.username = username;
+        this.password = password;
         this.admin = admin;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+    public String getPassword() {
+        return password;
+    }
+    public boolean getAdmin(){
+        return admin;
+    }
+
+    public void userInfo(){
+        System.out.println("Username: " + username + "\nAdmin: " + admin);
     }
 }
 
