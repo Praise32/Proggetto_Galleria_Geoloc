@@ -1,13 +1,13 @@
-package Database;
+package DBconnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnessioneDatabase {
+public class ConnessioneDB {
 
 	// ATTRIBUTI
-	private static ConnessioneDatabase instance = null;
+	private static ConnessioneDB instance = null;
 	public Connection connection = null;
 	private String user = "postgres";
 	private String password = "1234";
@@ -15,7 +15,7 @@ public class ConnessioneDatabase {
 	private String driver = "org.postgresql.Driver";
 
 	// COSTRUTTORE
-	private ConnessioneDatabase() throws SQLException {
+	private ConnessioneDB() throws SQLException {
 		try {
 			Class.forName(driver);
 			connection = DriverManager.getConnection(url, user, password);
@@ -32,11 +32,11 @@ public class ConnessioneDatabase {
 	}
 
 
-	public static ConnessioneDatabase getInstance() throws SQLException {
+	public static ConnessioneDB getInstance() throws SQLException {
 		if (instance == null) {
-			instance = new ConnessioneDatabase();
+			instance = new ConnessioneDB();
 		} else if (instance.connection.isClosed()) {
-			instance = new ConnessioneDatabase();
+			instance = new ConnessioneDB();
 		}
 		return instance;
 	}
