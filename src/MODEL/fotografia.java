@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Fotografia {
     private int idFoto;
-    private String usernameAutore;
+    private Utente usernameAutore;
     private byte[] datiFoto;
     private String dispositivo;
     private Timestamp dataFoto;
@@ -16,7 +16,7 @@ public class Fotografia {
     public Fotografia() {
     }
 
-    public Fotografia(int idFoto, String usernameAutore, byte[] datiFoto, String dispositivo, Timestamp dataFoto,
+    public Fotografia(int idFoto, Utente usernameAutore, byte[] datiFoto, String dispositivo, Timestamp dataFoto,
                       float latitudine, float longitudine, boolean condivisa, String titolo) {
         this.idFoto = idFoto;
         this.usernameAutore = usernameAutore;
@@ -37,11 +37,11 @@ public class Fotografia {
         this.idFoto = idFoto;
     }
 
-    public String getUsernameAutore() {
+    public Utente getUsernameAutore() {
         return usernameAutore;
     }
 
-    public void setUsernameAutore(String usernameAutore) {
+    public void setUsernameAutore(Utente usernameAutore) {
         this.usernameAutore = usernameAutore;
     }
 
