@@ -1,4 +1,4 @@
-package model;
+package MODEL;
 
 // Definizione della classe Soggetto nel package model
 public class Soggetto {
