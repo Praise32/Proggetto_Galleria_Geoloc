@@ -1,4 +1,4 @@
-package model;
+package MODEL;
 
 // Definizione della classe TagUtente nel package model
 public class TagUtente {
