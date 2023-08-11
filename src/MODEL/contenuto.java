@@ -1,30 +1,30 @@
 package model;
 
 public class Contenuto {
-    private int idCollezione;
-    private int idFoto;
+    private Collezione idCollezione;
+    private Fotografia idFoto;
 
     public Contenuto() {
     }
 
-    public Contenuto(int idCollezione, int idFoto) {
+    public Contenuto(Collezione idCollezione, Fotografia idFoto) {
         this.idCollezione = idCollezione;
         this.idFoto = idFoto;
     }
 
-    public int getIdCollezione() {
+    public Collezione getIdCollezione() {
         return idCollezione;
     }
 
-    public void setIdCollezione(int idCollezione) {
+    public void setIdCollezione(Collezione idCollezione) {
         this.idCollezione = idCollezione;
     }
 
-    public int getIdFoto() {
+    public Fotografia getIdFoto() {
         return idFoto;
     }
 
-    public void setIdFoto(int idFoto) {
+    public void setIdFoto(Fotografia idFoto) {
         this.idFoto = idFoto;
     }
 }
