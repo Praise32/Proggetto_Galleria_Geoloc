@@ -1,4 +1,4 @@
-package model;
+package MODEL;
 
 // Definizione della classe Video nel package model
 public class Video {
