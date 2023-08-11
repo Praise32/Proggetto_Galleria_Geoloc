@@ -1,4 +1,4 @@
-package model;
+package MODEL;
 
 // Definizione della classe Frame nel package model
 public class Frame {
