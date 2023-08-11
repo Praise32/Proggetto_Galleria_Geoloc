@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class Collezione {
     private int idCollezione;
-    private String username;
+    private Utente username;
     private String titolo;
     private Timestamp dataCollezione;
     private int numeroElementi;
@@ -12,7 +12,7 @@ public class Collezione {
     public Collezione() {
     }
 
-    public Collezione(int idCollezione, String username, String titolo, Timestamp dataCollezione, int numeroElementi) {
+    public Collezione(int idCollezione, Utente username, String titolo, Timestamp dataCollezione, int numeroElementi) {
         this.idCollezione = idCollezione;
         this.username = username;
         this.titolo = titolo;
@@ -28,11 +28,11 @@ public class Collezione {
         this.idCollezione = idCollezione;
     }
 
-    public String getUsername() {
+    public Utente getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(Utente username) {
         this.username = username;
     }
 
