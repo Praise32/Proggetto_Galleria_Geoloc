@@ -1,4 +1,4 @@
-package model;
+package MODEL;
 
 public class Luogo {
     private float latitudine;
