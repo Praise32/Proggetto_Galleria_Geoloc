@@ -2,24 +2,29 @@ package model;
 
 import java.sql.Timestamp;
 
+// Definizione della classe Collezione nel package model
 public class Collezione {
-    private int idCollezione;
-    private Utente username;
-    private String titolo;
-    private Timestamp dataCollezione;
-    private int numeroElementi;
+    // Attributi privati della classe Collezione
+    private int idCollezione;         
+    private Utente username;           
+    private String titolo;            
+    private Timestamp dataCollezione; 
+    private int numeroElementi;      
 
+    // Costruttore vuoto di default
     public Collezione() {
     }
 
+    // Costruttore con parametri per inizializzare gli attributi della classe Collezione
     public Collezione(int idCollezione, Utente username, String titolo, Timestamp dataCollezione, int numeroElementi) {
-        this.idCollezione = idCollezione;
-        this.username = username;
-        this.titolo = titolo;
-        this.dataCollezione = dataCollezione;
-        this.numeroElementi = numeroElementi;
+        this.idCollezione = idCollezione;          
+        this.username = username;                   
+        this.titolo = titolo;                      
+        this.dataCollezione = dataCollezione;      
+        this.numeroElementi = numeroElementi;     
     }
 
+    // Metodi getter e setter per l'attributo idCollezione
     public int getIdCollezione() {
         return idCollezione;
     }
@@ -28,6 +33,7 @@ public class Collezione {
         this.idCollezione = idCollezione;
     }
 
+    // Metodi getter e setter per l'attributo username di tipo Utente
     public Utente getUsername() {
         return username;
     }
@@ -36,6 +42,7 @@ public class Collezione {
         this.username = username;
     }
 
+    // Metodi getter e setter per l'attributo titolo
     public String getTitolo() {
         return titolo;
     }
@@ -44,6 +51,7 @@ public class Collezione {
         this.titolo = titolo;
     }
 
+    // Metodi getter e setter per l'attributo dataCollezione di tipo Timestamp
     public Timestamp getDataCollezione() {
         return dataCollezione;
     }
@@ -52,6 +60,7 @@ public class Collezione {
         this.dataCollezione = dataCollezione;
     }
 
+    // Metodi getter e setter per l'attributo numeroElementi
     public int getNumeroElementi() {
         return numeroElementi;
     }
