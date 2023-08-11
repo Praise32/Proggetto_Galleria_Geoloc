@@ -8,8 +8,8 @@ public class Fotografia {
     private byte[] datiFoto;
     private String dispositivo;
     private Timestamp dataFoto;
-    private float latitudine;
-    private float longitudine;
+    private Luogo latitudine;
+    private Luogo longitudine;
     private boolean condivisa;
     private String titolo;
 
@@ -17,7 +17,7 @@ public class Fotografia {
     }
 
     public Fotografia(int idFoto, Utente usernameAutore, byte[] datiFoto, String dispositivo, Timestamp dataFoto,
-                      float latitudine, float longitudine, boolean condivisa, String titolo) {
+                      Luogo latitudine, Luogo longitudine, boolean condivisa, String titolo) {
         this.idFoto = idFoto;
         this.usernameAutore = usernameAutore;
         this.datiFoto = datiFoto;
@@ -69,19 +69,19 @@ public class Fotografia {
         this.dataFoto = dataFoto;
     }
 
-    public float getLatitudine() {
+    public Luogo getLatitudine() {
         return latitudine;
     }
 
-    public void setLatitudine(float latitudine) {
+    public void setLatitudine(Luogo latitudine) {
         this.latitudine = latitudine;
     }
 
-    public float getLongitudine() {
+    public Luogo getLongitudine() {
         return longitudine;
     }
 
-    public void setLongitudine(float longitudine) {
+    public void setLongitudine(Luogo longitudine) {
         this.longitudine = longitudine;
     }
 
