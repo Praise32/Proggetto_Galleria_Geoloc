@@ -84,7 +84,7 @@ public class Controller {
         ArrayList<boolean> condivisaList = new ArrayList<>();
         ArrayList<String> titoloList = new ArrayList<>();
 
-        galleriaDAO.getListUtenteDAO(idFotoList, usernameAutoreList, datiFotoList, dispositivoList, dataFotoList, latitudineList, longituineList, condivisaList, titoloList);
+        galleriaDAO.getListFotografiaDAO(idFotoList, usernameAutoreList, datiFotoList, dispositivoList, dataFotoList, latitudineList, longituineList, condivisaList, titoloList);
 
         //inizializzo la lista delle fotografie
         for (int i = 0; i < idFotoList.size(); i++){
