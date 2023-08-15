@@ -26,19 +26,17 @@ public class Utente {
         );
 
     }
-    //aggiunge un proprietario ad una data collezione
-    public void aggiungiProprietario(Utente usr){
-        this.listaCollezioni.add(usr);
+    // Metodi per aggiungere proprietari alle collezioni, fotografie e video
+    public void aggiungiProprietarioCollezione(Collezione collezione) {
+        this.listaCollezioni.add(collezione);
     }
 
-    //aggiunge un proprietario ad una data fotografia
-    public void aggiungiFotoAutore(Utente usr){
-        this.listaCollezioni.add(usr);
+    public void aggiungiAutoreFotografia(Fotografia fotografia) {
+        this.listaFotografie.add(fotografia);
     }
 
-    //aggiunge un proprietario ad una dato video
-    public void aggiungiVideoAutore(Utente usr){
-        this.listaCollezioni.add(usr);
+    public void aggiungiAutoreVideo(Video video) {
+        this.listaVideo.add(video);
     }
 
 
@@ -64,5 +62,18 @@ public class Utente {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    // Restituisci la lista di collezioni, fotografie e video associate all'utente
+    public List<Collezione> getListaCollezioni() {
+        return listaCollezioni;
+    }
+
+    public List<Fotografia> getListaFotografie() {
+        return listaFotografie;
+    }
+
+    public List<Video> getListaVideo() {
+        return listaVideo;
     }
 }
