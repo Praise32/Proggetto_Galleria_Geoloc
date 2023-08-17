@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * The type Collezione postgres dao.
+ * The type Utente postgres dao.
  */
 public class CollezionePostgresDAO implements CollezioneDAO{
     private Connection connection;
@@ -81,7 +81,7 @@ public class CollezionePostgresDAO implements CollezioneDAO{
     }
 
     @override
-    public boolean aggiungiContenutoDAO(int idCollezioneSelezionato, ArrayList<Integer> idFotoSelezionata) throws SQLException {
+    public boolean aggiungiContenutoDAO(int idCollezioneSelezionato, int idFotoSelezionata) throws SQLException {
         try {
             PreparedStatement insertCont;
             insertCont = connection.prepareStatement("INSERT INTO CONTENUTO (id_collezione, id_foto) VALUES (?, ?)");
@@ -95,7 +95,7 @@ public class CollezionePostgresDAO implements CollezioneDAO{
     }
 
         @override
-        public boolean eliminaContenutoDAO(int idCollezioneSelezionato, ArrayList<Integer> idFotoSelezionata) throws SQLException {
+        public boolean eliminaContenutoDAO(int idCollezioneSelezionato, int idFotoSelezionata) throws SQLException {
             try {
                 PreparedStatement insertCont;
                 insertCont = connection.prepareStatement("DELETE FROM CONTENUTO (id_collezione, id_foto) VALUES (?, ?)");
@@ -114,7 +114,7 @@ public class CollezionePostgresDAO implements CollezioneDAO{
                 modificaCol = connection.prepareStatemen("UPDATE collezione SET username = ?, titolo = ?, data_collezione = ?, numero_elementi = ? WHERE id_collezione = ?");
                 modificaCol = setString(1, username);
                 modificaCol = setString(2, titolo);
-                modificaCol = setTimestamp(3, dataCollezione);
+                modificaCol = setTimestamp(3, data_collezione);
                 modificaCol = setInt(4, numeroElementi);
                 modificaCol = setInt(5, idCollezione)
         int rs = modificaCol.executeQuery();
