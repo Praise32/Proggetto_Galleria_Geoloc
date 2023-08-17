@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * The type Utente postgres dao.
+ * The type Collezione postgres dao.
  */
 public class CollezionePostgresDAO implements CollezioneDAO{
     private Connection connection;
