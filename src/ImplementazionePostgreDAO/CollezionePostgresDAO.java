@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Timestamp;
 
 /**
  * The type Utente postgres dao.
@@ -66,8 +66,9 @@ public class CollezionePostgresDAO implements CollezioneDAO{
     public boolean vediContenutoDAO(int idCollezioneSelezionato, ArrayString<int> idFotoAssociate) throws SQLException {
         try {
             PreparedStatement vediContenuto;
-            vediContenuto = connection.prepareStatement("SELECT id_collezione FROM collezione WHERE username = ?");
-            vediContenuto = setString(1, idCollezioneSelezionato);
+            vediContenuto = connection.prepareStatement("SELECT id_foto FROM contenuto WHERE id_collezione = ?");
+            vediContenuto = setInt(1, idFotoAssociate)
+            vediContenuto = setInt(2, idCollezioneSelezionato);
             ResultSet rs =  vediContenuto.executeQuery();
             while (rs.next() ){
                 idFotoAssociate.add(rs.getString("id_foto"));
@@ -85,7 +86,7 @@ public class CollezionePostgresDAO implements CollezioneDAO{
             PreparedStatement insertCont;
             insertCont = connection.prepareStatement("INSERT INTO CONTENUTO (id_collezione, id_foto) VALUES (?, ?)");
             insertCont = setInt(1, idCollezioneSelezionato);
-            insertCont = setIntg(2, idFotoSelezionata);
+            insertCont = setInt(2, idFotoSelezionata);
             ResultSet rs =  insertCont().executeQuery();
             if(rs==1){
                 return true;
@@ -99,7 +100,7 @@ public class CollezionePostgresDAO implements CollezioneDAO{
                 PreparedStatement insertCont;
                 insertCont = connection.prepareStatement("DELETE FROM CONTENUTO (id_collezione, id_foto) VALUES (?, ?)");
                 insertCont = setInt(1, idCollezioneSelezionato);
-                insertCont = setIntg(2, idFotoSelezionata);
+                insertCont = setInt(2, idFotoSelezionata);
                 ResultSet rs =  insertCont().executeQuery();
                 if(rs==1){
                     return true;
