@@ -15,10 +15,10 @@ public interface CollezioneDAO {
     public boolean eliminaCollezioneDAO(int collezioneSelezionato) throws SQLException;
 
     // Metodo per aggiungere contenuti (foto) a una collezione esistente.
-    public boolean aggiungiContenutoDAO(int idCollezioneSelezionato, ArrayList<Integer> idFotoSelezionata) throws SQLException;
+    public boolean aggiungiContenutoDAO(int idCollezioneSelezionato, int idFotoSelezionata) throws SQLException;
 
     // Metodo per eliminare contenuti (foto) da una collezione esistente.
-    public boolean eliminaContenutoDAO(int idCollezioneSelezionato, ArrayList<Integer> idFotoSelezionata) throws SQLException;
+    public boolean eliminaContenutoDAO(int idCollezioneSelezionato, int idFotoSelezionata) throws SQLException;
 
     // Metodo per visualizzare i contenuti (foto associate) di una collezione.
     public boolean vediContenutoDAO(int idCollezioneSelezionato, ArrayList<Integer> idFotoAssociate) throws SQLException;
