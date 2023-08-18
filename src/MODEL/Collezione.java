@@ -9,11 +9,10 @@ public class Collezione {
     private Utente username;           
     private String titolo;            
     private Timestamp dataCollezione; 
-    private int numeroElementi;      
+    private int numeroElementi;
 
-    // Costruttore vuoto di default
-    public Collezione() {
-    }
+    //il seguente attributo considera una lista di fotografie contenute in una collezione
+    private List<Fotografia> listaContenutoCollezione = new ArrayList<>();
 
     // Costruttore con parametri per inizializzare gli attributi della classe Collezione
     public Collezione(int idCollezione, Utente username, String titolo, Timestamp dataCollezione, int numeroElementi) {
@@ -22,6 +21,10 @@ public class Collezione {
         this.titolo = titolo;                      
         this.dataCollezione = dataCollezione;      
         this.numeroElementi = numeroElementi;     
+    }
+    //Metodo per aggiungere alla listaContenutoFotografia la fotografia che contiene
+    public void aggiungiContenutoFotografia(Fotografia fotografia) {
+        this.listaContenutoCollezione.add(fotografia);
     }
 
     // Metodi getter e setter per l'attributo idCollezione
@@ -38,7 +41,9 @@ public class Collezione {
         return username;
     }
 
-    public void setUsername(Utente username) {
+    public String getUser(){return username.getUser;}
+
+    public void setUser(Utente username) {
         this.username = username;
     }
 
@@ -67,5 +72,14 @@ public class Collezione {
 
     public void setNumeroElementi(int numeroElementi) {
         this.numeroElementi = numeroElementi;
+    }
+
+    // Gets/Sets lista di foto associate ad una collezione
+    public List<Fotografia> getListaContenutoCollezione() {
+        return listaContenutoCollezione;
+    }
+
+    public void setListaContenutoCollezione(List<Fotografia> listaContenutoCollezione) {
+        this.listaContenutoCollezione = listaContenutoCollezione;
     }
 }
