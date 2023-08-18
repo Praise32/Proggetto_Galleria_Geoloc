@@ -74,7 +74,7 @@ public class Fotografia {
 
     public float getLongitudine(){return Luogo.getLongitudine;}
 
-    public void setLongitudine(Luogo luogolon){this.luogo = luogolon;}
+    public void setLongitudine(Luogo luogolon){this.luogolon = luogolon;}
 
     public void setUsernameAutore(Utente usernameAutore) {
         this.usernameAutore = usernameAutore;
