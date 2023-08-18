@@ -6,14 +6,24 @@ public class Luogo {
     private String nome;
     private String descrizione;
 
-    public Luogo() {
-    }
+
+    private List<Fotografia> listaFotografia = new ArrayList<>();
 
     public Luogo(float latitudine, float longitudine, String nome, String descrizione) {
         this.latitudine = latitudine;
         this.longitudine = longitudine;
         this.nome = nome;
         this.descrizione = descrizione;
+    }
+
+    public void aggiungiFotografia(Fotografia fotografia) {this.listaFotografia.add(fotografia);}
+
+    public List<Fotografia> getListaFotografia() {
+        return listaFotografia;
+    }
+
+    public void setListaFotografia(List<Fotografia> listaFotografia) {
+        this.listaFotografia = listaFotografia;
     }
 
     public float getLatitudine() {
