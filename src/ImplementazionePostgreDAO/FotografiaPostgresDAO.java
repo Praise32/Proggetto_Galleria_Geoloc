@@ -202,12 +202,4 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
                                 }
                                 return false;
                             }
-
-
-
-
-
-
-
-
         }
