@@ -73,8 +73,7 @@ public class FramePostgresDAO implements FrameDAO{
         try {
             PreparedStatement vediVideoFoto;
             vediVideoFoto = connection.prepareStatement("SELECT id_video FROM frame WHERE id_foto = ?");
-            vediVideoFoto = setInt(1, idVideoAssociato);
-            vediVideoFoto = setInt(2, idFotoSelezionata);
+            vediVideoFoto = setInt(1, idFotoSelezionata);
             ResultSet rs =  vediVideoFoto.executeQuery();
             while (rs.next() ){
                 idVideoAssociato.add(rs.getString("id_foto"));
