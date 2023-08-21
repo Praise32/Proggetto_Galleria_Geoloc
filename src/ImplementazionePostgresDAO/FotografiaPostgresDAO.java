@@ -90,7 +90,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             insertConFott = connection.prepareStatement("INSERT INTO CONTENUTO (id_foto, id_collezione) VALUES (?, ?)");
             insertConFott = setInt(1, idFotoSelezionata);
             insertConFott = setInt(2, idCollezioneSelezionato);
-            ResultSet rs =  insertConFott().executeQuery();
+            ResultSet rs =  insertConFott.executeQuery();
             if(rs==1){
                 return true;
             }
@@ -105,7 +105,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             insertContFot = connection.prepareStatement("DELETE FROM CONTENUTO (id_foto, id_collezione) VALUES (?, ?)");
             insertContFot = setInt(1, idFotoselezionata);
             insertContFot = setInt(2, idCollezioneSelezionato);
-            ResultSet rs =  insertContFot().executeQuery();
+            ResultSet rs =  insertContFot.executeQuery();
             if(rs==1){
                 return true;
             }
@@ -139,7 +139,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             insertTagUtente = connection.prepareStatement("INSERT INTO tag_utente (id_foto, username) VALUES (?, ?)");
             insertTagUtente = setInt(1, idFotoSelezionata);
             insertTagUtente = setString(2, utenteSelezionato);
-            ResultSet rs = insertTagUtente().executeQuery();
+            ResultSet rs = insertTagUtente.executeQuery();
             if (rs == 1) {
                 return true;
             }
@@ -154,7 +154,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             insertTagUtente = connection.prepareStatement("DELETE FROM tag_utente (id_foto, username) VALUES (?, ?)");
             insertTagUtente = setInt(1, idFotoselezionata);
             insertTagUtente = setString(2, utenteSelezionato);
-            ResultSet rs = insertTagUtente().executeQuery();
+            ResultSet rs = insertTagUtente.executeQuery();
             if (rs == 1) {
                 return true;
             }
@@ -202,7 +202,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             insertTagSoggetto = connection.prepareStatement("DELETE FROM tag_soggetto (id_foto, nome_soggetto) VALUES (?, ?)");
             insertTagSoggetto = setInt(1, idFotoSelezionata);
             insertTagSoggetto = setString(2, soggettoSelezionato);
-            ResultSet rs = insertTagSoggetto().executeQuery();
+            ResultSet rs = insertTagSoggetto.executeQuery();
             if (rs == 1) {
                 return true;
             }
