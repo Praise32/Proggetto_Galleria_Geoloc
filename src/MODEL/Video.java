@@ -1,5 +1,7 @@
 package MODEL;
 
+import java.util.ArrayList;
+import java.util.List;
 // Definizione della classe Video nel package model
 public class Video {
     // Attributi privati della classe Video
@@ -10,9 +12,7 @@ public class Video {
     private int durata;
     private String descrizione;
 
-    // Costruttore vuoto di default
-    public Video() {
-    }
+    private List<Frame> listaFrameVideoAssociati = new ArrayList<>();
 
     // Costruttore con parametri per inizializzare gli attributi della classe Video
     public Video(int idVideo, Utente autore, String titolo, int numeroFrames, int durata, String descrizione) {
@@ -23,7 +23,9 @@ public class Video {
         this.durata = durata;           
         this.descrizione = descrizione; 
     }
-
+    
+    //Metodo per aggiungere idvideo a composizione video
+    public void aggiungiFrame(Frame frame) {this.listaFrameVideoAssociati.add(frame); }
     // Metodi getter e setter per l'attributo idVideo
     public int getIdVideo() {
         return idVideo;
@@ -38,7 +40,9 @@ public class Video {
         return autore;
     }
 
-    public void setAutore(Utente autore) {
+    public void getUsername() {return autore.getUsername;}
+
+    public void setUsername(Utente autore) {
         this.autore = autore;
     }
 
@@ -76,5 +80,13 @@ public class Video {
 
     public void setDescrizione(String descrizione) {
         this.descrizione = descrizione;
+    }
+
+    public List<Frame> getListaFrameVideoAssociati() {
+        return listaFrameVideoAssociati;
+    }
+
+    public void setListaFrameVideoAssociati(List<Frame> listaFrameVideoAssociati) {
+        this.listaFrameVideoAssociati = listaFrameVideoAssociati;
     }
 }
