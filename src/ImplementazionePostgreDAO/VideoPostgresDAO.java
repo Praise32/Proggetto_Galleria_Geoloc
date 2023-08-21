@@ -39,7 +39,7 @@ public class VideoPostgresDAO implements VideoDAO{
     @override
     boolean aggiungiVideoDAO(int idVideo, String autore, String titolo, String descrizione) throws SQLException {
         PreparedStatement insertVid;
-        insertVid = connection.prepareStatement("INSERT INTO video (idVideo, autore, titolo, descrizione) VALUES (?, ?, ?, ?)");
+        insertVid = connection.prepareStatement("INSERT INTO video (id_video, autore, titolo, descrizione) VALUES (?, ?, ?, ?)");
         insertVid.setInt(1, idVideo);
         insertVid.setString(2, autore);
         insertVid.setString(3, titolo);
