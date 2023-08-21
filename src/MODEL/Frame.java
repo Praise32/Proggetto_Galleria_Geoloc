@@ -1,23 +1,31 @@
 package MODEL;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // Definizione della classe Frame nel package model
 public class Frame {
     // Attributi privati della classe Frame
     private Video idVideo; 
-    private Fotografia idFoto;      
+    private Fotografia fotografia;
     private int durata;    
     private int ordine;    
 
-    // Costruttore vuoto di default
-    public Frame() {
-    }
+    //Lista di video associati ad un frame
+    Private List<Video> listaComposizioneVideo = new ArrayList<>();
 
     // Costruttore con parametri per inizializzare gli attributi della classe Frame
-    public Frame(Video idVideo, Fotografia idFoto, int durata, int ordine) {
+    public Frame(Video idVideo, Fotografia fotografia, int durata, int ordine) {
         this.idVideo = idVideo;   
         this.idFoto = idFoto;       
         this.durata = durata;       
         this.ordine = ordine;    
+    }
+
+    //Metodi per aggiungere un frame ad una coposizione video
+    public void aggiungiComposizioneVideo (Video video) {this.listaComposizioneVideo,add(video);}
+
+   public void setListaComposizioneVideo(List<Video> listaComposizioneVideo) { this.listaComposizioneVideo = listaComposizioneVideo;
     }
 
     // Metodi getter e setter per l'attributo idVideo
@@ -29,13 +37,13 @@ public class Frame {
         this.idVideo = idVideo;
     }
 
-    // Metodi getter e setter per l'attributo idFoto
-    public Fotografia getIdFoto() {
-        return idFoto;
+    // Metodi getter e setter per l'attributo fotografia
+    public Fotografia getFotografia() {
+        return fotografia.idFoto;
     }
-
-    public void setIdFoto(Fotografia idFoto) {
-        this.idFoto = idFoto;
+    //Metodi getter e setter per ottenere idFoto
+    public void setIdFoto(Fotografia fotografia) {
+        this.fotografia = fotografia;
     }
 
     // Metodi getter e setter per l'attributo durata
