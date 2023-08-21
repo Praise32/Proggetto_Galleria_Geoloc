@@ -69,8 +69,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
         try {
             PreparedStatement vediContenutoFot;
             vediContenutoFot = connection.prepareStatement("SELECT id_collezione FROM contenuto WHERE id_foto = ?");
-            vediContenutoFot = setInt(1, idCollezioneAssociato)
-            vediContenutoFot = setInt(2, idFotoselezionata);
+            vediContenutoFot = setInt(1, idFotoselezionata);
             ResultSet rs =  vediContenutoFot.executeQuery();
             while (rs.next() ){
                 idCollezioneAssociato.add(rs.getString("id_collezione"));
@@ -119,8 +118,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             try {
                 PreparedStatement vediTagUte;
                 vediTagUte = connection.prepareStatement("SELECT username FROM tag_utente WHERE id_foto = ?");
-                vediTagUte = setString(1, utenteAssociato);
-                vediTagUte = setInt(2, idFotoSelezionata)
+                vediTagUte = setInt(1, idFotoSelezionata)
                 ResultSet rs =  vediTagUte.executeQuery();
                 while (rs.next() ){
                     utenteAssociato.add(rs.getString("username"));
@@ -168,8 +166,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
         try {
             PreparedStatement vediTagSog;
             vediTagSog = connection.prepareStatement("SELECT nome_soggetto FROM tag_soggetto WHERE id_foto = ?");
-            vediTagSog = setString(1, soggettoAssociato);
-            vediTagSog = setInt(2, idFotoSelezionata)
+            vediTagSog = setInt(1, idFotoSelezionata)
             ResultSet rs =  vediTagSog.executeQuery();
             while (rs.next() ){
                 soggettoAssociato.add(rs.getString("nome_soggetto"));
