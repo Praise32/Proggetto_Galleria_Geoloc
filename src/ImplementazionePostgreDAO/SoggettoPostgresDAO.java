@@ -54,9 +54,9 @@ public class SoggettoPostgresDAO implements SoggettoDAO{
     public boolean modificaSoggettoDAO(String nomeSelezionato, String categoria, String nuovoNome) throws SQLException {
         PreparedStatement modificaSog;
         modificaSog = connection.prepareStatemen("UPDATE soggetto SET nome = ?, categoria = ? WHERE nome = ?");
-        modificaSog = setString(1, nomeSelezionato);
+        modificaSog = setString(1, nuovoNome);
         modificaSog = setString(2, categoria);
-        modificaSog = setString(3, nuovoNome);
+        modificaSog = setString(3, nomeSelezionato);
         int rs = modificaSog.executeQuery();
         if (rs>0) {
             return true;
@@ -69,9 +69,9 @@ public class SoggettoPostgresDAO implements SoggettoDAO{
         try {
             PreparedStatement vediFotoSoggetto;
             vediFotoSoggetto = connection.prepareStatement("SELECT id_foto FROM tag_soggetto WHERE nome_soggetto = ?");
-            vediFotoSoggetto = setInt(1, nomeSelezionato)
-            vediFotoSoggetto = setString(2, fotografiaAssociato);
-            ResultSet rs =  vediTagUte.executeQuery();
+            vediFotoSoggetto = setInt(1, fotografiaAssociato);
+            vediFotoSoggetto = setString(2, nomeSelezionato);
+            ResultSet rs =  vediFotoSoggetto.executeQuery();
             while (rs.next() ){
                 fotografiaAssociato.add(rs.getString("id_foto"));
             }
