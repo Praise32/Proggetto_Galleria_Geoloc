@@ -1,5 +1,7 @@
 package MODEL;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.sql.Timestamp;
 
 public class Fotografia {
@@ -15,8 +17,9 @@ public class Fotografia {
 
     //il seguente attributo considera una lista di collezioni in cui è contenuta una fotografia
     private List<Collezione> listaContenutoFotografia = new ArrayList<>();
-    public Fotografia() {
-    }
+    //il seguente attributo considera una lista di frame associati ad una fotografia
+    private List<Frame> listaFrameAssociati = new ArrayList<>();
+
     //il seguente attributo considera una lista di utenti taggati una fotografia
     private List<Utente> listaTagUtenteFotografia = newArrayList<>();
 
@@ -40,9 +43,11 @@ public class Fotografia {
         this.listaContenutoFotografia.add(col);
     }
 
-    public void aggiungiTagUtente(Utente usr) {this.listaTagUtenteFotografia.add(usr)};
+    public void aggiungiTagUtente(Utente usr) {this.listaTagUtenteFotografia.add(usr);}
 
-    public void aggiungiTagSoggetto(Soggetto sog) {this.listaTagSoggetto.add(sog)};
+    public void aggiungiTagSoggetto(Soggetto sog) {this.listaTagSoggetto.add(sog);}
+
+    public void aggiungiFrame(Frame frame) {this.listaFrameAssociati.add(frame);}
 
     public int getIdFoto() {
         return idFoto;
@@ -144,5 +149,13 @@ public class Fotografia {
 
     public void setListaTagSoggetto(List<Soggetto> listaTagSoggetto) {
         this.listaTagSoggetto = listaTagSoggetto;
+    }
+
+    public List<Frame> getListaFrameAssociati() {
+        return listaFrameAssociati;
+    }
+
+    public void setListaFrameAssociati(List<Frame> listaFrameAssociati) {
+        this.listaFrameAssociati = listaFrameAssociati;
     }
 }
