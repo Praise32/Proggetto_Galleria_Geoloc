@@ -1,5 +1,8 @@
 package MODEL;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // Definizione della classe Soggetto nel package model
 public class Soggetto {
     // Attributi privati della classe Soggetto
