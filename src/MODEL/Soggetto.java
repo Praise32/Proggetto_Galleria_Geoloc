@@ -9,14 +9,22 @@ public class Soggetto {
     private String nome;        
     private String categoria; 
 
-    // Costruttore vuoto di default
-    public Soggetto() {
-    }
+   public List<Fotografia> listaFotoSoggetto = new ArrayList<>();
 
     // Costruttore con parametri per inizializzare gli attributi della classe Soggetto
     public Soggetto(String nome, String categoria) {
         this.nome = nome;           
         this.categoria = categoria; 
+    }
+
+    public void aggiungiFotoSoggetto (Fotografia fotografia) {this.listaFotoSoggetto.add(fotografia); }
+
+    public List<Fotografia> getListaFotoSoggetto() {
+        return listaFotoSoggetto;
+    }
+
+    public void setListaFotoSoggetto(List<Fotografia> listaFotoSoggetto) {
+        this.listaFotoSoggetto = listaFotoSoggetto;
     }
 
     // Metodi getter e setter per l'attributo nome
