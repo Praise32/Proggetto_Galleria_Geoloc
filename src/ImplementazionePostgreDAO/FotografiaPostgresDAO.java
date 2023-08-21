@@ -46,18 +46,17 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 
     @Override
-    public boolean aggiungiFotografiaDAO(int idFoto, String usernameAutore, byte[] datiFoto, String dispositivo, Timestamp dataFoto, float latitudine, float longitudine, boolean condivisa, String titolo) throws SQLException{
+    public boolean aggiungiFotografiaDAO(int idFoto, String usernameAutore, byte[] datiFoto, String dispositivo, float latitudine, float longitudine, boolean condivisa, String titolo) throws SQLException{
         PreparedStatement insertFot;
-        insertFot = connection.prepareStatement("INSERT INTO Collezione (idFoto, usernameAutore, datiFoto, dispositivo, dataFoto, latitudine, longitudine, condivisa, titolo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        insertFot = connection.prepareStatement("INSERT INTO Collezione (idFoto, usernameAutore, datiFoto, dispositivo, latitudine, longitudine, condivisa, titolo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         insertFot.setInt(1, idFoto);
         insertFot.setString(2, usernameAutore);
-        insertFot.setByte(3, dataFoto);
+        insertFot.setByte(3, datiFoto);
         insertFot.setString(4, dispositivo);
-        insertFot.setTimestamo(5, dataFoto);
-        insertFot.setFloat(6, latitudine);
-        insertFot.setFloat(7, longitudine);
-        insertFot.setBoolean(8, condivisa);
-        insertFot.setString(9, titolo);
+        insertFot.setFloat(5, latitudine);
+        insertFot.setFloat(6, longitudine);
+        insertFot.setBoolean(7, condivisa);
+        insertFot.setString(8, titolo);
         int result = insertFot.executeUpdate();
         if (result == 1) {
             return true;
@@ -120,8 +119,8 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             try {
                 PreparedStatement vediTagUte;
                 vediTagUte = connection.prepareStatement("SELECT username FROM tag_utente WHERE id_foto = ?");
-                vediTagUte = setInt(1, idFotoSelezionata)
-                vediTagUte = setString(2, utenteAssociato);
+                vediTagUte = setString(1, utenteAssociato);
+                vediTagUte = setInt(2, idFotoSelezionata)
                 ResultSet rs =  vediTagUte.executeQuery();
                 while (rs.next() ){
                     utenteAssociato.add(rs.getString("username"));
@@ -169,8 +168,8 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
         try {
             PreparedStatement vediTagSog;
             vediTagSog = connection.prepareStatement("SELECT nome_soggetto FROM tag_soggetto WHERE id_foto = ?");
-            vediTagSog = setInt(1, idFotoSelezionata)
-            vediTagSog = setString(2, soggettoAssociato);
+            vediTagSog = setString(1, soggettoAssociato);
+            vediTagSog = setInt(2, idFotoSelezionata)
             ResultSet rs =  vediTagSog.executeQuery();
             while (rs.next() ){
                 soggettoAssociato.add(rs.getString("nome_soggetto"));
