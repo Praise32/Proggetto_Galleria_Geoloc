@@ -24,5 +24,5 @@ public interface CollezioneDAO {
     public boolean vediContenutoDAO(int idCollezioneSelezionato, ArrayList<Integer> idFotoAssociate) throws SQLException;
 
     // Metodo per modificare i dettagli di una collezione esistente nel database.
-    public boolean modificaCollezioneDAO(int idCollezione, String username, String titolo) throws SQLException;
+    public boolean modificaCollezioneDAO(int idCollezioneSelezionato, String username, String titolo) throws SQLException;
 }
