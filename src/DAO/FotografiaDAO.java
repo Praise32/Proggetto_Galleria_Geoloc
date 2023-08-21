@@ -24,21 +24,21 @@ public interface FotografiaDAO {
     public boolean eliminaContenutoFotografiaDAO(int idFotoselezionata, int idCollezioneSelezionato) throws SQLException;
 
     // Metodo per aggiungere un TagUtente in una foto esistente.
-    public boolean aggiungiTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato);
+    public boolean aggiungiTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) throws SQLException;
 
     //Metodo per visualizzare l'utente taggato in una foto.
-    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato);
+    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato) throws SQLException;
 
     // Metodo per eliminare un TagUtente in una foto esistente
-    public boolean eliminaTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato);
+    public boolean eliminaTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) throws SQLException;
 
     // Metodo per aggiungere un TagSoggetto in una foto esistente.
-    public boolean aggiungiTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato);
+    public boolean aggiungiTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) throws SQLException;
 
     //Metodo per visualizzare il soggetto taggato in una foto.
-    public vediTagSoggettoDAO(int idFotoSelezionata, ArrayList<String> soggettoAssociato);
+    public vediTagSoggettoDAO(int idFotoSelezionata, ArrayList<String> soggettoAssociato) throws SQLException;
 
     // Metodo per eliminare un TagSoggetto in una foto esistente
-    public boolean eliminaTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato);
+    public boolean eliminaTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) throws SQLException;
 
 }
