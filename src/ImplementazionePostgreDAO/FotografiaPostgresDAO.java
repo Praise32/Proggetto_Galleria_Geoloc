@@ -116,7 +116,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 //TAG Utente
     @override
-    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato){
+    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato) throws SQLException{
             try {
                 PreparedStatement vediTagUte;
                 vediTagUte = connection.prepareStatement("SELECT username FROM tag_utente WHERE id_foto = ?");
@@ -132,9 +132,9 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
                 return false;
             }
     }
-        
+
     @override
-    public boolean aggiungiTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) {
+    public boolean aggiungiTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) throws SQLException {
         try {
             PreparedStatement insertTagUtente;
             insertTagUtente = connection.prepareStatement("INSERT INTO tag_utente (id_foto, username) VALUES (?, ?)");
@@ -149,7 +149,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 
     @override
-    public boolean eliminaTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) {
+    public boolean eliminaTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) throws SQLException {
         try {
             PreparedStatement insertTagUtente;
             insertTagUtente = connection.prepareStatement("DELETE FROM tag_utente (id_foto, username) VALUES (?, ?)");
@@ -165,7 +165,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 //TAG Soggetto
     @override
-    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato){
+    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato) throws SQLException{
         try {
             PreparedStatement vediTagUte;
             vediTagUte = connection.prepareStatement("SELECT nome_soggetto FROM tag_soggetto WHERE id_foto = ?");
@@ -183,7 +183,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 
     @override
-    public boolean aggiungiTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) {
+    public boolean aggiungiTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) throws SQLException {
         try {
             PreparedStatement insertTagSoggetto;
             insertTagSoggetto = connection.prepareStatement("INSERT INTO tag_soggetto (id_foto, nome_soggetto) VALUES (?, ?)");
@@ -197,7 +197,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
         }
     }
     @override
-    public boolean eliminaTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato){
+    public boolean eliminaTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) throws SQLException{
         try {
             PreparedStatement insertTagSoggetto;
             insertTagSoggetto = connection.prepareStatement("DELETE FROM tag_soggetto (id_foto, nome_soggetto) VALUES (?, ?)");
