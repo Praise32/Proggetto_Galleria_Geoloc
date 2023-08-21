@@ -42,8 +42,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             return true;
         }
         return false;
-
-
+        
     }
 
     @Override
@@ -86,6 +85,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
 
     @override
     public boolean aggiungiContenutoFotografiaDAO(int idFotoSelezionata, int idCollezioneSelezionato) throws SQLException {
+        
         try {
             PreparedStatement insertConFott;
             insertConFott = connection.prepareStatement("INSERT INTO CONTENUTO (id_foto, id_collezione) VALUES (?, ?)");
@@ -97,109 +97,124 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             }
             return false;
         }
+    }
 
-        @override
-        public boolean eliminaContenutoFotografiaDAO(int idFotoselezionata, int idCollezioneSelezionato) throws SQLException {
+    @override
+    public boolean eliminaContenutoFotografiaDAO(int idFotoselezionata, int idCollezioneSelezionato) throws SQLException {
+        try {
+            PreparedStatement insertContFot;
+            insertContFot = connection.prepareStatement("DELETE FROM CONTENUTO (id_foto, id_collezione) VALUES (?, ?)");
+            insertContFot = setInt(1, idFotoselezionata);
+            insertContFot = setInt(2, idCollezioneSelezionato);
+            ResultSet rs =  insertContFot().executeQuery();
+            if(rs==1){
+                return true;
+            }
+            return false;
+        }
+            
+    }
+//TAG Utente
+    @override
+    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato){
             try {
-                PreparedStatement insertContFot;
-                insertContFot = connection.prepareStatement("DELETE FROM CONTENUTO (id_foto, id_collezione) VALUES (?, ?)");
-                insertContFot = setInt(1, idFotoselezionata);
-                insertContFot = setInt(2, idCollezioneSelezionato);
-                ResultSet rs =  insertContFot().executeQuery();
-                if(rs==1){
-                    return true;
+                PreparedStatement vediTagUte;
+                vediTagUte = connection.prepareStatement("SELECT username FROM tag_utente WHERE id_foto = ?");
+                vediTagUte = setInt(1, idFotoSelezionata)
+                vediTagUte = setString(2, utenteAssociato);
+                ResultSet rs =  vediTagUte.executeQuery();
+                while (rs.next() ){
+                    utenteAssociato.add(rs.getString("username"));
                 }
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
                 return false;
             }
-//TAG Utente
-            public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato){
-                try {
-                    PreparedStatement vediTagUte;
-                    vediTagUte = connection.prepareStatement("SELECT username FROM tag_utente WHERE id_foto = ?");
-                    vediTagUte = setInt(1, idFotoSelezionata)
-                    vediTagUte = setString(2, utenteAssociato);
-                    ResultSet rs =  vediTagUte.executeQuery();
-                    while (rs.next() ){
-                        utenteAssociato.add(rs.getString("username"));
-                    }
-                    return true;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-            }
-
-            @override
-            public boolean aggiungiTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) {
-                try {
-                    PreparedStatement insertTagUtente;
-                    insertTagUtente = connection.prepareStatement("INSERT INTO tag_utente (id_foto, username) VALUES (?, ?)");
-                    insertTagUtente = setInt(1, idFotoSelezionata);
-                    insertTagUtente = setString(2, utenteSelezionato);
-                    ResultSet rs =  insertTagUtente().executeQuery();
-                    if(rs==1){
-                        return true;
-                    }
-                    return false;
-                }
-
-                @override
-                public boolean eliminaTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) {
-                    try {
-                        PreparedStatement insertTagUtente;
-                        insertTagUtente = connection.prepareStatement("DELETE FROM tag_utente (id_foto, username) VALUES (?, ?)");
-                        insertTagUtente = setInt(1, idFotoselezionata);
-                        insertTagUtente = setString(2, utenteSelezionato);
-                        ResultSet rs =  insertTagUtente().executeQuery();
-                        if(rs==1){
-                            return true;
-                        }
-                        return false;
-                    }
-
-//TAG Soggetto
-            public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato){
-                        try {
-                            PreparedStatement vediTagUte;
-                            vediTagUte = connection.prepareStatement("SELECT nome_soggetto FROM tag_soggetto WHERE id_foto = ?");
-                            vediTagUte = setInt(1, idFotoSelezionata)
-                            vediTagUte = setString(2, utenteAssociato);
-                            ResultSet rs =  vediTagUte.executeQuery();
-                            while (rs.next() ){
-                                utenteAssociato.add(rs.getString("nome_soggetto"));
-                            }
-                            return true;
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            return false;
-                        }
-                    }
-
-                    @override
-                    public boolean aggiungiTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) {
-                        try {
-                            PreparedStatement insertTagSoggetto;
-                            insertTagSoggetto = connection.prepareStatement("INSERT INTO tag_soggetto (id_foto, nome_soggetto) VALUES (?, ?)");
-                            insertTagSoggetto = setInt(1, idFotoSelezionata);
-                            insertTagSoggetto = setString(2, soggettoSelezionato);
-                            ResultSet rs =  insertTagSoggetto().executeQuery();
-                            if(rs==1){
-                                return true;
-                            }
-                            return false;
-                        }
-
-                        @override
-                        public boolean eliminaTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) {
-                            try {
-                                PreparedStatement insertTagSoggetto;
-                                insertTagSoggetto = connection.prepareStatement("DELETE FROM tag_soggetto (id_foto, nome_soggetto) VALUES (?, ?)");
-                                insertTagSoggetto = setInt(1, idFotoSelezionata);
-                                insertTagSoggetto = setString(2, soggettoSelezionato);
-                                ResultSet rs =  insertTagSoggetto().executeQuery();
-                                if(rs==1){
-                                    return true;
-                                }
-                                return false;
-                            }
         }
+
+        @override
+        public boolean aggiungiTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) {
+        try {
+            PreparedStatement insertTagUtente;
+            insertTagUtente = connection.prepareStatement("INSERT INTO tag_utente (id_foto, username) VALUES (?, ?)");
+            insertTagUtente = setInt(1, idFotoSelezionata);
+            insertTagUtente = setString(2, utenteSelezionato);
+            ResultSet rs = insertTagUtente().executeQuery();
+            if (rs == 1) {
+                return true;
+            }
+            return false;
+        }
+    }
+    
+    @override
+    public boolean eliminaTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) {
+        try {
+            PreparedStatement insertTagUtente;
+            insertTagUtente = connection.prepareStatement("DELETE FROM tag_utente (id_foto, username) VALUES (?, ?)");
+            insertTagUtente = setInt(1, idFotoselezionata);
+            insertTagUtente = setString(2, utenteSelezionato);
+            ResultSet rs = insertTagUtente().executeQuery();
+            if (rs == 1) {
+                return true;
+            }
+            return false;
+        }
+
+    }
+//TAG Soggetto
+    @override
+    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato){
+        try {
+            PreparedStatement vediTagUte;
+            vediTagUte = connection.prepareStatement("SELECT nome_soggetto FROM tag_soggetto WHERE id_foto = ?");
+            vediTagUte = setInt(1, idFotoSelezionata)
+            vediTagUte = setString(2, utenteAssociato);
+            ResultSet rs =  vediTagUte.executeQuery();
+            while (rs.next() ){
+                utenteAssociato.add(rs.getString("nome_soggetto"));
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @override
+    public boolean aggiungiTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) {
+        try {
+            PreparedStatement insertTagSoggetto;
+            insertTagSoggetto = connection.prepareStatement("INSERT INTO tag_soggetto (id_foto, nome_soggetto) VALUES (?, ?)");
+            insertTagSoggetto = setInt(1, idFotoSelezionata);
+            insertTagSoggetto = setString(2, soggettoSelezionato);
+            ResultSet rs = insertTagSoggetto().executeQuery();
+            if (rs == 1) {
+                return true;
+            }
+            return false;
+        }
+    }
+    @override
+    public boolean eliminaTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato){
+        try {
+            PreparedStatement insertTagSoggetto;
+            insertTagSoggetto = connection.prepareStatement("DELETE FROM tag_soggetto (id_foto, nome_soggetto) VALUES (?, ?)");
+            insertTagSoggetto = setInt(1, idFotoSelezionata);
+            insertTagSoggetto = setString(2, soggettoSelezionato);
+            ResultSet rs = insertTagSoggetto().executeQuery();
+            if (rs == 1) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+
+
+
+
+
+
+}
