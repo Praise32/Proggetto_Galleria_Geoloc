@@ -35,7 +35,7 @@ public UtentePostgresDAO(){
 public boolean eliminaUtenteoDAO(String utenteSelezionato) throws SQLException{
 
     PreparedStatement deleteUsr;
-    deleteUsr = connection.prepareStatement("DELETE FROM UTENTE WHERE USERNAME = ? ");
+    deleteUsr = connection.prepareStatement("DELETE FROM utente WHERE username = ? ");
     deleteUsr.setString(1, utenteSelezionato);
     int result = deleteUsr.executeUpdate();
     if (result == 1) {
@@ -111,7 +111,7 @@ public boolean VediVideoPerUtenteDAO(String usernameSelezionato, ArrayString<int
 @override
 public boolean modificaUtenteDAO(String usernameSelezionato, String password, boolean admin) throws SQLException {
     PreparedStatement modificaUsr;
-    modificaUsr = connection.prepareStatemen("UPDATE utente SET password = ?, boolean = ? WHERE username = ?");
+    modificaUsr = connection.prepareStatemen("UPDATE utente SET password = ?, admin = ? WHERE username = ?");
     modificaUsr = setString(1, password);
     modificaUsr = setBoolean(2, admin);
     modificaUsr = setString(3, usernameSelezionato);
