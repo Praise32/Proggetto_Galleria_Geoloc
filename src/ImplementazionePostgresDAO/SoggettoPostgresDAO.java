@@ -69,8 +69,7 @@ public class SoggettoPostgresDAO implements SoggettoDAO{
         try {
             PreparedStatement vediFotoSoggetto;
             vediFotoSoggetto = connection.prepareStatement("SELECT id_foto FROM tag_soggetto WHERE nome_soggetto = ?");
-            vediFotoSoggetto = setInt(1, fotografiaAssociato);
-            vediFotoSoggetto = setString(2, nomeSelezionato);
+            vediFotoSoggetto = setString(1, nomeSelezionato);
             ResultSet rs =  vediFotoSoggetto.executeQuery();
             while (rs.next() ){
                 fotografiaAssociato.add(rs.getString("id_foto"));
