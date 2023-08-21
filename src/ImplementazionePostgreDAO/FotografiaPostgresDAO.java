@@ -165,15 +165,15 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 //TAG Soggetto
     @override
-    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato) throws SQLException{
+    public vediTagSoggettoDAO(int idFotoSelezionata, ArrayList<String> soggettoAssociato) throws SQLException {
         try {
-            PreparedStatement vediTagUte;
-            vediTagUte = connection.prepareStatement("SELECT nome_soggetto FROM tag_soggetto WHERE id_foto = ?");
-            vediTagUte = setInt(1, idFotoSelezionata)
-            vediTagUte = setString(2, utenteAssociato);
-            ResultSet rs =  vediTagUte.executeQuery();
+            PreparedStatement vediTagSog;
+            vediTagSog = connection.prepareStatement("SELECT nome_soggetto FROM tag_soggetto WHERE id_foto = ?");
+            vediTagSog = setInt(1, idFotoSelezionata)
+            vediTagSog = setString(2, soggettoAssociato);
+            ResultSet rs =  vediTagSog.executeQuery();
             while (rs.next() ){
-                utenteAssociato.add(rs.getString("nome_soggetto"));
+                soggettoAssociato.add(rs.getString("nome_soggetto"));
             }
             return true;
         } catch (SQLException e) {
