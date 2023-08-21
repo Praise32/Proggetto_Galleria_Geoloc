@@ -65,8 +65,7 @@ public class CollezionePostgresDAO implements CollezioneDAO{
         try {
             PreparedStatement vediContenuto;
             vediContenuto = connection.prepareStatement("SELECT id_foto FROM contenuto WHERE id_collezione = ?");
-            vediContenuto = setInt(1, idFotoAssociate)
-            vediContenuto = setInt(2, idCollezioneSelezionato);
+            vediContenuto = setInt(1, idCollezioneSelezionato);
             ResultSet rs =  vediContenuto.executeQuery();
             while (rs.next() ){
                 idFotoAssociate.add(rs.getString("id_foto"));
