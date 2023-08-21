@@ -1,0 +1,91 @@
+package ImplementazionePostgresDAO;
+
+import DAO.SoggettoDAO;
+import DBconnection.ConnessioneDB;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Timestamp;
+
+public class SoggettoPostgresDAO implements SoggettoDAO{
+    private Connection connection;
+}
+
+    public SoggettoPostgresDAO(){
+        try {
+            connection = ConnessioneDB.getInstance().getConnection();
+        }
+        catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean eliminaSoggettoDAO(String nomeSelezionato) throws SQLException {
+        PreparedStatement deleteSog;
+        deleteSog = connection.prepareStatement("DELETE FROM soggetto WHERE nome = ? ");
+        deleteSog.setString(1, nomeSelezionato);
+        int result = deleteSog.executeUpdate();
+        if (result == 1) {
+            return true;
+        }
+        return false;
+
+    }
+
+    @override
+    public boolean aggiungiSoggettoDAO(String nome, String categoria) throws SQLException {
+        PreparedStatement insertSog;
+        insertSog = connection.prepareStatement("INSERT INTO soggetto (nome, categoria) VALUES (?, ?)");
+        insertSog.setString(1, nome);
+        insertSog.setString(2, categoria);
+        int result = insertSog.executeUpdate();
+        if (result == 1) {
+            return true;
+        }
+        return false;
+    }
+
+
+    @override
+    public boolean modificaSoggettoDAO(String nomeSelezionato, String categoria, String nuovoNome) throws SQLException {
+        PreparedStatement modificaSog;
+        modificaSog = connection.prepareStatemen("UPDATE soggetto SET nome = ?, categoria = ? WHERE nome = ?");
+        modificaSog = setString(1, nomeSelezionato);
+        modificaSog = setString(2, categoria);
+        modificaSog = setString(3, nuovoNome);
+        int rs = modificaSog.executeQuery();
+        if (rs>0) {
+            return true;
+        }
+        return false;
+    }
+
+    @override
+    boolean vediFotoAssociate(String nomeSelezionato, ArrayList<Integer> fotografiaAssociato) throws SQLException{
+        try {
+            PreparedStatement vediFotoSoggetto;
+            vediFotoSoggetto = connection.prepareStatement("SELECT id_foto FROM tag_soggetto WHERE nome_soggetto = ?");
+            vediFotoSoggetto = setInt(1, nomeSelezionato)
+            vediFotoSoggetto = setString(2, fotografiaAssociato);
+            ResultSet rs =  vediTagUte.executeQuery();
+            while (rs.next() ){
+                fotografiaAssociato.add(rs.getString("id_foto"));
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+
+
+
+    }
+
