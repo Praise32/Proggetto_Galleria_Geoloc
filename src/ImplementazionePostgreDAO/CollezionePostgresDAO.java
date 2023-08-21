@@ -47,14 +47,12 @@ public class CollezionePostgresDAO implements CollezioneDAO{
     }
 
     @Override
-    public boolean aggiungiCollezioneDAO(int idCollezione, String username, String titolo, Timestamp dataCollezione, int numeroElementi) throws SQLException{
+    public boolean aggiungiCollezioneDAO(int idCollezione, String username, String titolo) throws SQLException{
         PreparedStatement insertCol;
-        insertCol = connection.prepareStatement("INSERT INTO Collezione (id_collezione, username, titolo, data_collezione, numero_elementi) VALUES (?, ?, ?, ?, ?)");
+        insertCol = connection.prepareStatement("INSERT INTO Collezione (id_collezione, username, titolo) VALUES (?, ?, ?)");
         inserCol.setInt(1, idCollezione);
         insertCol.setString(2, username);
         insertCol.setString(3, titolo);
-        insertCol.setTimestamp(4, dataCollezione);
-        insertCol.setInt(5, numeroElementi);
         int result = insertCol.executeUpdate();
         if (result == 1) {
             return true;
@@ -109,14 +107,12 @@ public class CollezionePostgresDAO implements CollezioneDAO{
             }
 
             @override
-            public boolean modificaCollezioneDAO(int idCollezione, String username, String titolo, Timestamp dataCollezione, int numeroElementi) throws SQLException {
+            public boolean modificaCollezioneDAO(int idCollezione, String username, String titolo) throws SQLException {
                 PreparedStatement modificaCol;
-                modificaCol = connection.prepareStatemen("UPDATE collezione SET username = ?, titolo = ?, data_collezione = ?, numero_elementi = ? WHERE id_collezione = ?");
+                modificaCol = connection.prepareStatemen("UPDATE collezione SET username = ?, titolo = ?, WHERE id_collezione = ?");
                 modificaCol = setString(1, username);
                 modificaCol = setString(2, titolo);
-                modificaCol = setTimestamp(3, data_collezione);
-                modificaCol = setInt(4, numeroElementi);
-                modificaCol = setInt(5, idCollezione)
+                modificaCol = setInt(3, idCollezione);
         int rs = modificaCol.executeQuery();
         if (rs>0) {
             return true;
