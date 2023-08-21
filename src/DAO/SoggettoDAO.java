@@ -12,8 +12,8 @@ public interface SoggettoDAO {
     // Elimina un soggetto in base al nome specificato
     boolean eliminaSoggettoDAO(String nomeSelezionato) throws SQLException;
 
-    // Modifica la categoria di un soggetto in base al nome specificato
-    boolean modificaSoggettoDAO(String nomeSelezionato, String categoria) throws SQLException;
+    // Modifica la categoria di un soggetto in base al nome specificato ed eventualmente modifica il nome del soggetto
+    boolean modificaSoggettoDAO(String nomeSelezionato, String categoria, String nuovoNome) throws SQLException;
 
     // Ottiene l'elenco delle foto associate a un soggetto specifico
     boolean vediFotoAssociate(String nomeSelezionato, ArrayList<Integer> fotografiaAssociato) throws SQLException;
