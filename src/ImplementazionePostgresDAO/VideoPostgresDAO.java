@@ -71,8 +71,7 @@ public class VideoPostgresDAO implements VideoDAO{
         try {
             PreparedStatement vediFotoVideo;
             vediFotoVideo = connection.prepareStatement("SELECT id_foto FROM frame WHERE id_video = ?");
-            vediFotoVideo = setInt(1, frameAssociati)
-            vediFotoVideo = setInt(2, idVideoSelezionato);
+            vediFotoVideo = setInt(1, idVideoSelezionato);
             ResultSet rs =  vediFotoVideo.executeQuery();
             while (rs.next() ){
                 frameAssociati.add(rs.getString("id_foto"));
