@@ -42,7 +42,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             return true;
         }
         return false;
-        
+
     }
 
     @Override
@@ -85,7 +85,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
 
     @override
     public boolean aggiungiContenutoFotografiaDAO(int idFotoSelezionata, int idCollezioneSelezionato) throws SQLException {
-        
+
         try {
             PreparedStatement insertConFott;
             insertConFott = connection.prepareStatement("INSERT INTO CONTENUTO (id_foto, id_collezione) VALUES (?, ?)");
@@ -112,7 +112,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             }
             return false;
         }
-            
+
     }
 //TAG Utente
     @override
@@ -131,10 +131,10 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
                 e.printStackTrace();
                 return false;
             }
-        }
-
-        @override
-        public boolean aggiungiTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) {
+    }
+        
+    @override
+    public boolean aggiungiTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) {
         try {
             PreparedStatement insertTagUtente;
             insertTagUtente = connection.prepareStatement("INSERT INTO tag_utente (id_foto, username) VALUES (?, ?)");
@@ -147,7 +147,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
             return false;
         }
     }
-    
+
     @override
     public boolean eliminaTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) {
         try {
