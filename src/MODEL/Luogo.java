@@ -1,5 +1,8 @@
 package MODEL;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Luogo {
     private float latitudine;
     private float longitudine;
