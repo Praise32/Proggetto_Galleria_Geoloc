@@ -54,12 +54,12 @@ public class VideoPostgresDAO implements VideoDAO{
 
     @override
     boolean modificaVideoDAO(String idVideoSelezionato, String titolo, String descrizione) throws SQLException {
-        PreparedStatement modificaSog;
-        modificaSog = connection.prepareStatemen("UPDATE video SET titolo = ?, descrizione = ? WHERE id_video = ?");
-        modificaSog = setString(1, titolo);
-        modificaSog = setString(2, descrizione);
-        modificaSog = setString(3, idVideoSelezionato);
-        int rs = modificaSog.executeQuery();
+        PreparedStatement modificaVid;
+        modificaVid = connection.prepareStatemen("UPDATE video SET titolo = ?, descrizione = ? WHERE id_video = ?");
+        modificaVid = setString(1, titolo);
+        modificaVid = setString(2, descrizione);
+        modificaVid = setString(3, idVideoSelezionato);
+        int rs = modificaVid.executeQuery();
         if (rs>0) {
             return true;
         }
@@ -67,15 +67,15 @@ public class VideoPostgresDAO implements VideoDAO{
     }
 
     @override
-    boolean vediFotoAssociate(String nomeSelezionato, ArrayList<Integer> fotografiaAssociato) throws SQLException{
+    boolean vediFrameVideoDAO(String idVideoSelezionato, ArrayList<Integer> frameAssociati) throws SQLException{
         try {
-            PreparedStatement vediFotoSoggetto;
-            vediFotoSoggetto = connection.prepareStatement("SELECT id_foto FROM tag_soggetto WHERE nome_soggetto = ?");
-            vediFotoSoggetto = setInt(1, fotografiaAssociato)
-            vediFotoSoggetto = setString(2, nomeSelezionato);
-            ResultSet rs =  vediTagUte.executeQuery();
+            PreparedStatement vediFotoVideo;
+            vediFotoVideo = connection.prepareStatement("SELECT id_foto FROM frame WHERE id_video = ?");
+            vediFotoVideo = setInt(1, frameAssociati)
+            vediFotoVideo = setInt(2, idVideoSelezionato);
+            ResultSet rs =  vediFotoVideo.executeQuery();
             while (rs.next() ){
-                fotografiaAssociato.add(rs.getString("id_foto"));
+                frameAssociati.add(rs.getString("id_foto"));
             }
             return true;
         } catch (SQLException e) {
