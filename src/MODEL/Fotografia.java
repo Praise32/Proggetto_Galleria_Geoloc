@@ -33,8 +33,8 @@ public class Fotografia {
         this.datiFoto = datiFoto;
         this.dispositivo = dispositivo;
         this.dataFoto = dataFoto;
-        this.latitudine = latitudine;
-        this.longitudine = longitudine;
+        this.luogolat = luogolat;
+        this.luogolon = luogolon;
         this.condivisa = condivisa;
         this.titolo = titolo;
     }
