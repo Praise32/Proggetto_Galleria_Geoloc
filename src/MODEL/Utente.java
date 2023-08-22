@@ -15,7 +15,7 @@ public class Utente {
     private List<Fotografia> listaFotografia = new ArrayList<>();
 
     //il seguente attributo considera una lista di video registrati dall'utente
-    private List<Video> listaVideo = new ArrayList<>(
+    private List<Video> listaVideo = new ArrayList<>();
     public Utente() {
     }
 
@@ -23,7 +23,7 @@ public class Utente {
         this.username = username;
         this.password = password;
         this.admin = admin;
-        );
+        
 
     }
     // Metodi per aggiungere proprietari alle collezioni, fotografie e video
