@@ -5,7 +5,7 @@ package org.example.progettouni.entities;
  */
 public class Photo {
 
-    /*
+    /**
     In ordine:
     ID della foto
     ID dell'utente che l'ha scattata, presa da un oggetto di classe User
