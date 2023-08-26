@@ -42,7 +42,7 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
         }
     }
     @override
-    public void getListFotografiaDAO (ArrayList <Integer> idFotoList, ArrayList <String> utenteUsernameAutoreList, ArrayList <byte[]> datiFotoList, ArrayList <String> dispositivoList, ArrayList <java.sql.Timestamp> dataFotoList, ArrayList <float>luogolatitudineList, ArrayList <float>luogolongituineList, ArrayList <boolean> condivisaList, ArrayList <String> titoloList){
+    public void getListFotografiaDAO (ArrayList <Integer> idFotoList, ArrayList <String> utenteUsernameAutoreList, ArrayList <byte[]> datiFotoList, ArrayList <String> dispositivoList, ArrayList <java.sql.Timestamp> dataFotoList, ArrayList <Float>luogolatitudineList, ArrayList <Float>luogolongituineList, ArrayList <Boolean> condivisaList, ArrayList <String> titoloList){
         try {
             preparedStatement selectListaFotografia;
             selectListaFotografia = connection.prepareStatement("SELECT * FROM fotografia");
@@ -76,7 +76,7 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
     }
 
     @override
-    public void getListCollezioneDAO (ArrayList <Integer> idCollezioneList, ArrayList <String> utenteUsernameList, ArrayList <String> titoloList, ArrayList <java.sql.Timestamp> dataCollezioneList, ArrayList<Integer> numeroElementiList) {
+    public void getListCollezioneDAO (ArrayList<Integer> idCollezioneList, ArrayList<String> utenteUsernameList, ArrayList<String> titoloList, ArrayList<java.sql.Timestamp> dataCollezioneList, ArrayList<Integer> numeroElementiList) {
 
         try {
             preparedStatement selectListaCollezioni;
@@ -124,7 +124,7 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
     }
 
     @override
-    public void getListLuogoDAO(ArrayList<float> latitudineList, ArrayList<float> longitudineList, ArrayList<String> nomeList, ArrayList<String> descrizioneList) {
+    public void getListLuogoDAO(ArrayList<Float> latitudineList, ArrayList<Float> longitudineList, ArrayList<String> nomeList, ArrayList<String> descrizioneList) {
         try {
             preparedStatement selectListaLuogo;
             selectListaLuogo = connection.prepareStatement("SELECT * FROM luogo");
