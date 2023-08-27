@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Timestamp;
 
 /**
  * The type Utente postgres dao.
@@ -59,7 +59,7 @@ public boolean aggiungiUtenteDAO(String username, String password, boolean admin
 }
 
 @override
-public boolean VediCollezioniPerUtenteDAO(String usernameSelezionato, ArrayString<int> idCollezioneAssociato) throws SQLException {
+public boolean VediCollezioniPerUtenteDAO(String usernameSelezionato, ArrayString<Integer> idCollezioneAssociato) throws SQLException {
     try {
         PreparedStatement vediCollezioni;
         vediCollezioni = connection.prepareStatement("SELECT id_collezione FROM collezione WHERE username = ?");
@@ -75,7 +75,7 @@ public boolean VediCollezioniPerUtenteDAO(String usernameSelezionato, ArrayStrin
     }
 }
 @override
-public boolean VediFotografiaPerUtenteDAO(String usernameSelezionato, ArrayString<int> idFotoAssociato) throws SQLException {
+public boolean VediFotografiaPerUtenteDAO(String usernameSelezionato, ArrayString<Integer> idFotoAssociato) throws SQLException {
     try {
         PreparedStatement vediFotografia;
         vediFotografia = connection.prepareStatement("SELECT id_foto FROM fotografia WHERE usernameAutore = ?");
@@ -92,7 +92,7 @@ public boolean VediFotografiaPerUtenteDAO(String usernameSelezionato, ArrayStrin
 }
 
 @override
-public boolean VediVideoPerUtenteDAO(String usernameSelezionato, ArrayString<int> idVideoAssociato) throws SQLException {
+public boolean VediVideoPerUtenteDAO(String usernameSelezionato, ArrayString<Integer> idVideoAssociato) throws SQLException {
     try {
         PreparedStatement vediVideo;
         vediVideo = connection.prepareStatement("SELECT id_video FROM video WHERE autore = ?");
