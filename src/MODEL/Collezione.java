@@ -84,4 +84,9 @@ public class Collezione {
     public void setListaContenutoCollezione(List<Fotografia> listaContenutoCollezione) {
         this.listaContenutoCollezione = listaContenutoCollezione;
     }
+
+    public void removeContenutoCollezione (Fotografia fot) {
+        this.listaContenutoCollezione.remove(fot);
+    }
+    
 }
