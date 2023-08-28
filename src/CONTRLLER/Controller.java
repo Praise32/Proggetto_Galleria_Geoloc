@@ -356,7 +356,7 @@ public class Controller {
         return idFotoAssociato;
 
     }
-    
+
     /**
      * Ottiene una lista di identificatori di fotografie associate a un utente per visualizzazione.
      *
@@ -392,6 +392,210 @@ public class Controller {
         return idVideoAssociato;
 
     }
+//____________________________________________________________________________________________________________________//
+//____________________________________________________________________________________________________________________//
+
+
+
+
+//_______________________________________FUNZIONI PER COLLEZIONE//
+
+    /**
+     * Aggiunge una collezione al sistema con i dettagli forniti.
+     *
+     * @param idCollezione   ID univoco della collezione da aggiungere.
+     * @param username       Nome utente associato alla collezione.
+     * @param titolo         Titolo della collezione da aggiungere.
+     * @throws SQLException  Eccezione sollevata in caso di problemi con il database.
+     */
+    public void aggiungiCollezione(int idCollezione, String username, String titolo) throws SQLException{
+        CollezioneDAO c = new CollezionePostgresDAO();
+
+        boolean control = c.aggiungiCollezioneDAO(idCollezione,username,titolo);
+        if(control){
+
+            //cerco il proprietario fra gli utenti:
+            Utente proprietario = null;
+            for(Utente u : listaUtente){
+                if(u.getUsername().equals(username)){
+                    proprietario = u;
+                    break;
+                }
+            }
+
+            Collezione collezione = new Collezione(idCollezione,proprietario,titolo);
+            listaCollezione.add(collezione);
+        }
+
+    }
+
+    /**
+     * Elimina un utente dal sistema in base all'utente selezionato.
+     *
+     * @param collezioneSelezionato   idCollezione della collezione da eliminare.
+     * @throws SQLException      Eccezione sollevata in caso di problemi con il database.
+     */
+    public void eliminaCollezione(int collezioneSelezionato) throws SQLException {
+        CollezioneDAO c = new CollezionePostgresDAO();
+
+        boolean control = c.eliminaCollezioneDAO(collezioneSelezionato);
+
+        if(control){
+
+            //allora elimino anche dal model...
+            for(Collezione col : listaCollezione){
+                if(col.getIdCollezionep().equals(collezioneSelezionato)){
+                    listaCollezione.remove(col);
+                    break;
+                }
+            }
+        }
+
+
+    }
+
+    /**
+     * Aggiunge una collezione al sistema con i dettagli forniti.
+     *
+     * @param idCollezione   ID univoco della collezione da aggiungere.
+     * @param username       Nome utente associato alla collezione.
+     * @param titolo         Titolo della collezione da aggiungere.
+     * @throws SQLException  Eccezione sollevata in caso di problemi con il database.
+     */
+    public void modificaCollezione(int idCollezioneSelezionato, String username, String titolo) throws SQLException{
+        CollezioneDAO col = new CollezionePostgresDAO();
+
+        boolean control = col.modificaCollezioneDAO(idCollezioneSelezionato,username,titolo);
+
+        if(control){
+
+            //trovo il mio oggetto Collezione[...]
+            Collezione CollezioneSelezionato = null;
+            for(Collezione c : listaCollezione)
+                if(c.getIdCollezione().equals(idCollezioneSelezionato))
+                    CollezioneSelezionato = c;
+
+            //se il controllo ha avuto successo allora trovo l'autore e aggiorno il mio model
+            Utente username = null;
+            for(Utente u : listaUtente)
+                if(u.getUsername().equals(username))
+                    username = u;
+
+            //a questo punto aggiorno il mio model con i nuovi dati avuti dalla gui
+            CollezioneSelezionato.setUsername(username);
+            CollezioneSelezionato.setTitolo(titolo);
+        }
+    }
+    /**
+     * Ottiene l'elenco di ID dei contenuti all'interno di una collezione.
+     *
+     * @param idCollezioneSelezionato   ID univoco della collezione di cui visualizzare il contenuto.
+     * @return                          Lista di ID dei contenuti all'interno della collezione.
+     */
+    public ArrayList<Integer> vediContenuto(int idCollezioneSelezionato){
+        CollezioneDAO c = new ProgettoPostgresDAO();
+
+        //step 1°: trovo collezione a cui si riferisce la vista
+        Collezione colDaVisualizzare = null;
+        for (Collezione col : listaCollezione)
+            if (col.getIdCollezione().equals(idCollezioneSelezionato)) {
+                colDaVisualizzare = col;
+                break;
+            }
+
+        //2 step : trovo fotografie contenute
+        ArrayList<Integer> idFotoAssociate = new ArrayList<>();
+        boolean control = c.vediContenutoDAO(idCollezioneSelezionato,idFotoAssociate);
+
+        //2° step: inizializzo la lista di fotografie contenute nella collezione in questione.
+        if (control) {
+
+            for(Fotografia fot : listaFotografia){
+                for(int f : idFotoAssociate)
+                    if(fot.getIdFoto().equals(f)){
+
+                        assert colDaVisualizzare != null;
+                        colDaVisualizzare.aggiungiContenuto(col);
+                    }
+            }
+
+
+        }
+
+        return idFotoAssociate;
+    }
+    /**
+     * Aggiunge un contenuto a una collezione esistente.
+     *
+     * @param idCollezioneSelezionato   ID univoco della collezione a cui aggiungere il contenuto.
+     * @param idFotoSelezionata         ID univoco del contenuto (una foto) da aggiungere.
+     * @throws SQLException            Eccezione sollevata in caso di problemi con il database.
+     */
+    public void aggiungiContenuto(int idCollezioneSelezionato, int idFotoSelezionata)throws SQLException{
+        CollezioneDAO collezioneDAO= new ProgettoPostgresDAO();
+
+        boolean control = collezioneDAO.aggiungiContenutoDAO(idCollezioneSelezionato,idFotoSelezionata);
+
+        if(control){
+            //trovo la collezione in questione nel model
+            Collezione colDaVisualizzare = null;
+            for(Collezione col : listaCollezione)
+                if(col.getIdCollezione().equals(idCollezioneSelezionato)){
+                    colDaVisualizzare = col;
+                    break;
+                }
+            //trovo la fotografia in questione nel model
+            Fotografia daContenere = null;
+            for(Fotografia fot : listaFotografia){
+                if(fot.getIdFoto().equals(idFotoSelezionata)){
+                    daContenere = fot;
+                    break;
+                }
+            }
+
+            //come ultimo step aggiungo in contenuto la fotografia
+            colDaVisualizzare.aggiungiContenuto(daContenere);
+            daContenere.aggiungiCollezione(colDaVisualizzare);
+        }
+    }
+    
+    /**
+     * Rimuove un contenuto da una collezione esistente.
+     *
+     * @param idCollezioneSelezionato   ID univoco della collezione da cui rimuovere il contenuto.
+     * @param idFotoSelezionata         ID univoco del contenuto (ad esempio, una foto) da rimuovere.
+     * @throws SQLException            Eccezione sollevata in caso di problemi con il database.
+     */
+    public void eliminaContenuto(int idCollezioneSelezionato, int idFotoSelezionata)throws SQLException{
+
+        //come prima cosa trovo gli oggetti della collezioneSelezionata e della fotografia...
+        Collezione collezioneSelezionata = null;
+        for(Collezione col : listaCollezione)
+            if(col.getIdCollezione().equals(idCollezioneSelezionato))
+            {
+                collezioneSelezionata = col;
+                break;
+            }
+
+        //come seconda cosa trovo l'oggetto fotografia
+        Fotografia FotografiaSelezionata = null;
+        for(Laboratorio fot : listaFotografia)
+            if(fot.getIdFoto().equals(idFotoSelezionata))
+            {
+                FotografiaSelezionata = fot;
+                break;
+            }
+
+        CollezioneDAO col = new CollezionePostgresDAO();
+
+        boolean control = col.eliminaContenutoDAO(idCollezioneSelezionato, idFotoSelezionata);
+
+        if (control) {
+            //se l'eliminazione ha avuto successo allora elimino anche dal model
+            assert collezioneSelezionata != null;
+            collezioneSelezionata.removeContenutoCollezione(FotografiaSelezionata);
+
+        }
 
 
 
