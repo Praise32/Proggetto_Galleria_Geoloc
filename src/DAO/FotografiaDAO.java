@@ -9,7 +9,7 @@ public interface FotografiaDAO {
     // Questa interfaccia definisce metodi per l'accesso ai dati delle fotografie.
 
     // Metodo per aggiungere una nuova fotografia al database.
-    public boolean aggiungiFotografiaDAO(int idFoto, String usernameAutore, byte[] datiFoto, String dispositivo, float latitudine, float longitudine, boolean condivisa, String titolo) throws SQLException;
+    public boolean aggiungiFotografiaDAO(int idFoto, String usernameAutore, byte[] datiFoto, String dispositivo, float luogolat, float luogolon, boolean condivisa, String titolo) throws SQLException;
 
     // Metodo per eliminare una fotografia dal database.
     public boolean eliminaFotografiaDAO(int idFotoSelezionata) throws SQLException;
