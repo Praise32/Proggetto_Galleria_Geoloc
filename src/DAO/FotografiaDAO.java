@@ -18,10 +18,10 @@ public interface FotografiaDAO {
     public boolean aggiungiContenutoFotografiaDAO(int idFotoSelezionata, int idCollezioneSelezionato) throws SQLException;
 
     // Metodo per visualizzare il contenuto (collezioni associate) di una fotografia.
-    public boolean vediContenutoFotografiaDAO(int idFotoselezionata, ArrayList<Integer> idCollezioneAssociato) throws SQLException;
+    public boolean vediContenutoFotografiaDAO(int idFotoSelezionata, ArrayList<Integer> idCollezioneAssociato) throws SQLException;
 
     // Metodo per eliminare una fotografia da una collezione esistente.
-    public boolean eliminaContenutoFotografiaDAO(int idFotoselezionata, int idCollezioneSelezionato) throws SQLException;
+    public boolean eliminaContenutoFotografiaDAO(int idFotoSelezionata, int idCollezioneSelezionato) throws SQLException;
 
     // Metodo per aggiungere un TagUtente in una foto esistente.
     public boolean aggiungiTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) throws SQLException;
