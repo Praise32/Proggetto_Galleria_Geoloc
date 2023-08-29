@@ -678,7 +678,7 @@ public class Controller {
         }
     }
 
-
+//-------------------------------------------       CONTENUTO      --------------------------------------------------//
     /**
      * Ottiene l'elenco di ID delle collezioni in cui è presente la fotografia selezionata come contenuto.
      *
@@ -705,7 +705,7 @@ public class Controller {
 
             for(Collezione col : listaCollezione){
                 for(int c : idCollezioneAssociato)
-                    if(col.getIdFoto().equals(c)){
+                    if(col.getIdCollezione().equals(c)){
 
                         assert fotDaVisualizzare != null;
                         fotDaVisualizzare.aggiungiCollezione(col);
@@ -753,11 +753,11 @@ public class Controller {
     }
 
     /**
-     * Rimuove un contenuto da una collezione esistente.
+     * Rimuove una fotografia dal contenuto di una collezione esistente.
      *
-     * @param idCollezioneSelezionato   ID univoco della collezione da cui rimuovere il contenuto.
-     * @param idFotoSelezionata         ID univoco del contenuto (ad esempio, una foto) da rimuovere.
-     * @throws SQLException            Eccezione sollevata in caso di problemi con il database.
+     * @param idFotoselezionata      ID univoco della fotografia da rimuovere dal contenuto.
+     * @param idCollezioneSelezionato  ID univoco della collezione da cui rimuovere il contenuto.
+     * @throws SQLException         Eccezione sollevata in caso di problemi con il database.
      */
     public void eliminaContenutoFotografia(int idFotoselezionata, int idCollezioneSelezionato)throws SQLException {
 
@@ -788,6 +788,232 @@ public class Controller {
 
         }
     }
+//-------------------------------------------       TAG_UTENTE     --------------------------------------------------//
+    /**
+     * Ottiene l'elenco dei tag utente associati a una fotografia.
+     *
+     * @param idFotoSelezionata  ID univoco della fotografia di cui visualizzare i tag utente.
+     * @return                  Lista di tag utente associati alla fotografia.
+     */
+    public ArrayList<String> vediTagUtente(int idFotoSelezionata){
+        FotografiaDAO c = new FotografiaPostgresDAO();
+
+        //step 1°: trovo foto a cui si riferisce la vista
+        Fotografia fotDaVisualizzare = null;
+        for (Fotografia fot : listaFotografia)
+            if (fot.getIdFoto().equals(idFotoSelezionata)) {
+                fotDaVisualizzare = fot;
+                break;
+            }
+
+        //2 step : trovo utente che è stato taggato
+        ArrayList<String> utenteAssociato = new ArrayList<>();
+        boolean control = c.vediTagUtenteDAO(idFotoSelezionata,utenteAssociato);
+
+        //2° step: inizializzo la lista di utenti taggati nella fotografia in questione.
+        if (control) {
+
+            for(Utente usr : listaUtente){
+                for(String s : utenteAssociato)
+                    if(usr.getUsername().equals(s)){
+
+                        assert fotDaVisualizzare != null;
+                        fotDaVisualizzare.aggiungiUtente(usr);
+                    }
+            }
+
+
+        }
+
+        return utenteAssociato;
+    }
+    /**
+     * Aggiunge un tag a una fotografia per indicare l'utente selezionato.
+     *
+     * @param idFotoSelezionata  ID univoco della fotografia a cui aggiungere il tag.
+     * @param utenteSelezionatoo Nome utente da taggare nella fotografia.
+     * @throws SQLException     Eccezione sollevata in caso di problemi con il database.
+     */
+    public void aggiungiTagUtente(int idFotoSelezionata, String utenteSelezionatoo)throws SQLException{
+        FotografiaDAO fotografiaDAO= new FotografiaPostgresDAO();
+
+        boolean control = fotografiaDAO.aggiungiTagUtenteDAO(idFotoSelezionata,utenteSelezionatoo);
+
+        if(control){
+            //trovo la foto in questione nel model
+            Fotografia fotoSelezionata = null;
+            for(Fotografia fot : listaFotografia)
+                if(fot.getIdFoto().equals(idFotoSelezionata)){
+                    fotoSelezionata = fot;
+                    break;
+                }
+            //trovo l'utente in questione nel model
+            Utente utente = null;
+            for(Utente usr : listaUtente){
+                if(usr.getUsername().equals(utenteSelezionatoo)){
+                    utente = usr;
+                    break;
+                }
+            }
+
+            //come ultimo step aggiungo in tag_utente l'utente
+            fotoSelezionata.aggiungiTagUtente(utente);
+            utente.aggiungiTagUtente(fotoSelezionata);
+        }
+    }
+
+    /**
+     * Rimuove un tag utente da una fotografia.
+     *
+     * @param idFotoselezionata  ID univoco della fotografia da cui rimuovere il tag utente.
+     * @param utenteSelezionato Nome utente da rimuovere come tag dalla fotografia.
+     * @throws SQLException     Eccezione sollevata in caso di problemi con il database.
+     */
+    public void eliminaTagUtente(int idFotoSelezionata, String utenteSelezionato)throws SQLException {
+
+        //come prima cosa trovo gli oggetti della fotografiaSelezionata e della collezione...
+        Fotografia fotografiaSelezionata = null;
+        for (Fotografia fot : listaFotografia)
+            if (fot.getIdFoto().equals(idFotoSelezionata)) {
+                fotografiaSelezionata = fot;
+                break;
+            }
+
+        //come seconda cosa trovo l'oggetto collezione
+        Utente utenteselezionato = null;
+        for (Utente usr : listaUtente)
+            if (usr.getUsername().equals(utenteSelezionato)) {
+                utenteselezionato = usr;
+                break;
+            }
+
+        FotografiaDAO fot = new FotografiaPostgresDAO();
+
+        boolean control = fot.eliminaTagUtenteDAO(idFotoselezionata, utenteSelezionato);
+
+        if (control) {
+            //se l'eliminazione ha avuto successo allora elimino anche dal model
+            assert fotografiaSelezionata != null;
+            fotografiaSelezionata.removeTagUtenteFotografia(utenteSelezionato);
+
+        }
+    }
+
+//-------------------------------------------       TAG_SOGGETTO     --------------------------------------------------//
+    /**
+     * Ottiene l'elenco dei tag utente associati a una fotografia.
+     *
+     * @param idFotoSelezionata  ID univoco della fotografia di cui visualizzare i tag utente.
+     * @return                  Lista di tag utente associati alla fotografia.
+     */
+    public ArrayList<String> vediTagSoggetto(int idFotoSelezionata){
+        FotografiaDAO c = new FotografiaPostgresDAO();
+
+        //step 1°: trovo foto a cui si riferisce la vista
+        Fotografia fotDaVisualizzare = null;
+        for (Fotografia fot : listaFotografia)
+            if (fot.getIdFoto().equals(idFotoSelezionata)) {
+                fotDaVisualizzare = fot;
+                break;
+            }
+
+        //2 step : trovo soggetto che è stato taggato
+        ArrayList<String> soggettoAssociato = new ArrayList<>();
+        boolean control = c.vediTagSoggettoDAO(idFotoSelezionata,soggettoAssociato);
+
+        //2° step: inizializzo la lista di utenti taggati nella fotografia in questione.
+        if (control) {
+
+            for(Soggetto sog : listaSoggetto){
+                for(String s : soggettoAssociato)
+                    if(sog.getNome().equals(s)){
+
+                        assert fotDaVisualizzare != null;
+                        fotDaVisualizzare.aggiungiTagSoggetto(sog);
+                    }
+            }
+
+
+        }
+
+        return soggettoAssociato;
+    }
+    /**
+     * Aggiunge un tag a una fotografia per indicare l'utente selezionato.
+     *
+     * @param idFotoSelezionata  ID univoco della fotografia a cui aggiungere il tag.
+     * @param utenteSelezionatoo Nome utente da taggare nella fotografia.
+     * @throws SQLException     Eccezione sollevata in caso di problemi con il database.
+     */
+    public void aggiungiTagSoggetto(int idFotoSelezionata, String soggettoSelezionato)throws SQLException{
+        FotografiaDAO fotografiaDAO= new FotografiaPostgresDAO();
+
+        boolean control = fotografiaDAO.aggiungiTagSoggettoDAO(idFotoSelezionata,soggettoSelezionato);
+
+        if(control){
+            //trovo la foto in questione nel model
+            Fotografia fotoSelezionata = null;
+            for(Fotografia fot : listaFotografia)
+                if(fot.getIdFoto().equals(idFotoSelezionata)){
+                    fotoSelezionata = fot;
+                    break;
+                }
+            //trovo l'utente in questione nel model
+            Soggetto soggetto = null;
+            for(Soggetto sog : listaSoggetto){
+                if(sog.getNome().equals(soggettoSelezionato)){
+                    soggetto = sog;
+                    break;
+                }
+            }
+
+            //come ultimo step aggiungo in tag_utente l'utente
+            fotoSelezionata.aggiungiTagSoggetto(soggetto);
+            soggetto.aggiungiFotoSoggetto(fotoSelezionata);
+        }
+    }
+
+    /**
+     * Rimuove un tag da una fotografia associato a un soggetto selezionato.
+     *
+     * @param idFotoselezionata  ID univoco della fotografia da cui rimuovere il tag.
+     * @param soggettoSelezionato Soggetto da rimuovere come tag dalla fotografia.
+     * @throws SQLException     Eccezione sollevata in caso di problemi con il database.
+     */
+    public void eliminaTagUtente(int idFotoselezionata, String soggettoSelezionato)throws SQLException {
+
+        //come prima cosa trovo gli oggetti della fotografiaSelezionata e del soggetto...
+        Fotografia fotografiaSelezionata = null;
+        for (Fotografia fot : listaFotografia)
+            if (fot.getIdFoto().equals(idFotoselezionata)) {
+                fotografiaSelezionata = fot;
+                break;
+            }
+
+        //come seconda cosa trovo l'oggetto soggetto
+        Soggetto sogselezionato = null;
+        for (Soggetto sog : listaSoggetto)
+            if (sog.getNome().equals(soggettoSelezionato)) {
+                sogselezionato = sog;
+                break;
+            }
+
+        FotografiaDAO fot = new FotografiaPostgresDAO();
+
+        boolean control = fot.eliminaTagSoggettoDAO(idFotoselezionata, soggettoSelezionato);
+
+        if (control) {
+            //se l'eliminazione ha avuto successo allora elimino anche dal model
+            assert fotografiaSelezionata != null;
+            fotografiaSelezionata.removeTagSoggettoFotografia(soggettoSelezionato);
+
+        }
+    }
+
+
+
+
+
 
 
 
