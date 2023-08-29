@@ -158,4 +158,22 @@ public class Fotografia {
     public void setListaFrameAssociati(List<Frame> listaFrameAssociati) {
         this.listaFrameAssociati = listaFrameAssociati;
     }
+
+    public void removeContenutoFotografia (Collezione col) {
+        this.listaContenutoFotografia.remove(col);
+    }
+
+    public void removeTagSoggettoFotografia (Soggetto sog) {
+        this.listaTagSoggetto.remove(sog);
+    }
+
+    public void removeTagUtenteFotografia (Utente usr) {
+        this.listaTagUtenteFotografia.remove(usr);
+    }
+
+    public void removeFrameFotografia (Frame fra) {
+        this.listaFrameAssociati.remove(fra);
+    }
+
+
 }
