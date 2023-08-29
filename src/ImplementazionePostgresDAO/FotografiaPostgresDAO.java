@@ -46,15 +46,15 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 
     @Override
-    public boolean aggiungiFotografiaDAO(int idFoto, String usernameAutore, byte[] datiFoto, String dispositivo, float latitudine, float longitudine, boolean condivisa, String titolo) throws SQLException{
+    public boolean aggiungiFotografiaDAO(int idFoto, String usernameAutore, byte[] datiFoto, String dispositivo, float luogolat, float luogolon, boolean condivisa, String titolo) throws SQLException{
         PreparedStatement insertFot;
         insertFot = connection.prepareStatement("INSERT INTO Collezione (idFoto, usernameAutore, datiFoto, dispositivo, latitudine, longitudine, condivisa, titolo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         insertFot.setInt(1, idFoto);
         insertFot.setString(2, usernameAutore);
         insertFot.setByte(3, datiFoto);
         insertFot.setString(4, dispositivo);
-        insertFot.setFloat(5, latitudine);
-        insertFot.setFloat(6, longitudine);
+        insertFot.setFloat(5, luogolat);
+        insertFot.setFloat(6, luogolon);
         insertFot.setBoolean(7, condivisa);
         insertFot.setString(8, titolo);
         int result = insertFot.executeUpdate();
