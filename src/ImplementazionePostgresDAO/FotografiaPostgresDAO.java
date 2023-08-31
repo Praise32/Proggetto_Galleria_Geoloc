@@ -65,11 +65,11 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 //Contenuto
     @override
-    public boolean vediContenutoFotografiaDAO(int idFotoselezionata, ArrayList<Integer> idCollezioneAssociato) throws SQLException {
+    public boolean vediContenutoFotografiaDAO(int idFotoSelezionata, ArrayList<Integer> idCollezioneAssociato) throws SQLException {
         try {
             PreparedStatement vediContenutoFot;
             vediContenutoFot = connection.prepareStatement("SELECT id_collezione FROM contenuto WHERE id_foto = ?");
-            vediContenutoFot = setInt(1, idFotoselezionata);
+            vediContenutoFot = setInt(1, idFotoSelezionata);
             ResultSet rs =  vediContenutoFot.executeQuery();
             while (rs.next() ){
                 idCollezioneAssociato.add(rs.getString("id_collezione"));
@@ -98,11 +98,11 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 
     @override
-    public boolean eliminaContenutoFotografiaDAO(int idFotoselezionata, int idCollezioneSelezionato) throws SQLException {
+    public boolean eliminaContenutoFotografiaDAO(int idFotoSelezionata, int idCollezioneSelezionato) throws SQLException {
         try {
             PreparedStatement insertContFot;
             insertContFot = connection.prepareStatement("DELETE FROM CONTENUTO (id_foto, id_collezione) VALUES (?, ?)");
-            insertContFot = setInt(1, idFotoselezionata);
+            insertContFot = setInt(1, idFotoSelezionata);
             insertContFot = setInt(2, idCollezioneSelezionato);
             ResultSet rs =  insertContFot.executeQuery();
             if(rs==1){

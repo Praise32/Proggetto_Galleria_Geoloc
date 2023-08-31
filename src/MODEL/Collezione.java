@@ -88,5 +88,5 @@ public class Collezione {
     public void removeContenutoCollezione (Fotografia fot) {
         this.listaContenutoCollezione.remove(fot);
     }
-    
+
 }

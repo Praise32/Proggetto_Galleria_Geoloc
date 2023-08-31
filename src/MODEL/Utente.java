@@ -9,10 +9,13 @@ public class Utente {
     private boolean admin;
 
     //il seguente attributo considera una lista di collezioni possedute dall'utente
-    private List<Collezione> listaCollezioni = new ArrayList<>();
+    private List<Collezione> listaCollezione = new ArrayList<>();
 
     //il seguente attributo considera una lista di fotografie scattate dall'utente
     private List<Fotografia> listaFotografia = new ArrayList<>();
+
+    //il seguente attributo considera una lista di fotografie in cui l'utente è taggato
+    private List<Fotografia> listaTagUtente = new ArrayList<>();
 
     //il seguente attributo considera una lista di video registrati dall'utente
     private List<Video> listaVideo = new ArrayList<>();
@@ -28,15 +31,19 @@ public class Utente {
     }
     // Metodi per aggiungere proprietari alle collezioni, fotografie e video
     public void aggiungiProprietarioCollezione(Collezione collezione) {
-        this.listaCollezioni.add(collezione);
+        this.listaCollezione.add(collezione);
     }
 
     public void aggiungiAutoreFotografia(Fotografia fotografia) {
-        this.listaFotografie.add(fotografia);
+        this.listaFotografia.add(fotografia);
     }
 
     public void aggiungiAutoreVideo(Video video) {
         this.listaVideo.add(video);
+    }
+
+    public void aggiungiTagUtente(Fotografia fotografia) {
+        this.listaTagUtente.add(fotografia);
     }
 
 
@@ -65,15 +72,19 @@ public class Utente {
     }
 
     // Restituisci la lista di collezioni, fotografie e video associate all'utente
-    public List<Collezione> getListaCollezioni() {
-        return listaCollezioni;
+    public List<Collezione> getListaCollezione() {
+        return listaCollezione;
     }
 
-    public List<Fotografia> getListaFotografie() {
-        return listaFotografie;
+    public List<Fotografia> getListaFotografia() {
+        return listaFotografia;
     }
 
     public List<Video> getListaVideo() {
         return listaVideo;
+    }
+
+    public void setListaTagUtente(List<Fotografia> listaTagUtente) {
+        this.listaTagUtente = listaTagUtente;
     }
 }
