@@ -46,23 +46,48 @@ public class Login extends JFrame {
 
         // Etichetta Nome Utente
         JLabel usernameLabel = new JLabel("Nome Utente:");
-        addComponent(credentialsPanel, usernameLabel, constraints, 0, 0, 1, GridBagConstraints.WEST);
+        //addComponent(credentialsPanel, usernameLabel, constraints, 0, 0, 1, GridBagConstraints.WEST);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.WEST;
+        credentialsPanel.add(usernameLabel, constraints);
 
         // Campo di testo per il Nome Utente
         JTextField usernameField = new JTextField(20);
-        addComponent(credentialsPanel, usernameField, constraints, 1, 0,1, GridBagConstraints.HORIZONTAL); //TODO FIXARE HORIZONTAL FA CRASHARE TUTTO
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
+        credentialsPanel.add(usernameField, constraints);
+        //addComponent(credentialsPanel, usernameField, constraints, 1, 0,1, GridBagConstraints.CENTER);
 
         // Etichetta Password
         JLabel passwordLabel = new JLabel("Password:");
-        addComponent(credentialsPanel, passwordLabel, constraints, 0, 1,1, GridBagConstraints.NONE);
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
+        credentialsPanel.add(passwordLabel, constraints);
+      //addComponent(credentialsPanel, passwordLabel, constraints, 0, 1,1, GridBagConstraints.CENTER);   //NONE NON PARTE
 
         // Campo di testo per la Password
         JPasswordField passwordField = new JPasswordField(20);
-        addComponent(credentialsPanel, passwordField, constraints, 1, 1,1, GridBagConstraints.HORIZONTAL); //TODO IDEM
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.CENTER;
+        credentialsPanel.add(passwordField, constraints);
+      // addComponent(credentialsPanel, passwordField, constraints, 1, 1,1, GridBagConstraints.CENTER);
 
         // Bottone Accedi
         JButton loginButton = new JButton("Accedi");
-        addComponent(credentialsPanel, loginButton, constraints, 0, 2, 2, GridBagConstraints.CENTER);
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.CENTER;
+        credentialsPanel.add(loginButton, constraints);
+        //addComponent(credentialsPanel, loginButton, constraints, 0, 2, 2, GridBagConstraints.CENTER);
 
         return credentialsPanel;
     }
@@ -84,6 +109,20 @@ public class Login extends JFrame {
         return imagePanel;
     }
 
+    //TODO Vedere perché questa funzione non fa avviare il programma per via di int anchor = NONE oppure HORIZONTAL
+
+    /**
+     * Funzione che permette di designare delle costraints per un JComponent, per poi inserirlo in un panel
+     * @param panel Pannello a cui si inserisce il componente
+     * @param component Componente inserito nel JPanel panel
+     * @param constraints Constraints del componente inserito
+     * @param gridx Posizione nella cella di riga X della griglia
+     * @param gridy Posizione nella cella di colonna Y della griglia
+     * @param gridwidth Quante celle della griglia usa
+     * @param anchor    Da GridBagConstraints.java:
+     *                  This field is used when the component is smaller than its display area.
+     *                  It determines where, within the display area, to place the component
+     */
     private void addComponent(JPanel panel, JComponent component, GridBagConstraints constraints, int gridx, int gridy, int gridwidth, int anchor) {
         constraints.gridx = gridx;
         constraints.gridy = gridy;
