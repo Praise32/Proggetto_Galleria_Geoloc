@@ -205,6 +205,7 @@ public class Controller {
         }
     }
 
+
 //____________________________________________________________________________________________________________________//
 //____________________________________________________________________________________________________________________//
 
@@ -901,10 +902,10 @@ public class Controller {
 
 //-------------------------------------------       TAG_SOGGETTO     --------------------------------------------------//
     /**
-     * Ottiene l'elenco dei tag utente associati a una fotografia.
+     * Ottiene l'elenco dei tag soggetto associati a una fotografia.
      *
-     * @param idFotoSelezionata  ID univoco della fotografia di cui visualizzare i tag utente.
-     * @return                  Lista di tag utente associati alla fotografia.
+     * @param idFotoSelezionata  ID univoco della fotografia di cui visualizzare i tag soggetto.
+     * @return                  Lista di tag soggetto associati alla fotografia.
      */
     public ArrayList<String> vediTagSoggetto(int idFotoSelezionata){
         FotografiaDAO c = new FotografiaPostgresDAO();
@@ -939,10 +940,10 @@ public class Controller {
         return soggettoAssociato;
     }
     /**
-     * Aggiunge un tag a una fotografia per indicare l'utente selezionato.
+     * Aggiunge un tag a una fotografia per indicare il soggetto selezionato.
      *
      * @param idFotoSelezionata  ID univoco della fotografia a cui aggiungere il tag.
-     * @param utenteSelezionatoo Nome utente da taggare nella fotografia.
+     * @param soggettoSelezionato Soggetto da aggiungere come tag alla fotografia.
      * @throws SQLException     Eccezione sollevata in caso di problemi con il database.
      */
     public void aggiungiTagSoggetto(int idFotoSelezionata, String soggettoSelezionato)throws SQLException{
@@ -1010,7 +1011,13 @@ public class Controller {
         }
     }
 
+//____________________________________________________________________________________________________________________//
+//____________________________________________________________________________________________________________________//
 
+
+
+
+//_______________________________________FUNZIONI PER SOGGETTO//
 
 
 
