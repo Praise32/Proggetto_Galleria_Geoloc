@@ -52,11 +52,13 @@ public class Login extends JFrame {
 
         // Etichetta Nome Utente
         JLabel usernameLabel = new JLabel("Nome Utente:");
+    //    usernameLabel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         addComponent(credentialsPanel, usernameLabel, constraints, 0, 0, 1, GridBagConstraints.WEST);
 
 
         // Campo di testo per il Nome Utente
         JTextField usernameField = new JTextField(15);  //Indica il numero di colonne da occupare della cella
+     //   usernameField.setBorder(BorderFactory.createEmptyBorder(5,5,15,5));
         addComponent(credentialsPanel, usernameField, constraints, 1, 0,1, GridBagConstraints.CENTER);
 
         // Etichetta Password
