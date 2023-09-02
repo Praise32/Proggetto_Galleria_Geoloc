@@ -1018,8 +1018,114 @@ public class Controller {
 
 
 //_______________________________________FUNZIONI PER SOGGETTO//
+    /**
+     * Aggiunge un soggetto con il nome e la categoria specificati al sistema.
+     *
+     * @param nome      Nome del soggetto da aggiungere.
+     * @param categoria Categoria del soggetto.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+    public void aggiungiSoggetto(String nome, String categoria) throws SQLException {
+        Soggetto sog = new SoggettoPostgresDAO();
+
+        boolean control = sog.aggiungiSoggettoDAO(nome, categoria);
+
+        if (control) {
+            System.out.println("Soggetto aggiunto con successo!");
+            Soggetto s = new Soggetto(nome, categoria);
+            listaSoggetto.add(s);
+        }
+    }
+
+    /**
+     * Elimina un soggetto dal sistema in base al nome selezionato.
+     *
+     * @param nomeSelezionato Nome del soggetto da eliminare.
+     * @throws SQLException    Eccezione sollevata in caso di problemi con il database.
+     */
+    public void eliminaSoggetto(String nomeSelezionato) throws SQLException {
+        SoggettoDAO s = new SoggettoPostgresDAO();
+
+        boolean control = s.eliminaSoggettoDAO(nomeSelezionato);
+
+        if (control) {
+            System.out.println("Eliminazione avvenuta con successo ...!");
+
+            //SE L'ELIMINAZIONE HA AVUTO SUCCESSO ALLORA ELIMINO ANCHE DAL MODEL IL SOGGETTO...
+            for (Soggetto sog : listaSoggetto) {
+                if (nomeSelezionato.equals(sog.getNome())) {
+                    listaSoggetto.remove(sog);
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Impossibile rimuovere il soggetto...");
+        }
+    }
+
+    /**
+     * Modifica le informazioni di un utente esistente nel sistema.
+     *
+     * @param usernameSelezionato   Il nome utente dell'utente da modificare.
+     * @param password              La nuova password dell'utente.
+     * @param admin                 True se l'utente deve essere impostato come amministratore, False altrimenti.
+     * @throws SQLException         Eccezione sollevata in caso di problemi con il database.
+     */
+    public void modificaSoggettoString nomeSelezionato, String categoria, String nuovoNome) throws SQLException {
+
+        SoggettoDAO s = new modificaSoggettoDAO();
+
+        boolean control = s.modificaSoggettoDAO(nomeSelezionato, categoria, nuovoNome);
 
 
+        //se modifico l'utente nel database allora lo modifico anche nel MODEL
+        if (control) {
+            for (Soggetto sog : listaSoggetto)
+                if (sog.getNome().equals(nomeSelezionato)) {
+                    sog.setCategoria(categoria);
+                    sog.setNome(nuovoNome);
+                    break;
+                }
+        }
+
+    }
+    /**
+     * Modifica il nome e/o la categoria di un soggetto esistente nel sistema.
+     *
+     * @param nomeSelezionato Nome del soggetto da modificare.
+     * @param categoria        Nuova categoria da assegnare al soggetto.
+     * @param nuovoNome        Nuovo nome da assegnare al soggetto (può essere uguale al nome esistente).
+     * @throws SQLException    Eccezione sollevata in caso di problemi con il database.
+     */
+    public ArrayList<Integer> vediFotoAssociate(String nomeSelezionato) {
+        SoggettoDAO s = new SoggettoPostgresDAO();
+
+        //trovo soggetto a cui si riferisce la vista
+        Soggetto displaySog = null;
+        for (Soggetto sog : listaSoggetto)
+            if (sog.getNome().equals(nomeSelezionato)) {
+                displaySog = sog;
+                break;
+            }
+
+
+        //trovo le fotografie associate
+        ArrayList<Integer> fotografiaAssociato = new ArrayList<>();
+        boolean control = s.vediFotoAssociateDAO(nomeSelezionato, fotografiaAssociato);
+
+        //inzializzo la lista di fotografie a cui afferisce il soggetto
+        if (control) {
+            for (Fotografia fot : listaFotografia)
+                for (int f : fotografiaAssociato)
+                    if (fot.getIdFoto().equals(f)) {
+                        assert displaySog != null;
+                        displayUsr.aggiungiFotoSoggetto(fot);
+                    }
+        }
+
+        return fotografiaAssociato;
+
+    }
 
 
 
