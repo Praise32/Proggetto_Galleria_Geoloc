@@ -30,7 +30,7 @@ public class Utente {
 
     }
     // Metodi per aggiungere proprietari alle collezioni, fotografie e video
-    public void aggiungiProprietarioCollezione(Collezione collezione) {
+    public void aggiungiCollezione(Collezione collezione) {
         this.listaCollezione.add(collezione);
     }
 
@@ -80,11 +80,27 @@ public class Utente {
         return listaFotografia;
     }
 
+    public List<Fotografia> getListaTagUtente() {
+        return listaTagUtente;
+    }
+
     public List<Video> getListaVideo() {
         return listaVideo;
     }
 
     public void setListaTagUtente(List<Fotografia> listaTagUtente) {
         this.listaTagUtente = listaTagUtente;
+    }
+
+    public void setListaCollezione(List<Collezione> listaCollezione) {
+        this.listaCollezione = listaCollezione;
+    }
+
+    public void setListaFotografia(List<Fotografia> listaFotografia) {
+        this.listaFotografia = listaFotografia;
+    }
+
+    public void setListaVideo(List<Video> listaVideo) {
+        this.listaVideo = listaVideo;
     }
 }
