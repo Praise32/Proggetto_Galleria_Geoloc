@@ -134,13 +134,6 @@ public class Login extends JFrame {
         if(parent instanceof JPanel) ((JPanel) parent).setBorder(BorderFactory.createLineBorder(Color.green, 2));
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Login frame = new Login();
-            frame.setVisible(true);
-        });
-    }
-
 }
 
 

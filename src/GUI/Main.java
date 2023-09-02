@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame frame = new BasicFrame();
-
+        Login frame = new Login();
+        frame.setVisible(true);
 
     }
 }
