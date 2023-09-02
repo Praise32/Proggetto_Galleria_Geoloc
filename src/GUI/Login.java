@@ -38,6 +38,12 @@ public class Login extends JFrame {
 
         // Impedisce il ridimensionamento
         setResizable(false);
+
+        // COMMENTARE PER RIMUOVERE LA GRIGLIA DI DEBUG GUI
+        showGrill(credentialsPanel);
+        showGrill(imagePanel);
+
+
     }
 
     private JPanel createCredentialsPanel() {
@@ -46,57 +52,39 @@ public class Login extends JFrame {
 
         // Etichetta Nome Utente
         JLabel usernameLabel = new JLabel("Nome Utente:");
-        //addComponent(credentialsPanel, usernameLabel, constraints, 0, 0, 1, GridBagConstraints.WEST);
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.WEST;
-        credentialsPanel.add(usernameLabel, constraints);
+        addComponent(credentialsPanel, usernameLabel, constraints, 0, 0, 1, GridBagConstraints.WEST);
+
 
         // Campo di testo per il Nome Utente
-        JTextField usernameField = new JTextField(20);
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.CENTER;
-        credentialsPanel.add(usernameField, constraints);
-        //addComponent(credentialsPanel, usernameField, constraints, 1, 0,1, GridBagConstraints.CENTER);
+        JTextField usernameField = new JTextField(15);  //Indica il numero di colonne da occupare della cella
+        addComponent(credentialsPanel, usernameField, constraints, 1, 0,1, GridBagConstraints.CENTER);
 
         // Etichetta Password
         JLabel passwordLabel = new JLabel("Password:");
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.CENTER;
-        credentialsPanel.add(passwordLabel, constraints);
-      //addComponent(credentialsPanel, passwordLabel, constraints, 0, 1,1, GridBagConstraints.CENTER);   //NONE NON PARTE
+        addComponent(credentialsPanel, passwordLabel, constraints, 0, 1,1, GridBagConstraints.CENTER);   //NONE NON PARTE
 
         // Campo di testo per la Password
-        JPasswordField passwordField = new JPasswordField(20);
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.CENTER;
-        credentialsPanel.add(passwordField, constraints);
-      // addComponent(credentialsPanel, passwordField, constraints, 1, 1,1, GridBagConstraints.CENTER);
+        JPasswordField passwordField = new JPasswordField(15);
+        addComponent(credentialsPanel, passwordField, constraints, 1, 1,1, GridBagConstraints.CENTER);
 
         // Bottone Accedi
         JButton loginButton = new JButton("Accedi");
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.gridwidth = 3;
-        constraints.anchor = GridBagConstraints.CENTER;
-        credentialsPanel.add(loginButton, constraints);
-        //addComponent(credentialsPanel, loginButton, constraints, 0, 2, 2, GridBagConstraints.CENTER);
+        addComponent(credentialsPanel, loginButton, constraints, 0, 2, 2, GridBagConstraints.CENTER);
 
         return credentialsPanel;
     }
 
+    /**
+     * Funzione per creare un pannello che contenga un immagine
+     * Usato solo nel login, tuttavia il pannello è modificabile una volta creato, come un qualsiasi componente
+     * Può quindi essere riutilizzato se necessario
+     * @return Pannello creato contenente l'immagine del logo
+     */
     private JPanel createImagePanel() {
         JPanel imagePanel = new JPanel(new GridBagLayout());
 
         // Inserisce immagine nell'imagePanel
-        JLabel imageLabel = new JLabel(new ImageIcon("GPGIcon.png"));
+        JLabel imageLabel = new JLabel(new ImageIcon("Logo.png"));
 
         // Aggiorna i vincoli dell'imageLabel per posizionarla al centro
         GridBagConstraints imageConstraints = new GridBagConstraints();
@@ -109,7 +97,7 @@ public class Login extends JFrame {
         return imagePanel;
     }
 
-    //TODO Vedere perché questa funzione non fa avviare il programma per via di int anchor = NONE oppure HORIZONTAL
+    //TODO Capire perché il programma non parte quando anchor = NONE o HORIZONTAL
 
     /**
      * Funzione che permette di designare delle costraints per un JComponent, per poi inserirlo in un panel
@@ -131,10 +119,28 @@ public class Login extends JFrame {
         panel.add(component, constraints);
     }
 
+    /**
+     * Crea un effetto a griglia in tutto il frame.
+     * Usata in fase di debug per controllare le misure dei componenti, senza dover inserire una linea o background manualmente per ogni componente
+     * Rosso i componenti, verde il parente a cui appartengono
+     * @param parent Componente "parente", ovvero quella contenente le altre componenti, come i panel
+     */
+
+    void showGrill(Container parent){
+        for (Component c : parent.getComponents()){
+            if(c instanceof JComponent) ((JComponent) c).setBorder(BorderFactory.createLineBorder(Color.red, 2));
+        }
+
+        if(parent instanceof JPanel) ((JPanel) parent).setBorder(BorderFactory.createLineBorder(Color.green, 2));
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Login frame = new Login();
             frame.setVisible(true);
         });
     }
+
 }
+
+
