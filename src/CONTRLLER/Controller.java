@@ -150,11 +150,11 @@ public class Controller {
         }
     }
 
-    public void dumpDatiFrame {
+    public void dumpDatiFrame() {
         ArrayList<Integer> videoidVideoList = new ArrayList<>();
         ArrayList<Integer> fotografiaidFotoList = new ArrayList<>();
         ArrayList<Integer> durataList = new ArrayList<>();
-        ArrayList<Integer> ordineList) = new ArrayList<>();
+        ArrayList<Integer> ordineList = new ArrayList<>();
 
         galleriaDAO.getListFrameDAO(videoidVideoList, fotografiaidFotoList, durataList, ordineList);
 
@@ -171,7 +171,7 @@ public class Controller {
         }
     }
 
-    public void dumpDatiSoggetto {
+    public void dumpDatiSoggetto() {
         ArrayList<String> nomeList = new ArrayList<>();
         ArrayList<String> categoriaList = new ArrayList<>();
 
@@ -182,7 +182,7 @@ public class Controller {
         }
     }
 
-    public void dumpDatiVideo {
+    public void dumpDatiVideo() {
         ArrayList<Integer> idVideoList = new ArrayList<>();
         ArrayList<String> utenteAutoreList = new ArrayList<>();
         ArrayList<String> titoloList = new ArrayList<>();
