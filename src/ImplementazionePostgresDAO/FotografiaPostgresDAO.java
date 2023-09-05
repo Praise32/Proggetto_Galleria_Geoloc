@@ -114,7 +114,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 //TAG Utente
     @override
-    public vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato) throws SQLException{
+    public boolean vediTagUtenteDAO(int idFotoSelezionata, ArrayList<String> utenteAssociato) throws SQLException{
             try {
                 PreparedStatement vediTagUte;
                 vediTagUte = connection.prepareStatement("SELECT username FROM tag_utente WHERE id_foto = ?");
@@ -162,7 +162,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 //TAG Soggetto
     @override
-    public vediTagSoggettoDAO(int idFotoSelezionata, ArrayList<String> soggettoAssociato) throws SQLException {
+    public boolean vediTagSoggettoDAO(int idFotoSelezionata, ArrayList<String> soggettoAssociato) throws SQLException {
         try {
             PreparedStatement vediTagSog;
             vediTagSog = connection.prepareStatement("SELECT nome_soggetto FROM tag_soggetto WHERE id_foto = ?");
