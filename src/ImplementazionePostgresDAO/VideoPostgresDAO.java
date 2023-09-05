@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 
 public class VideoPostgresDAO implements VideoDAO{
     private Connection connection;
-}
+
 
     public VideoPostgresDAO(){
         try {
