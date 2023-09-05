@@ -8,11 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Timestamp;
+import java.util.Timestamp;
 
 public class SoggettoPostgresDAO implements SoggettoDAO{
     private Connection connection;
-}
+
 
     public SoggettoPostgresDAO(){
         try {
