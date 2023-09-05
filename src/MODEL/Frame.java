@@ -12,7 +12,7 @@ public class Frame {
     private int ordine;    
 
     //Lista di video associati ad un frame
-    Private List<Video> listaComposizioneVideo = new ArrayList<>();
+    private List<Video> listaComposizioneVideo = new ArrayList<>();
 
     // Costruttore con parametri per inizializzare gli attributi della classe Frame
     public Frame(Video idVideo, Fotografia fotografia, int durata, int ordine) {
@@ -23,7 +23,7 @@ public class Frame {
     }
 
     //Metodi per aggiungere un frame ad una coposizione video
-    public void aggiungiComposizioneVideo (Video video) {this.listaComposizioneVideo,add(video);}
+    public void aggiungiComposizioneVideo (Video video) {this.listaComposizioneVideo.add(video);}
 
    public void setListaComposizioneVideo(List<Video> listaComposizioneVideo) { this.listaComposizioneVideo = listaComposizioneVideo;
     }
