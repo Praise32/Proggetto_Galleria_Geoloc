@@ -21,10 +21,10 @@ public class Fotografia {
     private List<Frame> listaFrameAssociati = new ArrayList<>();
 
     //il seguente attributo considera una lista di utenti taggati una fotografia
-    private List<Utente> listaTagUtenteFotografia = newArrayList<>();
+    private List<Utente> listaTagUtenteFotografia = new ArrayList<>();
 
     //il seguente attributo considera una lista di utenti taggati una fotografia
-    private List<Soggetto> listaTagSoggetto = newArrayList<>();
+    private List<Soggetto> listaTagSoggetto = new ArrayList<>();
 
     public Fotografia(int idFoto, Utente usernameAutore, byte[] datiFoto, String dispositivo, Timestamp dataFoto,
                       Luogo latitudine, Luogo longitudine, boolean condivisa, String titolo) {
