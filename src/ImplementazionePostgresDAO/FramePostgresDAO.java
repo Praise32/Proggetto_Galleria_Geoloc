@@ -8,11 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Timestamp;
+import java.sql.Timestamp;
 
 public class FramePostgresDAO implements FrameDAO{
     private Connection connection;
-}
+
 
     public FramePostgresDAO(){
         try {
@@ -60,7 +60,7 @@ public class FramePostgresDAO implements FrameDAO{
         modificaFrame = setInt(1, durata);
         modificaFrame = setInt(2, ordine);
         modificaFrame = setInt(3, idVideoSelezionato);
-        modificaFrame = setInt(4, idFotoSelezionata)
+        modificaFrame = setInt(4, idFotoSelezionata);
         int rs = modificaFrame.executeQuery();
         if (rs>0) {
             return true;
