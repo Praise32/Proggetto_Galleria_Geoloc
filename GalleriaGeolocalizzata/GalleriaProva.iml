@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4">
+  <component name="AdditionalModuleElements">
+    <content url="file://$MODULE_DIR$" dumb="true">
+      <sourceFolder url="file://$MODULE_DIR$/.idea" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/GUI" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/DAO" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/CONTROLLER" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/DBconnection" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/ImplementazionePostgresDAO" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/MODEL" isTestSource="false" />
+    </content>
+  </component>
+</module>
