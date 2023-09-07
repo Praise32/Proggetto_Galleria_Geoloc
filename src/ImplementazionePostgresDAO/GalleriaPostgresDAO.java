@@ -71,7 +71,7 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
 
             }
         } catch (SQLexception e) {
-            System.out.println("Errore nel dump dei dati Fotografia...")
+            System.out.println("Errore nel dump dei dati Fotografia...");
         }
     }
 
@@ -86,7 +86,7 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
                 int idCollezione = rs.getInt("id_collezione");
                 String username = rs.getString("username");
                 String titolo = rs.getString("titolo");
-                Timestamp dataCollezione = rs.getTimestamp("data_collezione"):
+                Timestamp dataCollezione = rs.getTimestamp("data_collezione");
                 int numeroElementi = rs.getInt("numero_elementi");
 
                 idCollezioneList.add(idCollezione);
@@ -140,9 +140,9 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
                 nomeList.add(nome);
                 descrizioneList.add(descrizione);
 
-            } catch(SQLException e){
-                e.printStackTrace();
             }
+        } catch(SQLException e){
+            e.printStackTrace();
         }
     }
 
@@ -159,9 +159,9 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
                 nomeList.add(nome);
                 categoriaList.add(categoria);
 
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+        } catch(SQLException e){
+            e.printStackTrace();
         }
     }
 
@@ -187,11 +187,10 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
                 descrizioneList.add(descrizione);
 
 
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+        } catch(SQLException e){
+            e.printStackTrace();
         }
-
     }
 
 

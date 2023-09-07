@@ -12,7 +12,7 @@ import java.util.Timestamp;
 
 public class SoggettoPostgresDAO implements SoggettoDAO{
     private Connection connection;
-}
+
 
     public SoggettoPostgresDAO(){
         try {

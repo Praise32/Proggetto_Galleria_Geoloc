@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f6011fef-9987-4605-bc52-e7fd9746547e" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2ULVHguLMVHWx1l1g2NKpFdVAFi" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW&quot;: &quot;false&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/cleme/IdeaProjects/GalleriaProva/src/GUI&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/cleme/IdeaProjects/GalleriaProva&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/cleme/IdeaProjects/GalleriaProva/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.example" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\cleme\IdeaProjects\GalleriaProva" />
+      <recent name="C:\Users\cleme\IdeaProjects\GalleriaProva\src\GUI" />
+      <recent name="C:\Users\cleme\IdeaProjects\GalleriaProva\src\GUI\Basi" />
+      <recent name="C:\Users\cleme\IdeaProjects\GalleriaProva\src\ImplementazionePostgresDAO" />
+      <recent name="C:\Users\cleme\IdeaProjects\GalleriaProva\src\DAO" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="open GalleriaProva" />
+    </option>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f6011fef-9987-4605-bc52-e7fd9746547e" name="Changes" comment="" />
+      <created>1692718764708</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1692718764708</updated>
+      <workItem from="1692718765731" duration="756000" />
+      <workItem from="1692719540261" duration="1038000" />
+      <workItem from="1693043784504" duration="12299000" />
+      <workItem from="1693146015692" duration="8551000" />
+      <workItem from="1693215833908" duration="5730000" />
+      <workItem from="1693234513577" duration="595000" />
+      <workItem from="1693299769261" duration="6394000" />
+      <workItem from="1693325711518" duration="6041000" />
+      <workItem from="1693477554076" duration="314000" />
+      <workItem from="1693645795619" duration="3314000" />
+      <workItem from="1693737325131" duration="3207000" />
+      <workItem from="1693753691199" duration="3314000" />
+      <workItem from="1693768260873" duration="1880000" />
+      <workItem from="1693819133669" duration="4932000" />
+      <workItem from="1693861117714" duration="1952000" />
+      <workItem from="1693924181157" duration="8830000" />
+      <workItem from="1694001335478" duration="2942000" />
+      <workItem from="1694079284962" duration="4272000" />
+      <workItem from="1694096225155" duration="6090000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/MODEL/Utente.java</url>
+          <line>91</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

@@ -8,11 +8,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Timestamp;
+import java.sql.Timestamp;
 
 public class VideoPostgresDAO implements VideoDAO{
     private Connection connection;
-}
+
 
     public VideoPostgresDAO(){
         try {

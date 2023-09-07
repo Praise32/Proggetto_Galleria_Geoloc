@@ -8,8 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-
+import java.sql.Timestamp;
 /**
  * The type Utente postgres dao.
  */
@@ -67,7 +66,8 @@ public class CollezionePostgresDAO implements CollezioneDAO{
             vediContenuto = connection.prepareStatement("SELECT id_foto FROM contenuto WHERE id_collezione = ?");
             vediContenuto = setInt(1, idCollezioneSelezionato);
             ResultSet rs =  vediContenuto.executeQuery();
-            while (rs.next() ){
+            while (rs.next() )
+            {
                 idFotoAssociate.add(rs.getString("id_foto"));
             }
             return true;
@@ -79,31 +79,31 @@ public class CollezionePostgresDAO implements CollezioneDAO{
 
     @override
     public boolean aggiungiContenutoDAO(int idCollezioneSelezionato, int idFotoSelezionata) throws SQLException {
-        try {
-            PreparedStatement insertCont;
-            insertCont = connection.prepareStatement("INSERT INTO CONTENUTO (id_collezione, id_foto) VALUES (?, ?)");
-            insertCont = setInt(1, idCollezioneSelezionato);
-            insertCont = setInt(2, idFotoSelezionata);
-            ResultSet rs =  insertCont().executeQuery();
-            if(rs==1){
-                return true;
-            }
-            return false;
+
+        PreparedStatement insertCont;
+        insertCont = connection.prepareStatement("INSERT INTO CONTENUTO (id_collezione, id_foto) VALUES (?, ?)");
+        insertCont = setInt(1, idCollezioneSelezionato);
+        insertCont = setInt(2, idFotoSelezionata);
+        ResultSet rs =  insertCont().executeUpdate();
+        if(rs==1){
+            return true;
+        }
+        return false;
     }
 
-        @override
-        public boolean eliminaContenutoDAO(int idCollezioneSelezionato, int idFotoSelezionata) throws SQLException {
-            try {
-                PreparedStatement insertCont;
-                insertCont = connection.prepareStatement("DELETE FROM CONTENUTO (id_collezione, id_foto) VALUES (?, ?)");
-                insertCont = setInt(1, idCollezioneSelezionato);
-                insertCont = setInt(2, idFotoSelezionata);
-                ResultSet rs =  insertCont().executeQuery();
-                if(rs==1){
-                    return true;
-                }
-                return false;
-            }
+    @override
+    public boolean eliminaContenutoDAO(int idCollezioneSelezionato, int idFotoSelezionata) throws SQLException {
+
+        PreparedStatement insertCont;
+        insertCont = connection.prepareStatement("DELETE FROM CONTENUTO (id_collezione, id_foto) VALUES (?, ?)");
+        insertCont = setInt(1, idCollezioneSelezionato);
+        insertCont = setInt(2, idFotoSelezionata);
+        ResultSet rs =  insertCont().executeQuery();
+        if(rs==1){
+            return true;
+        }
+        return false;
+    }
 
             @override
             public boolean modificaCollezioneDAO(int idCollezioneSelezionato, String username, String titolo) throws SQLException {
