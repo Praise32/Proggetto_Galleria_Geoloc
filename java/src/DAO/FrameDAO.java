@@ -15,5 +15,5 @@ public interface FrameDAO {
     public boolean modificaFrameDAO(int idVideoSelezionato, int idFotoSelezionata, int durata, int ordine) throws SQLException;
 
     // Ottiene l'elenco dei video associati a una foto specifica
-    public boolean vediVideoAssociato(int idFotoSelezionata, ArrayList<Integer> idVideoAssociato) throws SQLException;
+    public boolean vediVideoAssociatoDAO(int idFotoSelezionata, ArrayList<Integer> idVideoAssociato) throws SQLException;
 }
