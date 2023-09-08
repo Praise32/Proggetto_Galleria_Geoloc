@@ -69,7 +69,7 @@ public class FramePostgresDAO implements FrameDAO{
     }
 
     @Override
-    public boolean vediVideoAssociato(int idFotoSelezionata, ArrayList<Integer> idVideoAssociato) throws SQLException{
+    public boolean vediVideoAssociatoDAO(int idFotoSelezionata, ArrayList<Integer> idVideoAssociato) throws SQLException{
         try {
             PreparedStatement vediVideoFoto;
             vediVideoFoto = connection.prepareStatement("SELECT id_video FROM frame WHERE id_foto = ?");
