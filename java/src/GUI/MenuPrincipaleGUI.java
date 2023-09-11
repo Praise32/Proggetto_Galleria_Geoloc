@@ -20,6 +20,7 @@ public class MenuPrincipaleGUI {
     /**
      * The Controller.
      */
+
     /**
      * Instantiates a new Menu principale gui.
      */
@@ -76,38 +77,39 @@ public class MenuPrincipaleGUI {
         bottoneFotografie.setMaximumSize(buttonSize);
         bottoneCollezioni.setMaximumSize(buttonSize);
         bottoneVideo.setMaximumSize(buttonSize);
+
+        JFrame finalFrameLogin = frameLogin;
+        bottoneUtenti.addActionListener(e -> {
+            // chiudo la finestra corrente
+            finalFrameLogin.setVisible(false);
+     // apro la finestra MenuUtenti
+            MenuUtentiGUI MenuUtenti =new MenuUtentiGUI(controller, finalFrameLogin);
+
+     });
         frameLogin.setVisible(true);
     }
 
 }
-        /**
-        bottoneUtenti.addActionListener(e -> {
-            // chiudo la finestra corrente
-            frameLogin.setVisible(false);
-            // apro la finestra MenuUtenti
-            MenuUtentiGUI MenuUtenti =new MenuUtentiGUI(controller,frame);
+/**
 
-        });
+ bottoneFotografie.addActionListener(e -> {
+ // chiudo la finestra corrente
+ frameLogin.setVisible(false);
+ // apro la finestra MenuFotografie
+ MenuFotografieGUI MenuFotografie = new MenuFotografieGUI(controller,frame);
 
-        bottoneFotografie.addActionListener(e -> {
-            // chiudo la finestra corrente
-            frameLogin.setVisible(false);
-            // apro la finestra MenuFotografie
-            MenuFotografieGUI MenuFotografie = new MenuFotografieGUI(controller,frame);
-
-        });
+ });
 
 
-        bottoneCollezioni.addActionListener(e -> {
-            // chiudo la finestra corrente
-            frameLogin.setVisible(false);
-            // apro la finestra MenuCollezioni
-            MenuCollezioniGUI MenuCollezioni = new MenuCollezioniGUI(controller,frame);
+ bottoneCollezioni.addActionListener(e -> {
+ // chiudo la finestra corrente
+ frameLogin.setVisible(false);
+ // apro la finestra MenuCollezioni
+ MenuCollezioniGUI MenuCollezioni = new MenuCollezioniGUI(controller,frame);
 
-        });
+ });
 
-        // Imposta le dimensioni del frame, la posizione al centro e rendilo visibile
-        frameLogin.setSize(800, 600);
-        frameLogin.setLocationRelativeTo(null);
-        frameLogin.setVisible(true);*/
-
+ // Imposta le dimensioni del frame, la posizione al centro e rendilo visibile
+ frameLogin.setSize(800, 600);
+ frameLogin.setLocationRelativeTo(null);
+ frameLogin.setVisible(true);*/
