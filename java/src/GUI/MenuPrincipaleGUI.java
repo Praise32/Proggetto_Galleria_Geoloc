@@ -41,7 +41,7 @@ public class MenuPrincipaleGUI {
         JButton bottoneUtenti = new JButton("Utenti");
         JButton bottoneFotografie = new JButton("Fotografie");
         JButton bottoneCollezioni = new JButton("Collezioni");
-        JButton bottoneVideo = new JButton("video");
+        JButton bottoneVideo = new JButton("Video");
 
 
         // Imposto il font dei bottoni
