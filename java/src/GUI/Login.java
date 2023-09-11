@@ -88,9 +88,9 @@ public class Login {
         addComponent(credentialsPanel, loginButton, constraints, 0, 2, 2, GridBagConstraints.CENTER);
         loginButton.addActionListener(e -> {
             //chiudo finestra corrente
-        frame.setVisible(false);
-        //apro menu principale
-        GUI.MenuPrincipaleGUI menuPrincipale = new GUI.MenuPrincipaleGUI(controller, frame);
+            frame.setVisible(false);
+            //apro menu principale
+            GUI.MenuPrincipaleGUI menuPrincipale = new GUI.MenuPrincipaleGUI(controller, frame);
 
         });
         return credentialsPanel;
