@@ -11,8 +11,8 @@ public class ConnessioneDB {
     // ATTRIBUTI
     public Connection connection = null;
     private String user = "postgres";
-    private String password = "1234";
-    private String url = "jdbc:postgresql://localhost:5432/sdsdasd";
+    private String password = "password";
+    private String url = "jdbc:postgresql://localhost:5432/gpgdb";
     private String driver = "org.postgresql.Driver";
 
     // COSTRUTTORE

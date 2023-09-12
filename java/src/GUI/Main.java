@@ -1,13 +1,15 @@
+package GUI;
+
 import GUI.Login;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+
 import javax.swing.*;
 
 /**
  * The type Main.
  */
-public class Main
-{
+public class Main {
     /**
      * The entry point of application.
      *
@@ -19,6 +21,7 @@ public class Main
         FlatDarkLaf.installLafInfo();
         UIManager.setLookAndFeel(new FlatDarkLaf());
         new Login();
+
     }
 
 }

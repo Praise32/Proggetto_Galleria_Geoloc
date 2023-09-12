@@ -1,4 +1,8 @@
-Fare i file dei vari Menu che si trovano in MenuPrincipaleGUI (Menu foto, luogo, video ecc)
-Riempire questi file con le funzioni di inserimento, searchbar, bottone per tornare al menu principale (in menu utenti ci sono basta adattarle ai nuovi file) (inserimento luogo, foto, video ecc)
-Fare le view dei vari utenti, luoghi, fotografie, collezioni, video, soggetti (diciamo le relazioni in sql) (viewphoto, viewlocation ecc)
-Fare bottone classifica luoghi in menuprincipaleGUI che riporta la vista richiesta dalla traccia
+- Creare Menu GUI per le varie opzioni presenti in MenuPrincipaleGUI (Foto, Luogo, Video, ecc.)
+- Inserire le seguenti funzioni:
+  1. Inserimento di luogo, foto, video, ecc.
+  2. Searchbar per ogni categoria
+  3. Pulsante di ritorno al Menu principale
+- Implementare le view di utenti, luoghi, fotografie, collezioni, video, soggetti
+- Inserire un pulsante che implementi ClassificaLuoghi in MenuPrincipaleGui che riporta la view apposita da traccia
+

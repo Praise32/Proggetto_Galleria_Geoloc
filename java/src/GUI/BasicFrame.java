@@ -6,7 +6,7 @@ import java.awt.*;
  * sull'oggetto di questa classe senza doverle dare un nome, utilizzando this.x
  */
 
-public class BasicFrame extends JFrame{
+public class BasicFrame extends JFrame {
 
     /**
      * Costruttore per un frame, ovvero una finestra del programma.
@@ -18,7 +18,7 @@ public class BasicFrame extends JFrame{
      * - Possibilità o meno di ridimensionarla
      * - Cosa succede cliccando sulla X in alto a destra
      */
-    public BasicFrame(){
+    public BasicFrame() {
         //Frame è una finestra del programma
 
         this.setTitle("Login");
