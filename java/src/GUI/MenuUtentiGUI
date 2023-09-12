@@ -126,6 +126,7 @@ public class MenuUtentiGUI
 
 
         //BOTTONE INSERISCI UTENTE
+        JButton bottoneInserisci = new JButton("Inserisci");
         bottoneInserisci.addActionListener(e -> {
             InserimentoUtenteGUI dialog = new InserimentoUtenteGUI(controller, frameMenuUtenti);
             frameMenuUtenti.setVisible(false);
@@ -239,9 +240,6 @@ public class MenuUtentiGUI
             DefaultTableModel model = (DefaultTableModel) table.getModel();
             model.setDataVector(nuoviDati, colonneTabella);
         }
-        // Creiamo il pulsante per aprire la finestra d'inserimento utente
-
-        JButton bottoneInserisci = new JButton("Inserisci");
 
 
 
