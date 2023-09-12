@@ -1419,6 +1419,22 @@ public class Controller {
 
 //------------------------------------------------FOTOGRAFIA------------------------------------------------------------//
 
+    public void getListaFotografiaGUI(ArrayList<Integer> idFotolist, ArrayList<String> autoreList, ArrayList<byte[]> datiFotolist, ArrayList<String> dispositivoList, ArrayList<java.sql.Timestamp> dataFotolist, ArrayList<Float> latitudineList, ArrayList<Float> longitudineList, ArrayList<Boolean> condivisalist, ArrayList<String> titololist) {
+        for (Fotografia fotografia : listaFotografia) {
+            idFotolist.add(fotografia.getIdFoto());
+            autoreList.add(fotografia.getUsernameAutore().getUsername()); // Aggiungi l'username dell'autore
+            datiFotolist.add(fotografia.getDatiFoto());
+            dispositivoList.add(fotografia.getDispositivo());
+            dataFotolist.add(fotografia.getDataFoto());
+            latitudineList.add(fotografia.getLuogolat().getLatitudine()); // Aggiungi la latitudine
+            longitudineList.add(fotografia.getLuogolon().getLongitudine()); // Aggiungi la longitudine
+            condivisalist.add(fotografia.isCondivisa());
+            titololist.add(fotografia.getTitolo());
+        }
+    }
+
+
+
     public ArrayList<Integer> getListaFotografieIdFotoGUI() {
         ArrayList<Integer> intidfoto = new ArrayList<>();
 
@@ -1432,9 +1448,77 @@ public class Controller {
         ArrayList<String> stringAutore = new ArrayList<>();
 
         for (Fotografia aut : listaFotografia)
-            stringAutore.add(aut.getUsernameAutore());
+            stringAutore.add(aut.getUsernameAutore().getUsername());
 
         return stringAutore;
+    }
+
+    public ArrayList<Byte> getListaFotografieDatiGUI() {
+        ArrayList<Byte> bytefoto = new ArrayList<>();
+
+        for (Fotografia foto : listaFotografia) {
+            byte[] datiFoto = foto.getDatiFoto();
+            for (byte b : datiFoto) {
+                bytefoto.add(b);
+            }
+        }
+
+        return bytefoto;
+    }
+
+
+    public ArrayList<String> getListaFotografieDispositivoGUI() {
+        ArrayList<String> stringDispositivo = new ArrayList<>();
+
+        for (Fotografia dis : listaFotografia)
+            stringDispositivo.add(dis.getDispositivo());
+
+        return stringDispositivo;
+    }
+
+    public ArrayList<Float> getListaFotografieLatitudineGUI() {
+        ArrayList<Float> floatlatitudine = new ArrayList<>();
+
+        for (Fotografia foto : listaFotografia) {
+            Luogo luogo = foto.getLuogolat();
+            if (luogo != null) { // Assicurati che il luogo non sia null
+                floatlatitudine.add(luogo.getLatitudine());
+            }
+        }
+
+        return floatlatitudine;
+    }
+
+
+    public ArrayList<Float> getListaFotografieLongitudineGUI() {
+        ArrayList<Float> floatlongitudine = new ArrayList<>();
+
+        for (Fotografia foto : listaFotografia) {
+            Luogo luogo = foto.getLuogolon();
+            if (luogo != null) { // Assicurati che il luogo non sia null
+                floatlongitudine.add(luogo.getLongitudine());
+            }
+        }
+
+        return floatlongitudine;
+    }
+
+    public ArrayList<Boolean> getListaFotografieCondivisaGUI() {
+        ArrayList<Boolean> condivisabool = new ArrayList<>();
+
+        for (Fotografia con : listaFotografia)
+            condivisabool.add(con.isCondivisa());
+
+        return condivisabool;
+    }
+
+    public ArrayList<String> getListaFotografieTitoloGUI() {
+        ArrayList<String> stringTitolo = new ArrayList<>();
+
+        for (Fotografia tit : listaFotografia)
+            stringTitolo.add(tit.getTitolo());
+
+        return stringTitolo;
     }
 
 
