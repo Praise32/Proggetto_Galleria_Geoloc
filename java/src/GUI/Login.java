@@ -117,6 +117,7 @@ public class Login {
             //apro menu principale
             GUI.MenuPrincipaleGUI menuPrincipale = new GUI.MenuPrincipaleGUI(controller, frame);
         });
+        //loginButton.addKeyListener(); TODO Controllare come aggiungere un KeyListener sul tasto invio per accedere
         addComponent(credentialsPanel, loginButton, constraints, 0, 2, 2, GridBagConstraints.CENTER);
         return credentialsPanel;
     }

@@ -5,4 +5,5 @@
   3. Pulsante di ritorno al Menu principale
 - Implementare le view di utenti, luoghi, fotografie, collezioni, video, soggetti
 - Inserire un pulsante che implementi ClassificaLuoghi in MenuPrincipaleGui che riporta la view apposita da traccia
-
+- Implementare KeyListener al pulsante accedi quando si clicca Enter
+- Ricontrollare le misure dei frame e dei singoli componenti (Su risoluzioni più piccole il Login è sminchiato)

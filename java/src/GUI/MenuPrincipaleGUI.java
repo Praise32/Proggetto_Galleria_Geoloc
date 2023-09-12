@@ -18,9 +18,6 @@ import java.util.ArrayList;
  * The type Menu principale gui.
  */
 public class MenuPrincipaleGUI {
-    /**
-     * The Controller.
-     */
 
     /**
      * Instantiates a new Menu principale gui.
