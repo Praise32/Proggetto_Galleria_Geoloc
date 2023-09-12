@@ -9,7 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * The type Inserimento impiegato gui.
+ * The type Inserimento Utente gui.
  */
 public class InserimentoUtenteGUI extends JDialog {
     private final JTextField usernameField;
@@ -21,36 +21,35 @@ public class InserimentoUtenteGUI extends JDialog {
      * Instantiates a new Inserimento impiegato gui.
      *
      * @param controller     the controller
-     * @param nuovaMatricola the nuova matricola
      * @param framePadre     the frame padre
      */
     public InserimentoUtenteGUI(Controller controller, JFrame framePadre) {
+//----------------------------------------------PANNELLO CAMPI-------------------------------------------------------//
 
-        // Creiamo un pannello per contenere i campi d'ingresso
         JPanel inputPanel = new JPanel(new GridLayout(0, 2, 5, 5));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(30, 100, 10, 100));
         setTitle("Inserimento Utente");
 
-        // Aggiungiamo il campo "username"
+        // CAMPO USERNAME
         inputPanel.add(new JLabel("Username:"));
         usernameField = new JTextField();
         inputPanel.add(usernameField);
 
-        // Aggiungiamo il campo "Password"
+        // CAMPO PASSWORD
         inputPanel.add(new JLabel("Password:"));
         passwordField = new JTextField();
         inputPanel.add(passwordField);
 
 
-        // Aggiungiamo il campo "Admin"
+        // CHECKBOX ADMIN
         adminCheckBox = new JCheckBox("Admin");
         inputPanel.add(adminCheckBox);
 
 
-        //BOTTONI
+//----------------------------------------------BOTTONI---------------------------------------------------------------//
 
 
-        // Implementazione bottone Salva
+        // BOTTONE SALVA
         JButton bottoneSalva = new JButton("Salva");
         bottoneSalva.addActionListener(e -> {
             setVisible(false);
@@ -80,7 +79,7 @@ public class InserimentoUtenteGUI extends JDialog {
         });
 
 
-        // Implementazione bottone Annulla
+        // BOTTONE ANNULLA
         JButton bottoneAnnulla = new JButton("Annulla");
         bottoneAnnulla.addActionListener(e -> {
             dispose();
