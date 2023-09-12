@@ -2,6 +2,8 @@ package CONTROLLER;
 
 import DAO.*;
 import ImplementazionePostgresDAO.*;
+import ImplementazionePostgresDAO.FramePostgresDAO;
+import ImplementazionePostgresDAO.VideoPostgresDAO;
 import MODEL.*;
 
 import java.sql.SQLException;
@@ -244,7 +246,7 @@ public class Controller {
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
     public void aggiungiUtente(String username, String password, boolean admin) throws SQLException {
-        UtentePostgresDAO u = new UtentePostgresDAO();
+        UtenteDAO u = new UtentePostgresDAO();
 
         boolean control = u.aggiungiUtenteDAO(username, password, admin);
 
@@ -1143,6 +1145,300 @@ public class Controller {
         }
             return fotografiaAssociato;
     }
+
+//____________________________________________________________________________________________________________________//
+//____________________________________________________________________________________________________________________//
+
+
+//_______________________________________FUNZIONI PER VIDEO//
+
+    /**
+     * Aggiunge un nuovo video al database.
+     *
+     * @param idVideo L'identificatore univoco del video da aggiungere.
+     * @param autore L'autore del video.
+     * @param titolo Il titolo del video.
+     * @param numeroFrames Il numero di frames nel video.
+     * @param durata La durata del video in secondi.
+     * @param descrizione Una breve descrizione del video.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+    public void aggiungiVideo(int idVideo, String autore, String titolo, int numeroFrames, int durata, String descrizione) throws SQLException {
+        VideoDAO v = new VideoPostgresDAO();
+
+        boolean control = v.aggiungiVideoDAO(idVideo, autore, titolo, numeroFrames, durata, descrizione);
+
+        if (control) {
+        Utente proprietario = null;
+        for (Utente u : listaUtente) {
+            if (u.getUsername().equals(autore)) {
+                proprietario = u;
+                break;
+            }
+        }
+        Video video = new Video(idVideo, proprietario, titolo, numeroFrames, durata, descrizione);
+        listaVideo.add(video);
+
+        }
+    }
+
+
+    /**
+     * Elimina un video dal database in base all'ID del video selezionato.
+     *
+     * @param idVideoSelezionato L'identificatore univoco del video da eliminare.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+    public void eliminaVideo(int idVideoSelezionato) throws SQLException{
+        VideoDAO v = new VideoPostgresDAO();
+
+        boolean control = v.eliminaVideoDAO(idVideoSelezionato);
+
+        if (control) {
+            //se L'ELIMINAZIONE HA AVUTO SUCCESSO ALLORA ELIMINO ANCHE DAL MODEL IL VIDEO...
+            for (Video video : listaVideo)
+                if (idVideoSelezionato == video.getIdVideo()) {
+                    listaVideo.remove(video);
+                    break;
+                }
+
+        }
+    }
+
+
+    /**
+     * Modifica il titolo e/o la descrizione di un video esistente nel database in base all'ID del video selezionato.
+     *
+     * @param idVideoSelezionato L'identificatore univoco del video da modificare.
+     * @param titolo Il nuovo titolo del video.
+     * @param descrizione La nuova descrizione del video.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+    public void modificaVideo(int idVideoSelezionato, String titolo, String descrizione) throws SQLException{
+        VideoDAO vid = new VideoPostgresDAO();
+
+        boolean control = vid.modificaVideoDAO(idVideoSelezionato,titolo,descrizione);
+
+        if(control){
+            //allora modifico anche il model...
+            Video video = null;
+            for(Video v : listaVideo)
+                if(v.getIdVideo() == idVideoSelezionato){
+                    video = v;
+                }
+
+            //trovato il video allora setto tutti gli attributi.
+            assert video != null;
+            video.setTitolo(titolo);
+            video.setDescrizione(descrizione);
+
+        }
+    }
+
+
+
+    /**
+     * Restituisce un elenco di frame di un video specifico in base all'ID del video selezionato.
+     *
+     * @param idVideoSelezionato L'identificatore univoco del video di cui si vogliono visualizzare i frame.
+     * @return Un ArrayList di Integer contenente l'elenco dei frame del video.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+    public ArrayList<Integer> vediFrameVideo(int idVideoSelezionato) throws SQLException{
+        VideoDAO v = new VideoPostgresDAO();
+        //come prima cosa recupero qual è il video scelto
+        Video videoselezionato = null;
+        for(Video vid : listaVideo){
+            if(vid.getIdVideo() == idVideoSelezionato){
+                videoselezionato = vid;
+            }
+        }
+
+        //2 step : trovo i frame associati
+        ArrayList<Integer> frameAssociati = new ArrayList<>();
+        boolean control = v.vediFrameVideoDAO(idVideoSelezionato, frameAssociati);
+
+        //2 step : inzializzo la lista di frame presenti in video
+        if (control) {
+            for (Frame frame : listaFrame)
+                for (int f : frameAssociati)
+                    if (frame.getIdFoto().equals(f)) {
+                        assert videoselezionato != null;
+                        videoselezionato.aggiungiFrame(frame);
+                    }
+        }
+
+        return frameAssociati;
+
+
+    }
+
+//____________________________________________________________________________________________________________________//
+//____________________________________________________________________________________________________________________//
+
+
+//_______________________________________FUNZIONI PER FRAME//
+
+
+
+    /**
+     * Aggiunge un nuovo frame al database associato a un video specifico.
+     *
+     * @param idVideo L'identificatore univoco del video a cui appartiene il frame.
+     * @param idFoto L'identificatore univoco del frame da aggiungere.
+     * @param durata La durata del frame in millisecondi.
+     * @param ordine L'ordine del frame all'interno del video.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+    public void aggiungiFrame(int idVideo, int idFoto, int durata, int ordine) throws SQLException {
+        FrameDAO f = new FramePostgresDAO();
+
+        boolean control = f.aggiungiFrameDAO(idVideo, idFoto, durata, ordine);
+
+        if (control) {
+            Fotografia foto = null;
+            Video video = null;
+            for (Fotografia fot : listaFotografia) {
+                if (fot.getIdFoto() == idFoto) {
+                    foto = fot;
+                    break;
+                }
+            }
+
+            for (Video vid : listaVideo) {
+                if (vid.getIdVideo() == idVideo) {
+                    video = vid;
+                    break;
+                }
+            }
+            Frame frame = new Frame(video, foto, durata, ordine);
+            listaFrame.add(frame);
+
+        }
+    }
+
+
+    /**
+     * Elimina un frame associato a un video specifico in base all'ID del video e all'ID del frame selezionato.
+     *
+     * @param idVideoSelezionato L'identificatore univoco del video a cui appartiene il frame da eliminare.
+     * @param idFotoSelezionata L'identificatore univoco del frame da eliminare.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //________________________________________________________________________________________________________________//
+    //________________________________________________________________________________________________________________//
+
+
+
+//___________________________________________FUNZIONI PER LA GUI__________________________________________________//
+
+//------------------------------------------------UTENTE--------------------------------------------------------------//
+    public ArrayList<String> getListaUtentiUsernameGUI() {
+        ArrayList<String> stringUsername = new ArrayList<>();
+
+        for (Utente usr : listaUtente)
+            stringUsername.add(usr.getUsername());
+
+        return stringUsername;
+    }
+
+    public ArrayList<String> getListaUtentiPasswordGUI() {
+        ArrayList<String> stringPassword = new ArrayList<>();
+
+        for (Utente usr : listaUtente)
+            stringPassword.add(usr.getPassword());
+
+        return stringPassword;
+    }
+
+    public ArrayList<Boolean> getListaUtentiAdminGUI() {
+        ArrayList<Boolean> adminbool = new ArrayList<>();
+
+        for (Utente usr : listaUtente) {
+            adminbool.add(usr.isAdmin());
+        }
+
+        return adminbool;
+    }
+
+
+    public String getUsernameViewGUI(String usernameSelezionato){
+
+        Utente usrSelezionato = null;
+        for(Utente usr : listaUtente){
+            if(usr.getUsername().equals(usernameSelezionato)){
+                usrSelezionato = usr;
+                break;
+            }
+        }
+        return usrSelezionato.getUsername();
+    }
+
+    public String getUsernamePasswordViewGUI(String usernameSelezionato){
+
+        Utente usrSelezionato = null;
+        for(Utente usr : listaUtente){
+            if(usr.getPassword().equals(usernameSelezionato)){
+                usrSelezionato = usr;
+                break;
+            }
+        }
+        return usrSelezionato.getPassword();
+    }
+
+    public boolean getUtenteadminviewGUI(String usernameSelezionato){
+
+        Utente usrSelezionato = null;
+        for(Utente usr : listaUtente){
+            if(usr.getUsername().equals(usernameSelezionato)){
+                usrSelezionato = usr;
+                break;
+            }
+        }
+
+        return usrSelezionato.isAdmin();
+
+    }
+
+
+//------------------------------------------------FOTOGRAFIA------------------------------------------------------------//
+
+    public ArrayList<Integer> getListaFotografieIdFotoGUI() {
+        ArrayList<Integer> intidfoto = new ArrayList<>();
+
+        for (Fotografia fot : listaFotografia)
+            intidfoto.add(fot.getIdFoto());
+
+        return intidfoto;
+    }
+
+    public ArrayList<String> getListaFotografieAutoreGUI() {
+        ArrayList<String> stringAutore = new ArrayList<>();
+
+        for (Fotografia aut : listaFotografia)
+            stringAutore.add(aut.getUsernameAutore());
+
+        return stringAutore;
+    }
+
+
+
 
 
 }
