@@ -310,6 +310,10 @@ public class Controller {
 
     }
 
+
+
+
+
     /**
      * Ottiene una lista di identificatori di collezioni associate a un utente per visualizzazione.
      *
@@ -382,6 +386,40 @@ public class Controller {
         return idFotoAssociato;
 
     }
+
+
+    public ArrayList<Integer> VediFotografiaPerTagUtente(String usernameSelezionato) throws SQLException {
+        UtenteDAO u = new UtentePostgresDAO();
+
+        //trovo l'utente a cui si riferisce la vista
+        Utente displayUsr = null;
+        for (Utente usr : listaUtente)
+            if (usr.getUsername().equals(usernameSelezionato)) {
+                displayUsr = usr;
+                break;
+            }
+
+
+        //trovo le fotografie associate
+        ArrayList<Integer> idFotoAssociato = new ArrayList<>();
+        boolean control = u.VediFotografiaPerTagUtenteDAO(usernameSelezionato, idFotoAssociato);
+
+        //inzializzo la lista di fotografie a cui afferisce l'utente
+        if (control) {
+            for (Fotografia fot : listaFotografia)
+                for (int f : idFotoAssociato)
+                    if (fot.getIdFoto() == f) {
+                        assert displayUsr != null;
+                        displayUsr.aggiungiFotografia(fot);
+                    }
+        }
+
+        return idFotoAssociato;
+
+    }
+
+
+
 
     /**
      * Ottiene una lista di identificatori di fotografie associate a un utente per visualizzazione.
@@ -477,7 +515,8 @@ public class Controller {
     /**
      * Aggiunge una collezione al sistema con i dettagli forniti.
      *
-     * @param idCollezioneSelezionato ID univoco della collezione da aggiungere.
+     * @param idCollezione ID univoco della collezione da aggiungere.
+     * @param username     Nome utente associato alla collezione.
      * @param titolo       Titolo della collezione da aggiungere.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
@@ -696,7 +735,7 @@ public class Controller {
     /**
      * Ottiene l'elenco di ID delle collezioni in cui è presente la fotografia selezionata come contenuto.
      *
-     * @param idFotoSelezionata ID univoco della fotografia di cui visualizzare i contenuti.
+     * @param idFotoselezionata ID univoco della fotografia di cui visualizzare i contenuti.
      * @return Lista di ID delle collezioni che contengono la fotografia come contenuto.
      */
     public ArrayList<Integer> vediContenutoFotografia(int idFotoSelezionata) throws SQLException  {
@@ -883,7 +922,7 @@ public class Controller {
     /**
      * Rimuove un tag utente da una fotografia.
      *
-     * @param idFotoSelezionata ID univoco della fotografia da cui rimuovere il tag utente.
+     * @param idFotoselezionata ID univoco della fotografia da cui rimuovere il tag utente.
      * @param utenteSelezionato Nome utente da rimuovere come tag dalla fotografia.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
@@ -1142,7 +1181,7 @@ public class Controller {
 
             }
         }
-            return fotografiaAssociato;
+        return fotografiaAssociato;
     }
 
 //____________________________________________________________________________________________________________________//
@@ -1165,7 +1204,6 @@ public class Controller {
     public void aggiungiVideo(int idVideo, String autore, String titolo, int numeroFrames, int durata, String descrizione) throws SQLException {
         VideoDAO v = new VideoPostgresDAO();
 
-        //TODO Controllare come si vuole implementare aggiungiVideoDAO, se con aggiunta di frames e durata o meno
         boolean control = v.aggiungiVideoDAO(idVideo, autore, titolo, numeroFrames, durata, descrizione);
 
         if (control) {
@@ -1318,12 +1356,12 @@ public class Controller {
     }
 
 
-    /*
+    /**
      * Elimina un frame associato a un video specifico in base all'ID del video e all'ID del frame selezionato.
      *
-     * param idVideoSelezionato L'identificatore univoco del video a cui appartiene il frame da eliminare.
-     * param idFotoSelezionata L'identificatore univoco del frame da eliminare.
-     * throws SQLException Eccezione sollevata in caso di problemi con il database.
+     * @param idVideoSelezionato L'identificatore univoco del video a cui appartiene il frame da eliminare.
+     * @param idFotoSelezionata L'identificatore univoco del frame da eliminare.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
 
 
@@ -1358,6 +1396,7 @@ public class Controller {
         return stringUsername;
     }
 
+
     public ArrayList<String> getListaUtentiPasswordGUI() {
         ArrayList<String> stringPassword = new ArrayList<>();
 
@@ -1366,7 +1405,6 @@ public class Controller {
 
         return stringPassword;
     }
-
     public ArrayList<Boolean> getListaUtentiAdminGUI() {
         ArrayList<Boolean> adminbool = new ArrayList<>();
 
@@ -1376,6 +1414,9 @@ public class Controller {
 
         return adminbool;
     }
+
+
+
 
 
     public String getUsernameViewGUI(String usernameSelezionato){
@@ -1394,7 +1435,7 @@ public class Controller {
 
         Utente usrSelezionato = null;
         for(Utente usr : listaUtente){
-            if(usr.getPassword().equals(usernameSelezionato)){
+            if(usr.getUsername().equals(usernameSelezionato)){
                 usrSelezionato = usr;
                 break;
             }
@@ -1419,20 +1460,30 @@ public class Controller {
 
 //------------------------------------------------FOTOGRAFIA------------------------------------------------------------//
 
-    public void getListaFotografiaGUI(ArrayList<Integer> idFotolist, ArrayList<String> autoreList, ArrayList<byte[]> datiFotolist, ArrayList<String> dispositivoList, ArrayList<java.sql.Timestamp> dataFotolist, ArrayList<Float> latitudineList, ArrayList<Float> longitudineList, ArrayList<Boolean> condivisalist, ArrayList<String> titololist) {
+    public void getListaFotografiaGUI(ArrayList<Integer> idFotolist, ArrayList<String> autoreList, ArrayList<byte[]> datiFotolist, ArrayList<Float> latitudineList, ArrayList<Float> longitudineList,ArrayList<String> dispositivoList, ArrayList<java.sql.Timestamp> dataFotolist,  ArrayList<Boolean> condivisalist, ArrayList<String> titololist) {
         for (Fotografia fotografia : listaFotografia) {
             idFotolist.add(fotografia.getIdFoto());
             autoreList.add(fotografia.getUsernameAutore().getUsername()); // Aggiungi l'username dell'autore
             datiFotolist.add(fotografia.getDatiFoto());
+            latitudineList.add(fotografia.getLuogolat().getLatitudine());
+            longitudineList.add(fotografia.getLuogolon().getLongitudine());
             dispositivoList.add(fotografia.getDispositivo());
             dataFotolist.add(fotografia.getDataFoto());
-            latitudineList.add(fotografia.getLuogolat().getLatitudine()); // Aggiungi la latitudine
-            longitudineList.add(fotografia.getLuogolon().getLongitudine()); // Aggiungi la longitudine
             condivisalist.add(fotografia.isCondivisa());
             titololist.add(fotografia.getTitolo());
         }
     }
 
+    public void getListaCollezioniGUI(ArrayList<Integer> listaIdCollezione, ArrayList<String> listaUsername, ArrayList<String> listaTitolo, ArrayList<java.sql.Timestamp> listaDataCollezioni, ArrayList<Integer> listaNumeroElementi){
+        for (Collezione collezione : listaCollezione) {
+            listaIdCollezione.add(collezione.getIdCollezione());
+            listaUsername.add(collezione.getUsername().getUsername());
+            listaTitolo.add(collezione.getTitolo());
+            listaDataCollezioni.add(collezione.getDataCollezione());
+            listaNumeroElementi.add(collezione.getNumeroElementi());
+
+        }
+    }
 
 
     public ArrayList<Integer> getListaFotografieIdFotoGUI() {
@@ -1474,6 +1525,17 @@ public class Controller {
             stringDispositivo.add(dis.getDispositivo());
 
         return stringDispositivo;
+    }
+
+
+
+    public ArrayList<java.sql.Timestamp> getListaFotografieDataGUI() {
+        ArrayList<java.sql.Timestamp> datafoto = new ArrayList<>();
+
+        for (Fotografia data : listaFotografia)
+            datafoto.add(data.getDataFoto());
+
+        return datafoto;
     }
 
     public ArrayList<Float> getListaFotografieLatitudineGUI() {
