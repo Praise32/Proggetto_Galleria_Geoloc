@@ -16,8 +16,7 @@ import org.postgresql.util.PSQLException;
  */
 public class ViewUserGUI extends JDialog {
     private final JCheckBox adminCheckBox;
-    private final JTable tabellaFotografie;
-
+    final JTable tabellaFotografie;
 
 
     public ViewUserGUI(String usernameSelezionato, Controller controller, JFrame framePadre) throws SQLException {
@@ -57,7 +56,7 @@ public class ViewUserGUI extends JDialog {
         datiPanel.add(passwordField);
 
         // ADMIN
-        JLabel adminLabel = new JLabel("Dirigente:", SwingConstants.LEFT);
+        JLabel adminLabel = new JLabel("Admin:", SwingConstants.LEFT);
         adminCheckBox = new JCheckBox();
         adminCheckBox.setSelected(adminSelezionato);
         datiPanel.add(adminLabel);
@@ -69,20 +68,20 @@ public class ViewUserGUI extends JDialog {
         panel.add(leftPanel, BorderLayout.CENTER);
 
 
-        // Creiamo il pannello destro per la tabella tag_utente
-        JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBorder(BorderFactory.createTitledBorder("Foto in cui compari:"));
 
 
 //-----------------------------------------------TABELLE-----------------------------------------------------------------//
+        // Creiamo il pannello destro per la tabella tag_utente
+        JPanel rightPanel = new JPanel(new BorderLayout());
+        rightPanel.setBorder(BorderFactory.createTitledBorder("ID Foto scattate:"));
 
-        // Tabella foto utente
-        ArrayList<Integer> listaFotoScattate = controller.vediFotoAssociate(usernameSelezionato);
-
+        // TABELLA FOTO POSSEDUTE
+        ArrayList<Integer> listaFotoAssociate = controller.VediFotografiaPerUtente(usernameSelezionato);
         DefaultTableModel tabellaFotografieModel = new DefaultTableModel();
-        Object[][] data = new Object[listaFotoScattate.size()][1];
-        for (int i = 0; i < listaFotoScattate.size(); i++) {
-            data[i][0] = listaFotoScattate.get(i);
+        Object[][] data = new Object[listaFotoAssociate.size()][1];
+        for (int i = 0; i < listaFotoAssociate.size(); i++) {
+            data[i][0] = listaFotoAssociate.get(i);
+
         }
         tabellaFotografieModel.setDataVector(data, new Object[]{"ID"});
         this.tabellaFotografie = new JTable(tabellaFotografieModel);
@@ -121,18 +120,155 @@ public class ViewUserGUI extends JDialog {
         panel.add(rightPanel, BorderLayout.EAST);
 
 
-        // pannello inferiore per la tabella delle collezioni
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //BOTTONI
+
+
+
+        // Crea il pannello dei bottoni
+        JPanel panelBottoni = new JPanel(new BorderLayout());
+        JPanel panelBottoniLeft = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel panelBottoniRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        JButton bottoneSalva = new JButton("Salva modifiche");
+        JButton bottoneAnnulla = new JButton("Annulla modifiche");
+        JButton bottoneAggiungiAfferenza = new JButton("Aggiungi afferenza");
+        JButton bottoneRimuoviAfferenza = new JButton("Rimuovi afferenza");
+        panelBottoniLeft.add(bottoneSalva);
+        panelBottoniLeft.add(bottoneAnnulla);
+
+        panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);
+        panelBottoni.add(panelBottoniRight, BorderLayout.EAST);
+
+
+        // Aggiungo i pannelli alla finestra principale
+        add(panel,BorderLayout.CENTER);
+
+
+
+        // Logica per salvare le modifiche
+        bottoneSalva.addActionListener(e -> {
+            setVisible(false);
+
+            String passwordModificata = passwordField.getText();
+            boolean adminModificato = adminCheckBox.isSelected();
+
+            try {
+
+                controller.modificaUtente(usernameSelezionato, passwordModificata, adminModificato);
+                JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Errore durante la modifica dei dati dell'utente:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ee) {
+                JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                dispose();
+                framePadre.setVisible(true);
+            }
+            //}
+
+        });
+
+
+        //bottone che torna alla vista impiegati
+        bottoneAnnulla.addActionListener(e -> {
+            //chiudo la finestra di dialogo
+            dispose();
+            framePadre.setVisible(true);
+        });
+
+
+
+
+
+
+
+
+        // Aggiungo i pannelli alla finestra principale
+        add(panel,BorderLayout.CENTER);
+        add(panelBottoni, BorderLayout.SOUTH);
+
+
+        // Rendo non modificabili alcuni campi
+        usernameField.setEditable(false);
+
+
+
+
+
+
+
+        // Imposto la dimensione della finestra e la rendo visibile
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        //listener per mostrare la finestra padre quando viene chiusa quella figlia
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                framePadre.setVisible(true);
+            }
+        });
+
+        //QUESTO METODO SERVE A RENDERE MODALE LA FINESTRA, IN MODO DA DISATTIVARE LA FINESTRA PADRE MENTRE E ATTIVA QUELLA DI DIALOGO
+        //NON LA UTILIZZIAMO PERCHE UNA VOLTA SETTATA A TRUE RISULTANO ALCUNI COMPORTAMENTI GRAFICI ANOMALI NELL APP
+
+        //setModal(true);
+
+        setVisible(true);
+
+
+    }
+/*
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+/**
+        // Creiamo il pannello inferiore per la tabella dello storico
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBorder(BorderFactory.createTitledBorder("Collezioni:"));
 
-        // Tabella delle foto
-        ArrayList<Integer> listaCollezioniPossedute = controller.VediCollezioniPerUtente(usernameSelezionato);
+        ArrayList<Integer> listaCollezioni = controller.VediCollezioniPerUtente(usernameSelezionato);
         DefaultTableModel tabellaCollezioniModel = new DefaultTableModel();
-        Object[][] datac = new Object[listaCollezioniPossedute.size()][1];
-        for (int i = 0; i < listaCollezioniPossedute.size(); i++) {
-            datac[i][0] = listaCollezioniPossedute.get(i);
-        }
-
         JTable tabellaCollezioni = new JTable(tabellaCollezioniModel);
         tabellaCollezioni.setEnabled(false);
         bottomPanel.add(new JScrollPane(tabellaCollezioni), BorderLayout.CENTER);
@@ -142,8 +278,6 @@ public class ViewUserGUI extends JDialog {
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         tabellaCollezioni.getColumnModel().getColumn(0).setCellRenderer(renderer);
-        tabellaCollezioni.getColumnModel().getColumn(1).setCellRenderer(renderer);
-        tabellaCollezioni.getColumnModel().getColumn(2).setCellRenderer(renderer);
 
         tabellaCollezioni.setDefaultEditor(Object.class, null);
         tabellaCollezioni.setDefaultEditor(Object.class, null);
@@ -154,29 +288,6 @@ public class ViewUserGUI extends JDialog {
         tabellaCollezioni.setBackground(Color.DARK_GRAY);
         tabellaCollezioni.getTableHeader().setBackground(Color.DARK_GRAY);
         tabellaCollezioni.getTableHeader().setForeground(Color.WHITE);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    }
-}
-/**
 
 
 
