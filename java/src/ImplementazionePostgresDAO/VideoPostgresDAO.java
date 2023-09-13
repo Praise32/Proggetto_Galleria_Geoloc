@@ -29,26 +29,20 @@ public class VideoPostgresDAO implements VideoDAO{
         deleteVid = connection.prepareStatement("DELETE FROM video WHERE id_video = ? ");
         deleteVid.setInt(1, idVideoSelezionato);
         int result = deleteVid.executeUpdate();
-        if (result == 1) {
-            return true;
-        }
-        return false;
+        return result == 1;
 
     }
 
     @Override
-    public boolean aggiungiVideoDAO(int idVideo, String autore, String titolo, String descrizione) throws SQLException {
+    public boolean aggiungiVideoDAO(int idVideo, String autore, String titolo, int numero_frames, int durata, String descrizione) throws SQLException {
         PreparedStatement insertVid;
-        insertVid = connection.prepareStatement("INSERT INTO video (id_video, autore, titolo, descrizione) VALUES (?, ?, ?, ?)");
+        insertVid = connection.prepareStatement("INSERT INTO video (id_video, autore, titolo, numero_frames, durata, descrizione) VALUES (?, ?, ?, ?)");
         insertVid.setInt(1, idVideo);
         insertVid.setString(2, autore);
         insertVid.setString(3, titolo);
         insertVid.setString(4, descrizione);
         int result = insertVid.executeUpdate();
-        if (result == 1) {
-            return true;
-        }
-        return false;
+        return result == 1;
     }
 
 
@@ -60,10 +54,7 @@ public class VideoPostgresDAO implements VideoDAO{
         modificaVid.setString(2, descrizione);
         modificaVid.setInt(3, idVideoSelezionato);
         int rs = modificaVid.executeUpdate();
-        if (rs>0) {
-            return true;
-        }
-        return false;
+        return rs > 0;
     }
 
     @Override

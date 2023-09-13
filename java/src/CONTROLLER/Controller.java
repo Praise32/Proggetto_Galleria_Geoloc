@@ -477,8 +477,7 @@ public class Controller {
     /**
      * Aggiunge una collezione al sistema con i dettagli forniti.
      *
-     * @param idCollezione ID univoco della collezione da aggiungere.
-     * @param username     Nome utente associato alla collezione.
+     * @param idCollezioneSelezionato ID univoco della collezione da aggiungere.
      * @param titolo       Titolo della collezione da aggiungere.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
@@ -697,7 +696,7 @@ public class Controller {
     /**
      * Ottiene l'elenco di ID delle collezioni in cui è presente la fotografia selezionata come contenuto.
      *
-     * @param idFotoselezionata ID univoco della fotografia di cui visualizzare i contenuti.
+     * @param idFotoSelezionata ID univoco della fotografia di cui visualizzare i contenuti.
      * @return Lista di ID delle collezioni che contengono la fotografia come contenuto.
      */
     public ArrayList<Integer> vediContenutoFotografia(int idFotoSelezionata) throws SQLException  {
@@ -884,7 +883,7 @@ public class Controller {
     /**
      * Rimuove un tag utente da una fotografia.
      *
-     * @param idFotoselezionata ID univoco della fotografia da cui rimuovere il tag utente.
+     * @param idFotoSelezionata ID univoco della fotografia da cui rimuovere il tag utente.
      * @param utenteSelezionato Nome utente da rimuovere come tag dalla fotografia.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
@@ -1166,6 +1165,7 @@ public class Controller {
     public void aggiungiVideo(int idVideo, String autore, String titolo, int numeroFrames, int durata, String descrizione) throws SQLException {
         VideoDAO v = new VideoPostgresDAO();
 
+        //TODO Controllare come si vuole implementare aggiungiVideoDAO, se con aggiunta di frames e durata o meno
         boolean control = v.aggiungiVideoDAO(idVideo, autore, titolo, numeroFrames, durata, descrizione);
 
         if (control) {
@@ -1318,12 +1318,12 @@ public class Controller {
     }
 
 
-    /**
+    /*
      * Elimina un frame associato a un video specifico in base all'ID del video e all'ID del frame selezionato.
      *
-     * @param idVideoSelezionato L'identificatore univoco del video a cui appartiene il frame da eliminare.
-     * @param idFotoSelezionata L'identificatore univoco del frame da eliminare.
-     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     * param idVideoSelezionato L'identificatore univoco del video a cui appartiene il frame da eliminare.
+     * param idFotoSelezionata L'identificatore univoco del frame da eliminare.
+     * throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
 
 

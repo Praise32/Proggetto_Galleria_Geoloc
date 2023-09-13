@@ -19,6 +19,9 @@ public class Main {
      */
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         //installa e imposta il look and feel dark
+        /* Operazioni quali installazioni di librerie e simili
+           sono solitamente fatte in un apposito software di installazione del programma, che venendo
+           runnato una singola volta installa tutte le componenti necessarie senza farlo ad ogni avvio */
         FlatDarkLaf.installLafInfo();
         UIManager.setLookAndFeel(new FlatDarkLaf());
         new Login();
