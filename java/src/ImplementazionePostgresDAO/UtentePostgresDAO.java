@@ -77,7 +77,24 @@ public class UtentePostgresDAO implements UtenteDAO {
     public boolean VediFotografiaPerUtenteDAO(String usernameSelezionato, ArrayList<Integer> idFotoAssociato) throws SQLException {
         try {
             PreparedStatement vediFotografia;
-            vediFotografia = connection.prepareStatement("SELECT id_foto FROM fotografia WHERE usernameAutore = ?");
+            vediFotografia = connection.prepareStatement("SELECT id_foto, dati_foto, username_autore, data_foto FROM fotografia WHERE username_autore = ?");
+            vediFotografia.setString(1, usernameSelezionato);
+            ResultSet rs = vediFotografia.executeQuery();
+            while (rs.next()) {
+                idFotoAssociato.add(rs.getInt("id_foto"));
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean VediFotografiaPerTagUtenteDAO(String usernameSelezionato, ArrayList<Integer> idFotoAssociato) throws SQLException {
+        try {
+            PreparedStatement vediFotografia;
+            vediFotografia = connection.prepareStatement("SELECT id_foto FROM tag_utente WHERE username = ?");
             vediFotografia.setString(1, usernameSelezionato);
             ResultSet rs = vediFotografia.executeQuery();
             while (rs.next()) {
