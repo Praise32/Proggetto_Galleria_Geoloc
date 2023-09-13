@@ -13,11 +13,13 @@ import javax.swing.table.TableRowSorter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-
 /**
  * The type Menu principale gui.
  */
 public class MenuPrincipaleGUI {
+    /**
+     * The Controller.
+     */
 
     /**
      * Instantiates a new Menu principale gui.
@@ -31,7 +33,8 @@ public class MenuPrincipaleGUI {
 
         // Crea la JLabel di benvenuto
         JLabel labelBenvenuto = new JLabel("Benvenuto nel Geolocalized Photograph Database!");
-        labelBenvenuto.setFont(new Font("Arial", Font.PLAIN, 18));
+        labelBenvenuto.setFont(new Font("Arial",Font.PLAIN,18));
+
 
 
         // Creo i bottoni
@@ -78,35 +81,43 @@ public class MenuPrincipaleGUI {
         JFrame finalFrameLogin = frameLogin;
         bottoneUtenti.addActionListener(e -> {
             // chiudo la finestra corrente
-            finalFrameLogin.dispose();
-            // apro la finestra MenuUtenti
-            //MenuUtentiGUI MenuUtenti = new MenuUtentiGUI(controller, finalFrameLogin);
+            finalFrameLogin.setVisible(false);
+     // apro la finestra MenuUtenti
+            MenuUtentiGUI MenuUtenti = new MenuUtentiGUI(controller, finalFrameLogin);
 
-        });
+     });
         frameLogin.setVisible(true);
+
+
+         bottoneFotografie.addActionListener(e -> {
+             // chiudo la finestra corrente
+             finalFrameLogin.setVisible(false);
+             // apro la finestra MenuFotografie
+             MenuFotografieGUI MenuFotografie = new MenuFotografieGUI(controller, finalFrameLogin);
+
+         });
+
+         bottoneCollezioni.addActionListener(e -> {
+         // chiudo la finestra corrente
+             finalFrameLogin.setVisible(false);
+         // apro la finestra MenuCollezioni
+         MenuCollezioniGUI MenuCollezioni = new MenuCollezioniGUI(controller,finalFrameLogin);
+
+         });
+
+
+
+
+
     }
 
 }
 /**
- * bottoneFotografie.addActionListener(e -> {
- * // chiudo la finestra corrente
- * frameLogin.setVisible(false);
- * // apro la finestra MenuFotografie
- * MenuFotografieGUI MenuFotografie = new MenuFotografieGUI(controller,frame);
- * <p>
- * });
- * <p>
- * <p>
- * bottoneCollezioni.addActionListener(e -> {
- * // chiudo la finestra corrente
- * frameLogin.setVisible(false);
- * // apro la finestra MenuCollezioni
- * MenuCollezioniGUI MenuCollezioni = new MenuCollezioniGUI(controller,frame);
- * <p>
- * });
- * <p>
- * // Imposta le dimensioni del frame, la posizione al centro e rendilo visibile
- * frameLogin.setSize(800, 600);
- * frameLogin.setLocationRelativeTo(null);
- * frameLogin.setVisible(true);
- */
+
+
+
+
+ // Imposta le dimensioni del frame, la posizione al centro e rendilo visibile
+ frameLogin.setSize(800, 600);
+ frameLogin.setLocationRelativeTo(null);
+ frameLogin.setVisible(true);*/
