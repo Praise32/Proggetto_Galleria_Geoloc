@@ -15,7 +15,6 @@ import java.util.ArrayList;
 /**
  * The type Menu impiegati gui.
  */
-
 public class MenuFotografieGUI
 {
 
@@ -28,7 +27,7 @@ public class MenuFotografieGUI
      *
      * @param controller          the controller
      * @param frameMenuPrincipale the frame menu principale
-     * */
+     */
 
 
     public MenuFotografieGUI(Controller controller, JFrame frameMenuPrincipale) {
@@ -226,6 +225,9 @@ public class MenuFotografieGUI
     }
     // Creiamo il pulsante per aprire la finestra d'inserimento utente
 
+    /**
+     * The Bottone inserisci.
+     */
     JButton bottoneInserisci = new JButton("Inserisci");
 
 

@@ -20,8 +20,8 @@ public class InserimentoUtenteGUI extends JDialog {
     /**
      * Instantiates a new Inserimento impiegato gui.
      *
-     * @param controller     the controller
-     * @param framePadre     the frame padre
+     * @param controller the controller
+     * @param framePadre the frame padre
      */
     public InserimentoUtenteGUI(Controller controller, JFrame framePadre) {
 //----------------------------------------------PANNELLO CAMPI-------------------------------------------------------//

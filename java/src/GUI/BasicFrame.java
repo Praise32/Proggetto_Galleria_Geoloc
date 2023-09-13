@@ -5,7 +5,6 @@ import java.awt.*;
  * Estendendo la classe JFrame ciò ci permette di utilizzare le sue funzioni direttamente
  * sull'oggetto di questa classe senza doverle dare un nome, utilizzando this.x
  */
-
 public class BasicFrame extends JFrame {
 
     /**

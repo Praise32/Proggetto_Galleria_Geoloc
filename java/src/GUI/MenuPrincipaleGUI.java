@@ -21,6 +21,9 @@ public class MenuPrincipaleGUI {
 
     /**
      * Instantiates a new Menu principale gui.
+     *
+     * @param controller the controller
+     * @param frameLogin the frame login
      */
     public MenuPrincipaleGUI(Controller controller, JFrame frameLogin) {
 
@@ -39,6 +42,7 @@ public class MenuPrincipaleGUI {
         JButton bottoneFotografie = new JButton("Fotografie");
         JButton bottoneCollezioni = new JButton("Collezioni");
         JButton bottoneVideo = new JButton("Video");
+        JButton bottoneLuoghi = new JButton("Classifica dei Luoghi");
 
 
         // Imposto il font dei bottoni
@@ -46,6 +50,7 @@ public class MenuPrincipaleGUI {
         bottoneFotografie.setFont(new Font("Arial", Font.PLAIN, 16));
         bottoneCollezioni.setFont(new Font("Arial", Font.PLAIN, 16));
         bottoneVideo.setFont(new Font("Arial", Font.PLAIN, 16));
+        bottoneLuoghi.setFont(new Font("Arial", Font.PLAIN, 16));
 
         // Imposto il layout del frame come BoxLayout
         frameLogin.setLayout(new BoxLayout(frameLogin.getContentPane(), BoxLayout.Y_AXIS));
@@ -56,6 +61,7 @@ public class MenuPrincipaleGUI {
         bottoneFotografie.setAlignmentX(Component.CENTER_ALIGNMENT);
         bottoneCollezioni.setAlignmentX(Component.CENTER_ALIGNMENT);
         bottoneVideo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        bottoneLuoghi.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Aggiungi la JLabel e i bottoni al frame
         frameLogin.add(Box.createVerticalStrut(50));
@@ -68,23 +74,39 @@ public class MenuPrincipaleGUI {
         frameLogin.add(bottoneCollezioni);
         frameLogin.add(Box.createVerticalStrut(10));
         frameLogin.add(bottoneVideo);
+        frameLogin.add(Box.createVerticalStrut(10));
+        frameLogin.add(bottoneLuoghi);
 
         Dimension buttonSize = new Dimension(200, 50);
         bottoneUtenti.setMaximumSize(buttonSize);
         bottoneFotografie.setMaximumSize(buttonSize);
         bottoneCollezioni.setMaximumSize(buttonSize);
         bottoneVideo.setMaximumSize(buttonSize);
+        bottoneLuoghi.setMaximumSize(buttonSize);
 
         JFrame finalFrameLogin = frameLogin;
         bottoneUtenti.addActionListener(e -> {
             // chiudo la finestra corrente
             finalFrameLogin.dispose();
             // apro la finestra MenuUtenti
-            //MenuUtentiGUI MenuUtenti = new MenuUtentiGUI(controller, finalFrameLogin);
+            GUI.MenuUtentiGUI MenuUtenti = new MenuUtentiGUI(controller, finalFrameLogin);
 
         });
+
+
+        bottoneLuoghi.addActionListener(e -> {
+            // chiudo la finestra corrente
+            finalFrameLogin.dispose();
+            // apro la finestra Classifica Luoghi
+            ClassificaLuoghi luoghi = new ClassificaLuoghi(controller, finalFrameLogin);
+
+        });
+
+
         frameLogin.setVisible(true);
     }
+
+
 
 }
 /**

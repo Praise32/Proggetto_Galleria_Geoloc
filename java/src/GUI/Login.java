@@ -176,7 +176,6 @@ public class Login {
      *
      * @param parent Componente "parente", ovvero quella contenente le altre componenti, come i panel
      */
-
     void showGrill(Container parent) {
         for (Component c : parent.getComponents()) {
             if (c instanceof JComponent) ((JComponent) c).setBorder(BorderFactory.createLineBorder(Color.red, 2));
@@ -185,6 +184,11 @@ public class Login {
         if (parent instanceof JPanel) ((JPanel) parent).setBorder(BorderFactory.createLineBorder(Color.green, 2));
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         new Login();
     }
