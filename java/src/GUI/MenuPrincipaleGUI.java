@@ -83,7 +83,7 @@ public class MenuPrincipaleGUI {
             // chiudo la finestra corrente
             finalFrameLogin.setVisible(false);
      // apro la finestra MenuUtenti
-            MenuUtentiGUI MenuUtenti = new MenuUtentiGUI(controller, finalFrameLogin);
+            MenuUtenti MenuUtenti = new MenuUtenti(controller, finalFrameLogin);
 
      });
         frameLogin.setVisible(true);
@@ -101,7 +101,7 @@ public class MenuPrincipaleGUI {
          // chiudo la finestra corrente
              finalFrameLogin.setVisible(false);
          // apro la finestra MenuCollezioni
-         MenuCollezioniGUI MenuCollezioni = new MenuCollezioniGUI(controller,finalFrameLogin);
+        // MenuCollezioniGUI MenuCollezioni = new MenuCollezioniGUI(controller,finalFrameLogin);
 
          });
 

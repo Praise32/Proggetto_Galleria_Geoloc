@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * The type Menu impiegati gui.
  */
 
-public class MenuUtentiGUI
+public class MenuUtenti
 {
 
     private final JFrame frameMenuUtenti;
@@ -31,7 +31,7 @@ public class MenuUtentiGUI
      * */
 
 
-    public MenuUtentiGUI(Controller controller, JFrame frameMenuPrincipale) {
+    public MenuUtenti(Controller controller, JFrame frameMenuPrincipale) {
 //----------------------------------------------FINESTRA--------------------------------------------------------//
 
         frameMenuUtenti = new JFrame("Finestra Utenti");
@@ -144,31 +144,31 @@ public class MenuUtentiGUI
         //BOTTONE ELIMINA UTENTE
         JButton bottoneElimina = new JButton("Elimina");
         bottoneElimina.addActionListener(e -> {
-        int selectedRow = table.getSelectedRow();
-        int selectedColumn = table.getSelectedColumn();
+            int selectedRow = table.getSelectedRow();
+            int selectedColumn = table.getSelectedColumn();
 
-        if (selectedRow != -1 && selectedColumn != -1) {
-            // L'utente si trova nella prima colonna della tabella
-            String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
-            int response = JOptionPane.showOptionDialog(frameMenuUtenti, "Sei sicuro di voler eliminare l'utente " + usernameSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+            if (selectedRow != -1 && selectedColumn != -1) {
+                // L'utente si trova nella prima colonna della tabella
+                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int response = JOptionPane.showOptionDialog(frameMenuUtenti, "Sei sicuro di voler eliminare l'utente " + usernameSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
-            if (response == JOptionPane.YES_OPTION) {
-                //elimino l'utente con l'username selezionata
-                try {
-                    controller.eliminaUtente(usernameSelezionato);
-                } catch (PSQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati dell'utente:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
-                } catch (Exception ee) {
-                    JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    //elimino l'utente con l'username selezionata
+                    try {
+                        controller.eliminaUtente(usernameSelezionato);
+                    } catch (PSQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati dell'utente:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
+                    } catch (Exception ee) {
+                        JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //aggiorno la tabella appena dopo l'eliminazione dell'utente
+                    updateTable(controller,colonneTabella);
                 }
-                //aggiorno la tabella appena dopo l'eliminazione dell'utente
-                updateTable(controller,colonneTabella);
+            } else {
+                // L'utente non ha selezionato una cella
+                JOptionPane.showMessageDialog(frameMenuUtenti, "Seleziona un utente per eliminarlo.", "Errore", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            // L'utente non ha selezionato una cella
-            JOptionPane.showMessageDialog(frameMenuUtenti, "Seleziona un utente per eliminarlo.", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    });
+        });
 
 
         //BOTTONE PROFILO UTENTE
@@ -223,23 +223,23 @@ public class MenuUtentiGUI
 
     }
 
-        private void updateTable(Controller controller,String[] colonneTabella) {
+    private void updateTable(Controller controller,String[] colonneTabella) {
 
-            //LOAD DEI NUOVI DATI
-            ArrayList<String> listaUsername = (ArrayList<String>) controller.getListaUtentiUsernameGUI();
-            ArrayList<String> listaPassword = (ArrayList<String>) controller.getListaUtentiPasswordGUI();
-            ArrayList<Boolean> listaAdmin = (ArrayList<Boolean>) controller.getListaUtentiAdminGUI();
-            Object[][] nuoviDati = new Object[listaUsername.size()][3];
-            for (int i = 0; i < listaUsername.size(); i++) {
-                nuoviDati[i][0] = listaUsername.get(i);
-                nuoviDati[i][1] = listaPassword.get(i);
-                nuoviDati[i][2] = listaAdmin.get(i);
-            }
-
-            //CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
-            DefaultTableModel model = (DefaultTableModel) table.getModel();
-            model.setDataVector(nuoviDati, colonneTabella);
+        //LOAD DEI NUOVI DATI
+        ArrayList<String> listaUsername = (ArrayList<String>) controller.getListaUtentiUsernameGUI();
+        ArrayList<String> listaPassword = (ArrayList<String>) controller.getListaUtentiPasswordGUI();
+        ArrayList<Boolean> listaAdmin = (ArrayList<Boolean>) controller.getListaUtentiAdminGUI();
+        Object[][] nuoviDati = new Object[listaUsername.size()][3];
+        for (int i = 0; i < listaUsername.size(); i++) {
+            nuoviDati[i][0] = listaUsername.get(i);
+            nuoviDati[i][1] = listaPassword.get(i);
+            nuoviDati[i][2] = listaAdmin.get(i);
         }
+
+        //CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setDataVector(nuoviDati, colonneTabella);
+    }
 
 
 

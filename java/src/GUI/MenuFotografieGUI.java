@@ -53,7 +53,7 @@ public class MenuFotografieGUI
         ArrayList<java.sql.Timestamp> listaDatafoto = new ArrayList<>();
         ArrayList<Boolean> listaCondivisaFoto = new ArrayList<>();
         ArrayList<String> listaTitoloFoto = new ArrayList<>();
-        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto,listaDatiFoto, listaDispositivoFoto, listaDatafoto,listaLatitudineFoto, listaLongitudineFoto, listaCondivisaFoto, listaTitoloFoto);
+        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto,listaDatiFoto,listaLatitudineFoto, listaLongitudineFoto, listaDispositivoFoto, listaDatafoto, listaCondivisaFoto, listaTitoloFoto);
 
         Object[][] data = new Object[listaIdFoto.size()][9];
         for (int i = 0; i < listaIdFoto.size(); i++) {
