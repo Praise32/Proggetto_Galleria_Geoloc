@@ -87,6 +87,22 @@ public class LuogoPostgresDAO implements DAO.LuogoDAO {
         }
     }
 
+    @Override
+    public boolean modificaLuogoDAO(String LuogoSelezionato, String descrizione, float latitudine, float longitudine) throws SQLException {
+        PreparedStatement modificaluog;
+        modificaluog = connection.prepareStatement("UPDATE Luogo SET descrizione = ? AND latitudine = ? AND longitudine = ? WHERE nome = ?");
+        modificaluog.setString(1, descrizione);
+        modificaluog.setFloat(2, latitudine);
+        modificaluog.setFloat(3, longitudine);
+        modificaluog.setString(4, LuogoSelezionato);
+
+        int rs = modificaluog.executeUpdate();
+        if (rs>0) {
+            return true;
+        }
+        return false;
+    }
+
 }
 
 

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static javax.swing.text.html.parser.DTDConstants.MODEL;
 
@@ -1441,9 +1442,30 @@ public void aggiungiLuogoDAO(float latitudine, float longitudine, String nome, S
             }
         }
 
+       return classifica;
+   }
+
+    public void modificaLuogoDAO(String LuogoSelezionato, String descrizione, float latitudine, float longitudine) throws SQLException {
+        DAO.LuogoDAO l = new LuogoPostgresDAO();
+
+        boolean control = l.modificaLuogoDAO(LuogoSelezionato,  descrizione, latitudine, longitudine);
+
+        if (control) {
+
+            //trovo il mio oggetto Luogo[...]
+            Luogo Luogo = null;
+            for (Luogo lu : listaLuogo)
+                if (Objects.equals(lu.getNome(), LuogoSelezionato))
+                    Luogo = lu;
+
+            //a questo punto aggiorno il mio model con i nuovi dati avuti dalla gui
+            Luogo.setDescrizione(descrizione);
+            Luogo.setLatitudine(latitudine);
+            Luogo.setLongitudine(longitudine);
+        }
     }
 
-*/
+
 
 
 
