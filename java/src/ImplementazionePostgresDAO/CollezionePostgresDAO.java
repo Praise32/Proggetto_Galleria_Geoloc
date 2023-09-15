@@ -45,7 +45,7 @@ public class CollezionePostgresDAO implements CollezioneDAO{
     @Override
     public boolean aggiungiCollezioneDAO(int idCollezione, String username, String titolo, Timestamp dataCollezione, int numeroElementi) throws SQLException{
         PreparedStatement insertCol;
-        insertCol = connection.prepareStatement("INSERT INTO Collezione (id_collezione, username, titolo) VALUES (?, ?, ?)");
+        insertCol = connection.prepareStatement("INSERT INTO Collezione (id_collezione, username, titolo, data_collezione, numero_elementi) VALUES (?, ?, ?, ?, ?)");
         insertCol.setInt(1, idCollezione);
         insertCol.setString(2, username);
         insertCol.setString(3, titolo);
