@@ -3,14 +3,16 @@ package MODEL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Luogo {
+public class  Luogo {
     private float latitudine;
     private float longitudine;
     private String nome;
     private String descrizione;
+    private int numeroFotografie;
 
 
     private List<Fotografia> listaFotografia = new ArrayList<>();
+
 
     public Luogo(float latitudine, float longitudine, String nome, String descrizione) {
         this.latitudine = latitudine;
@@ -27,6 +29,10 @@ public class Luogo {
 
     public void setListaFotografia(List<Fotografia> listaFotografia) {
         this.listaFotografia = listaFotografia;
+    }
+
+    public void setNumeroFotografie(int numeroFotografie) {
+        this.numeroFotografie = numeroFotografie;
     }
 
     public float getLatitudine() {

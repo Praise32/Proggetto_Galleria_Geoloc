@@ -2,14 +2,16 @@ package CONTROLLER;
 
 import DAO.*;
 import ImplementazionePostgresDAO.*;
-import ImplementazionePostgresDAO.FramePostgresDAO;
-import ImplementazionePostgresDAO.VideoPostgresDAO;
+import ImplementazionePostgresDAO.LuogoPostgresDAO;
 import MODEL.*;
+import MODEL.Luogo;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javax.swing.text.html.parser.DTDConstants.MODEL;
 
 /**
  * The type Controller.
@@ -1365,6 +1367,83 @@ public class Controller {
      */
 
 
+//____________________________________________________________________________________________________________________//
+//____________________________________________________________________________________________________________________//
+
+
+//_______________________________________FUNZIONI PER LUOGO//
+
+/**
+ * Aggiunge un nuovo luogo al sistema con i dettagli forniti.
+ *
+ * @param longitudine    ID composto coordinate del luogo.
+ * @param latitudine     ID composto coordinate del luogo.
+ * @param nome           Nome Univoco per identificare un luogo.
+ * @param descrizione    Dispositivo con cui è stata scattata la fotografia.
+ - @throws SQLException Eccezione sollevata in caso di problemi con il database.
+*/
+
+public void aggiungiLuogoDAO(float latitudine, float longitudine, String nome, String descrizione) throws SQLException   {
+    DAO.LuogoDAO l = new LuogoPostgresDAO();
+
+        boolean control = l.aggiungiLuogoDAO(latitudine, longitudine, nome, descrizione);
+
+        if (control) {
+            System.out.println("Luogo aggiunto con successo!");
+            MODEL.Luogo luogo = new Luogo(latitudine, longitudine, nome, descrizione);
+            listaLuogo.add(luogo);
+        }
+
+}
+
+
+    /**
+     * Elimina un Luogo dal sistema in base all'nome fornito.
+     *
+     * @param LuogoSelezionato nome univoco del luogo da eliminare.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+
+    public void eliminaLuogoDAO(String LuogoSelezionato) throws SQLException {
+
+        DAO.LuogoDAO l = new LuogoPostgresDAO();
+
+        boolean control = l.eliminaLuogoDAO(LuogoSelezionato);
+
+        if (control) {
+            System.out.println("Eliminazione avvenuta con successo ...!");
+
+            //SE L'ELIMINAZIONE HA AVUTO SUCCESSO ALLORA ELIMINO ANCHE DAL MODEL IL SOGGETTO...
+            for (Luogo luogo : listaLuogo) {
+                if (LuogoSelezionato.equals(luogo.getNome())) {
+                    listaLuogo.remove(luogo);
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Impossibile rimuovere il luogo...");
+        }
+    }
+
+   public List<Luogo> getClassificaLuoghi() {
+
+       List<MODEL.Luogo> classifica = new ArrayList<>();
+      DAO.LuogoDAO l = new LuogoPostgresDAO();
+
+        boolean control = l.classificaLuoghiDAO(classifica);
+
+        if (control){
+            try {
+                return classifica;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return new ArrayList<>(); // Restituisce una lista vuota in caso di errore
+            }
+        }
+
+    }
+
+*/
 
 
 

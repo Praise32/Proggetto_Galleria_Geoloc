@@ -26,36 +26,48 @@ public class ClassificaLuoghi extends JFrame {
     /**
      * Instantiates a new Classifica luoghi.
      */
-    public ClassificaLuoghi(Controller controller, JFrame frameMenuPrincipale) {
+    public ClassificaLuoghi( JFrame frameMenuPrincipale) {
 
-        frameclassifica = new JFrame("Finestra Utenti");
+        frameclassifica = new JFrame("Classifica dei 3 luoghi più immortalati");
         frameclassifica.setSize(800, 600);
         frameclassifica.setLocationRelativeTo(null);
         frameclassifica.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Set table model
-        table.setModel(tableModel);
 
-        // Set the column identifiers
-        tableModel.setColumnIdentifiers(new Object[]{"column1", "column2", "column3", "column4", "column5"});
 
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                loadData();
-            }
-        });
 
-        this.setLayout(new BorderLayout());
-        this.add(loadButton, BorderLayout.PAGE_START);
-        this.add(new JScrollPane(table), BorderLayout.CENTER);
-        this.setSize(600, 400);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
 
-    private void loadData() {
-        // Clear existing data
-        tableModel.setRowCount(0);
+        //----------------------------------------------TABELLA CLASSIFICA--------------------------------------------------------//
+
+
+
+        // Creiamo il modello di tabella
+        DefaultTableModel modelloTabella = new DefaultTableModel();
+
+        modelloTabella.setColumnIdentifiers(new Object[]{"column1", "column2", "column3", "column4", "column5"});
+        // Creiamo la tabella
+        tabellaclassifica = new JTable(modelloTabella);
+        // Creiamo il TableRowSorter con il tipo di modello di tabella corretto
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelloTabella);
+        sorter.setSortKeys(java.util.List.of(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+
+        // Impostiamo il TableRowSorter sulla tabella
+        tabellaclassifica.setRowSorter(sorter);
+        tabellaclassifica.setDefaultEditor(Object.class, null);
+        tabellaclassifica.setDefaultEditor(Object.class, null);
+        tabellaclassifica.getTableHeader().setReorderingAllowed(false);
+        tabellaclassifica.setShowGrid(true);
+
+        //COLORI TABELLA
+        tabellaclassifica.setGridColor(Color.WHITE);
+        tabellaclassifica.setBackground(Color.DARK_GRAY);
+        tabellaclassifica.setForeground(Color.WHITE);
+        tabellaclassifica.getTableHeader().setBackground(Color.BLACK);
+        tabellaclassifica.getTableHeader().setForeground(Color.WHITE);
+
+        //barra di scorrimento
+        JScrollPane scrollPane = new JScrollPane(tabellaclassifica);
+        frameclassifica.add(scrollPane, BorderLayout.CENTER);
 
         try {
             Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/dbprogetto", "postgres", "4713");
@@ -76,7 +88,7 @@ public class ClassificaLuoghi extends JFrame {
 
 
                 // Add data to table
-                tableModel.addRow(new Object[]{column1, column2, column3});
+                modelloTabella.addRow(new Object[]{column1, column2, column3,column4,column5});
             }
 
             rs.close();
@@ -86,5 +98,8 @@ public class ClassificaLuoghi extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+
+
     }
+
 }

@@ -1,16 +1,21 @@
 package DAO;  // Questo codice è all'interno del package "DAO".
 
+import MODEL.Luogo;
+
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.Timestamp;
+import java.util.List;
 
 
 public interface LuogoDAO {
 
-    public boolean aggiungiLuogoDAO(int idCollezione, String username, String titolo, Timestamp dataCollezione, int numeroElementi) throws SQLException;
+    // Metodo per aggiungere un Luogo dal database.
+    public boolean aggiungiLuogoDAO(float latitudine, float longitudine, String nome, String descrizione) throws SQLException;
 
-    // Metodo per eliminare una collezione dal database.
-    public boolean eliminaLuogoDAO(int collezioneSelezionato) throws SQLException;
+    // Metodo per eliminare un Luogo dal database.
+    public boolean eliminaLuogoDAO(String LuogoSelezionato) throws SQLException;
+
+    //Metodo per la Classifica dei 3 luoghi più immortalati
+    public boolean classificaLuoghiDAO(List<Luogo> classifica) throws SQLException;
 
 
 }
