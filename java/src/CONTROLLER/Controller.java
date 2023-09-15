@@ -1537,21 +1537,7 @@ public void aggiungiLuogoDAO(float latitudine, float longitudine, String nome, S
     }
 
 
-//------------------------------------------------FOTOGRAFIA------------------------------------------------------------//
-
-    public void getListaFotografiaGUI(ArrayList<Integer> idFotolist, ArrayList<String> autoreList, ArrayList<byte[]> datiFotolist, ArrayList<Float> latitudineList, ArrayList<Float> longitudineList,ArrayList<String> dispositivoList, ArrayList<java.sql.Timestamp> dataFotolist,  ArrayList<Boolean> condivisalist, ArrayList<String> titololist) {
-        for (Fotografia fotografia : listaFotografia) {
-            idFotolist.add(fotografia.getIdFoto());
-            autoreList.add(fotografia.getUsernameAutore().getUsername()); // Aggiungi l'username dell'autore
-            datiFotolist.add(fotografia.getDatiFoto());
-            latitudineList.add(fotografia.getLuogolat().getLatitudine());
-            longitudineList.add(fotografia.getLuogolon().getLongitudine());
-            dispositivoList.add(fotografia.getDispositivo());
-            dataFotolist.add(fotografia.getDataFoto());
-            condivisalist.add(fotografia.isCondivisa());
-            titololist.add(fotografia.getTitolo());
-        }
-    }
+//------------------------------------------------COLLEZIONE------------------------------------------------------------//
 
     public void getListaCollezioniGUI(ArrayList<Integer> listaIdCollezione, ArrayList<String> listaUsername, ArrayList<String> listaTitolo, ArrayList<java.sql.Timestamp> listaDataCollezioni, ArrayList<Integer> listaNumeroElementi){
         for (Collezione collezione : listaCollezione) {
@@ -1560,9 +1546,38 @@ public void aggiungiLuogoDAO(float latitudine, float longitudine, String nome, S
             listaTitolo.add(collezione.getTitolo());
             listaDataCollezioni.add(collezione.getDataCollezione());
             listaNumeroElementi.add(collezione.getNumeroElementi());
-
         }
     }
+
+    public ArrayList<String> getListaUsernameDisponibileCollezioneGUI() {
+        ArrayList<String> userDisponibili = new ArrayList<>();
+
+        for (Utente usr : listaUtente) {
+            // Aggiungi tutti gli utenti presenti nella lista
+            userDisponibili.add(usr.getUsername());
+        }
+
+        return userDisponibili;
+    }
+
+
+
+//------------------------------------------------FOTOGRAFIA------------------------------------------------------------//
+
+    public void getListaFotografiaGUI(ArrayList<Integer> listaIdFoto, ArrayList<String> listaAutoreFoto, ArrayList<byte[]> listaDatiFoto,ArrayList<String> listaDispositivoFoto, ArrayList<java.sql.Timestamp> listaDatafoto, ArrayList<Float> listaLatitudineFoto, ArrayList<Float> listaLongitudineFoto,ArrayList<Boolean> listaCondivisaFoto, ArrayList<String> listaTitoloFoto) {
+        for (Fotografia fotografia : listaFotografia) {
+            listaIdFoto.add(fotografia.getIdFoto());
+            listaAutoreFoto.add(fotografia.getUsernameAutore().getUsername()); // Aggiungi l'username dell'autore
+            listaDatiFoto.add(fotografia.getDatiFoto());
+            listaDispositivoFoto.add(fotografia.getDispositivo());
+            listaDatafoto.add(fotografia.getDataFoto());
+            listaLatitudineFoto.add(fotografia.getLuogolat().getLatitudine());
+            listaLongitudineFoto.add(fotografia.getLuogolon().getLongitudine());
+            listaCondivisaFoto.add(fotografia.isCondivisa());
+            listaTitoloFoto.add(fotografia.getTitolo());
+        }
+    }
+
 
 
     public ArrayList<Integer> getListaFotografieIdFotoGUI() {
@@ -1661,7 +1676,6 @@ public void aggiungiLuogoDAO(float latitudine, float longitudine, String nome, S
 
         return stringTitolo;
     }
-
 
 
 
