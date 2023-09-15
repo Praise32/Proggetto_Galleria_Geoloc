@@ -4,19 +4,23 @@ import CONTROLLER.*;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
+import com.toedter.calendar.JDateChooser;
+import org.jdesktop.swingx.JXDatePicker;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
  * The type Inserimento Utente gui.
  */
 public class InserimentoCollezioneGUI extends JDialog {
+    private final JTextField IdCollezioneField;
     private final JComboBox<String> usernameComboBox;
     private final JTextField titoloField;
-
+    private final JXDatePicker dataCollezionePicker;
 
     /**
      * Instantiates a new Inserimento impiegato gui.
@@ -32,7 +36,10 @@ public class InserimentoCollezioneGUI extends JDialog {
         setTitle("Inserimento Collezione");
 
 
-
+        // CAMPO IDCOLLEZIONE
+        inputPanel.add(new JLabel("Id Collezione:"));
+        IdCollezioneField = new JTextField();
+        inputPanel.add(IdCollezioneField);
 
         // CAMPO USERNAME
         inputPanel.add(new JLabel("Username:"));
@@ -42,16 +49,16 @@ public class InserimentoCollezioneGUI extends JDialog {
             usernameComboBox.addItem(i);
         inputPanel.add(usernameComboBox);
 
-
         // CAMPO TITOLO
         inputPanel.add(new JLabel("Titolo:"));
         titoloField = new JTextField();
         inputPanel.add(titoloField);
 
-        // CAMPO DATA COLLEZIONE
+        //CAMPO DATA COLLEZIONE
         inputPanel.add(new JLabel("Data Collezione:"));
-        JTextField DataCollezioneField = new JTextField();
-        inputPanel.add(DataCollezioneField);
+        dataCollezionePicker = new JXDatePicker();
+        dataCollezionePicker.setFormats(new SimpleDateFormat("yy-MM-dd"));
+        inputPanel.add(dataCollezionePicker);
 
         // CAMPO NUMERO ELEMENTI
         inputPanel.add(new JLabel("Numero Elementi:"));
@@ -69,18 +76,18 @@ public class InserimentoCollezioneGUI extends JDialog {
         bottoneSalva.addActionListener(e -> {
             setVisible(false);
 
+
             //controllo che non ci siano dei campi vuoti
             if (usernameComboBox.getSelectedItem() == null || titoloField.getText().isEmpty())  {
-                JOptionPane.showMessageDialog(null, "Servizi di admin è opzionale, inserisci il resto dei dati per continuare", "Attenzione", JOptionPane.WARNING_MESSAGE);
                 setVisible(true);
             } else {
                 //Tutti i campi sono stati inseriti
                 int idCollezione = Integer.parseInt(IdCollezioneField.getText());
                 String username = (String) usernameComboBox.getSelectedItem();
                 String titolo = titoloField.getText();
-                Timestamp dataCollezione = Timestamp.valueOf(DataCollezioneField.getText());
+                java.util.Date utilDate = dataCollezionePicker.getDate();
+                java.sql.Timestamp dataCollezione = new java.sql.Timestamp(utilDate.getTime());
                 int numeroElementi = Integer.parseInt(NumeroElementiField.getText());
-
 
                 try {
                     controller.aggiungiCollezione(idCollezione, username, titolo, dataCollezione, numeroElementi);
