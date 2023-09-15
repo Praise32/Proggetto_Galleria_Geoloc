@@ -3,6 +3,7 @@ import CONTROLLER.Controller;
 import org.postgresql.util.PSQLException;
 
 import java.sql.Timestamp;
+import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -65,6 +66,7 @@ public class MenuCollezioniGUI
 
         // Creiamo il modello di tabella
         DefaultTableModel modelloTabella = new DefaultTableModel(data, colonneTabella);
+
 
         // Creiamo la tabella
         table = new JTable(modelloTabella);
@@ -133,7 +135,7 @@ public class MenuCollezioniGUI
             frameMenuPrincipale.setVisible(true);
         });
 
-        //BOTTONE INSERISCI COLLEZIONE
+// BOTTONE INSERISCI COLLEZIONE
         JButton bottoneInserisci = new JButton("Inserisci");
         bottoneInserisci.addActionListener(e -> {
             InserimentoCollezioneGUI dialog = new InserimentoCollezioneGUI(controller, frameMenuCollezioni);
@@ -145,11 +147,12 @@ public class MenuCollezioniGUI
                 public void windowClosed(WindowEvent e) {
                     // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
                     loadTable(controller, colonneTabella);
+
+                    // Aggiungi qui eventuali altre azioni dopo l'inserimento della collezione
                 }
             });
         });
-
-        //BOTTONE ELIMINA COLLEZIONE
+//BOTTONE ELIMINA COLLEZIONE
         JButton bottoneElimina = new JButton("Elimina");
         bottoneElimina.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -169,13 +172,13 @@ public class MenuCollezioniGUI
                             //elimino la collezione con l'id selezionato
                             try {
                                 controller.eliminaCollezione(idCollezioneSelezionato);
+                                // Aggiornamento della tabella dopo l'eliminazione con successo
+                                loadTable(controller, colonneTabella);
                             } catch (PSQLException ex) {
                                 JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati della collezione:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
                             } catch (Exception ee) {
                                 JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                             }
-                            //aggiorno la tabella appena dopo l'eliminazione dell'utente
-                            loadTable(controller, colonneTabella);
                         }
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(frameMenuCollezioni, "L'ID della collezione selezionata non è un numero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -188,6 +191,7 @@ public class MenuCollezioniGUI
                 JOptionPane.showMessageDialog(frameMenuCollezioni, "Seleziona una collezione per eliminarla.", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         });
+
 
 
 
@@ -204,14 +208,6 @@ public class MenuCollezioniGUI
         panelBottoni.add(panelBottoniRight, BorderLayout.EAST);
         frameMenuCollezioni.add(panelBottoni, BorderLayout.SOUTH);
 
-
-
-
-
-
-
-
-
     }
 
     private void loadTable(Controller controller,String[] colonneTabella) {
@@ -223,20 +219,22 @@ public class MenuCollezioniGUI
         ArrayList<java.sql.Timestamp> listaDataCollezioni= new ArrayList<>();
         ArrayList<Integer> listaNumeroElementi = new ArrayList<>();
 
-        controller.getListaCollezioniGUI(listaIdCollezione, listaUsername, listaTitolo, listaDataCollezioni, listaNumeroElementi);
+        controller.getListaCollezioniGUI(listaIdCollezione,listaUsername, listaTitolo, listaDataCollezioni, listaNumeroElementi);
 
-        Object[][] newdata = new Object[listaIdCollezione.size()][5];
+        Object[][] newdata = new Object[listaUsername.size()][5];
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 0; i < listaIdCollezione.size(); i++) {
             newdata[i][0] = listaIdCollezione.get(i);
             newdata[i][1] = listaUsername.get(i);
             newdata[i][2] = listaTitolo.get(i);
-            newdata[i][3] = listaDataCollezioni.get(i);
+            newdata[i][3] = dateFormat.format(listaDataCollezioni.get(i)); // Converti Timestamp in stringa
             newdata[i][4] = listaNumeroElementi.get(i);
         }
 
         //CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(newdata, colonneTabella);
+
     }
 
 
