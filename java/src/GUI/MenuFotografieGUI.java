@@ -1,4 +1,5 @@
 package GUI;
+
 import CONTROLLER.Controller;
 import org.postgresql.util.PSQLException;
 
@@ -15,8 +16,7 @@ import java.util.ArrayList;
 /**
  * The type Menu impiegati gui.
  */
-public class MenuFotografieGUI
-{
+public class MenuFotografieGUI {
 
     private final JFrame frameMenuFotografie;
     private final JTable table;
@@ -42,7 +42,7 @@ public class MenuFotografieGUI
 //----------------------------------------------TABELLA FOTOGRAFIE--------------------------------------------------------//
 
         //Creazione
-        String[] colonneTabella = {"Id_foto","Autore", "Dati Foto", "Dispositivo","Data Foto", "latitudine", "longitudine", "condivisa", "titolo"};
+        String[] colonneTabella = {"Id_foto", "Autore", "Dati Foto", "Dispositivo", "Data Foto", "latitudine", "longitudine", "condivisa", "titolo"};
         ArrayList<Integer> listaIdFoto = new ArrayList<>();
         ArrayList<String> listaAutoreFoto = new ArrayList<>();
         ArrayList<byte[]> listaDatiFoto = new ArrayList<>();
@@ -52,7 +52,7 @@ public class MenuFotografieGUI
         ArrayList<java.sql.Timestamp> listaDatafoto = new ArrayList<>();
         ArrayList<Boolean> listaCondivisaFoto = new ArrayList<>();
         ArrayList<String> listaTitoloFoto = new ArrayList<>();
-        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto,listaDatiFoto,listaLatitudineFoto, listaLongitudineFoto, listaDispositivoFoto, listaDatafoto, listaCondivisaFoto, listaTitoloFoto);
+        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto, listaDatiFoto, listaDispositivoFoto, listaDatafoto, listaLatitudineFoto, listaLongitudineFoto, listaCondivisaFoto, listaTitoloFoto);
 
         Object[][] data = new Object[listaIdFoto.size()][9];
         for (int i = 0; i < listaIdFoto.size(); i++) {
@@ -138,7 +138,6 @@ public class MenuFotografieGUI
         });
 
 
-
         //BOTTONE ELIMINA FOTOGRAFIA
         JButton bottoneElimina = new JButton("Elimina");
         bottoneElimina.addActionListener(e -> {
@@ -160,17 +159,13 @@ public class MenuFotografieGUI
                         JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                     //aggiorno la tabella appena dopo l'eliminazione dell'utente
-                    updateTable(controller,colonneTabella);
+                    updateTable(controller, colonneTabella);
                 }
             } else {
                 // L'utente non ha selezionato una cella
                 JOptionPane.showMessageDialog(frameMenuFotografie, "Seleziona una fotografia per eliminarla.", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         });
-
-
-
-
 
 
         // Aggiungiamo i pulsanti alla finestra
@@ -188,14 +183,9 @@ public class MenuFotografieGUI
         frameMenuFotografie.add(panelBottoni, BorderLayout.SOUTH);
 
 
-
-
-
-
-
     }
 
-    private void updateTable(Controller controller,String[] colonneTabella) {
+    private void updateTable(Controller controller, String[] colonneTabella) {
 
         //LOAD DEI NUOVI DATI
         ArrayList<Integer> listaIdFoto = (ArrayList<Integer>) controller.getListaFotografieIdFotoGUI();
@@ -234,51 +224,46 @@ public class MenuFotografieGUI
 }
 
 
-
 /**
-
-
- //BOTTONE PROFILO UTENTE
-
- JButton bottoneProfiloUtente = new JButton("Profilo Utente");
- bottoneProfiloUtente.addActionListener(e -> {
- int selectedRow = table.getSelectedRow();
- int selectedColumn = table.getSelectedColumn();
- // L'utente ha selezionato una cella
- if (selectedRow != -1 && selectedColumn != -1) {
- // l'username è nella prima colonna della tabella
- String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
- try {
- // Creo un'istanza della finestra di dialogo ProfiloImpiegato
- ViewUserGUI profiloUtente = new ViewUserGUI(usernameSelezionato, controller, frameMenuUtenti);
- frameMenuUtenti.setVisible(false);
- // Mostro la finestra di dialogo
- profiloUtente.setVisible(true);
- } catch (java.sql.SQLException ex) {
- // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
- ex.printStackTrace(); // Stampa la traccia dell'eccezione
- }
- } else {
- // L'utente non ha selezionato una cella
- JOptionPane.showMessageDialog(frameMenuUtenti, "Seleziona un utente per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
- }
- });
-
-
- //BOTTONE INSERISCI FOTOGRAFIA
- bottoneInserisci.addActionListener(e -> {
- InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
- frameMenuFotografie.setVisible(false);
- dialog.setVisible(true);
- // Aggiungo un listener per la finestra di dialogo
- dialog.addWindowListener(new WindowAdapter() {
-@Override
-public void windowClosed(WindowEvent e) {
-// Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
-updateTable(controller, colonneTabella);
-}
-});
- });
-
-
+ * //BOTTONE PROFILO UTENTE
+ * <p>
+ * JButton bottoneProfiloUtente = new JButton("Profilo Utente");
+ * bottoneProfiloUtente.addActionListener(e -> {
+ * int selectedRow = table.getSelectedRow();
+ * int selectedColumn = table.getSelectedColumn();
+ * // L'utente ha selezionato una cella
+ * if (selectedRow != -1 && selectedColumn != -1) {
+ * // l'username è nella prima colonna della tabella
+ * String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+ * try {
+ * // Creo un'istanza della finestra di dialogo ProfiloImpiegato
+ * ViewUserGUI profiloUtente = new ViewUserGUI(usernameSelezionato, controller, frameMenuUtenti);
+ * frameMenuUtenti.setVisible(false);
+ * // Mostro la finestra di dialogo
+ * profiloUtente.setVisible(true);
+ * } catch (java.sql.SQLException ex) {
+ * // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
+ * ex.printStackTrace(); // Stampa la traccia dell'eccezione
+ * }
+ * } else {
+ * // L'utente non ha selezionato una cella
+ * JOptionPane.showMessageDialog(frameMenuUtenti, "Seleziona un utente per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
+ * }
+ * });
+ * <p>
+ * <p>
+ * //BOTTONE INSERISCI FOTOGRAFIA
+ * bottoneInserisci.addActionListener(e -> {
+ * InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
+ * frameMenuFotografie.setVisible(false);
+ * dialog.setVisible(true);
+ * // Aggiungo un listener per la finestra di dialogo
+ * dialog.addWindowListener(new WindowAdapter() {
+ *
+ * @Override public void windowClosed(WindowEvent e) {
+ * // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
+ * updateTable(controller, colonneTabella);
+ * }
+ * });
+ * });
  */
