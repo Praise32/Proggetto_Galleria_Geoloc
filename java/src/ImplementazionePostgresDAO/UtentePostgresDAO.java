@@ -134,13 +134,23 @@ public class UtentePostgresDAO implements UtenteDAO {
     @Override
     public boolean accessoUtenteDAO(String usernameAccesso, String passwordAccesso) throws SQLException {
         PreparedStatement accessoUtente;
-        accessoUtente = connection.prepareStatement("SELECT username, admin FROM utente WHERE username = ? AND password = ?");
+        accessoUtente = connection.prepareStatement("SELECT username FROM utente WHERE username = ? AND password = ?");
         accessoUtente.setString(1, usernameAccesso);
         accessoUtente.setString(2, passwordAccesso);
 
 
         ResultSet rs = accessoUtente.executeQuery();
         return rs.next(); //Ritorna vero se ha letto qualcosa, dunque le credenziali sono corrette, altrimenti falso
+    }
+
+    @Override
+    public boolean controlloAdminDAO(String username) throws SQLException {
+        PreparedStatement controlloAdmin;
+        controlloAdmin = connection.prepareStatement("SELECT admin FROM utente WHERE username = ?");
+        controlloAdmin.setString(1, username);
+
+        ResultSet rs = controlloAdmin.executeQuery();
+        return rs.getBoolean("admin");
     }
 }
 

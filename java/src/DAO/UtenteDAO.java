@@ -32,4 +32,6 @@ public interface UtenteDAO {
     public boolean modificaUtenteDAO(String usernameSelezionato, String password, boolean admin) throws SQLException;
 
     public boolean accessoUtenteDAO(String usernameAccesso, String passwordAccesso) throws SQLException;
+
+    public boolean controlloAdminDAO(String username) throws SQLException;
 }

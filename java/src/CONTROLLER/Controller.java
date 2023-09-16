@@ -254,6 +254,23 @@ public class Controller {
     }
 
     /**
+     * Funzione utilizzata per il controllo dello stato di admin dell'utente che ha effettuato l'accesso
+     * in maniera da permettergli o meno determinate funzioni
+     * Si è preferito l'uso di una funzione del genere anziché salvare il flag in una variabile poiché lo stato admin
+     * potrebbe cambiare all'interno del server durante il funzionamento del software
+     * @param username Username passato dall'oggetto Main.user
+     * @return se l'utente è admin o meno
+     * @throws SQLException
+     */
+    public boolean controlloAdmin(String username) throws SQLException{
+        UtenteDAO u = new UtentePostgresDAO();
+
+        boolean control = u.controlloAdminDAO(username);
+
+        return control;
+    }
+
+    /**
      * Aggiunge un nuovo utente al sistema.
      *
      * @param username Il nome utente dell'utente.
