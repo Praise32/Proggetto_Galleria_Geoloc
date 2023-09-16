@@ -1,11 +1,14 @@
 package GUI;
 
 import CONTROLLER.Controller;
+import ImplementazionePostgresDAO.UtentePostgresDAO;
 import MAIN.Main;
+import MAIN.User;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 /**
  * The type Menu principale gui.
@@ -60,6 +63,10 @@ public class Login {
 
         frame.setVisible(true);
 
+        // Recupera il default button da credentialsPanel, in questo caso il pulsante Accedi
+        // setDefaultButton imposta il pulsante di default con keyListener sul pulsante Invio, senza dover creare Override appositi
+        frame.getRootPane().setDefaultButton(credentialsPanel.getRootPane().getDefaultButton());
+
         frame.requestFocusInWindow();
 
 
@@ -81,7 +88,8 @@ public class Login {
         usernameField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                usernameField.setText(null); // Empty the text field when it receives focus
+                //Se nella casella c'è scritto il testo di default allora svuota la casella al focus, altrimenti lascia l'input utente
+                if(usernameField.getText().equals("Username")) usernameField.setText(null);
             }
             @Override
             public void focusLost(FocusEvent e) {
@@ -112,16 +120,38 @@ public class Login {
 
         // Bottone Accedi
         JButton loginButton = new JButton("Accedi");
+
+        /**
+         * Funzione di accesso collegata al pulsante
+         */
         loginButton.addActionListener(e -> {
-            //chiudo finestra corrente
-            frame.dispose();
-            //apro menu principale
-            GUI.MenuPrincipaleGUI menuPrincipale = new GUI.MenuPrincipaleGUI(controller, frame);
+            boolean accesso = false;
+
+            try {
+                accesso = controller.accessoUtente(usernameField.getText(), passwordField.getText());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            if (accesso){
+
+                frame.dispose();
+                //Apro il menu principale
+                GUI.MenuPrincipaleGUI menuPrincipaleGUI = new GUI.MenuPrincipaleGUI(controller, frame);
+
+            }else{
+                JOptionPane.showMessageDialog(null, "Credenziali errate!\n", "Accesso non riuscito.", JOptionPane.INFORMATION_MESSAGE);
+            }
+
         });
         //loginButton.addKeyListener(); TODO Controllare come aggiungere un KeyListener sul tasto invio per accedere
         addComponent(credentialsPanel, loginButton, constraints, 0, 2, 2, GridBagConstraints.CENTER);
+
+        frame.getRootPane().setDefaultButton(loginButton);
+
         return credentialsPanel;
     }
+
 
     /**
      * Funzione per creare un pannello che contenga un immagine

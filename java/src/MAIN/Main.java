@@ -15,7 +15,8 @@ public class Main {
     /**
      * Oggetto usato per salvare le credenziali dell'utente che ha effettuato l'accesso
      */
-    public static User user = new User();
+    public static User user;
+
     /**
      * The entry point of application.
      *
@@ -28,6 +29,7 @@ public class Main {
            sono solitamente fatte in un apposito software di installazione del programma, che venendo
            runnato una singola volta installa tutte le componenti necessarie senza farlo ad ogni avvio */
 
+        user = new User();
         FlatDarkLaf.installLafInfo();
         UIManager.setLookAndFeel(new FlatDarkLaf());
         new Login();

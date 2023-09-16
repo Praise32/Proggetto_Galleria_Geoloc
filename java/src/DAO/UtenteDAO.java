@@ -1,5 +1,7 @@
 package DAO;
 
+import MAIN.User;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Timestamp;

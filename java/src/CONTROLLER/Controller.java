@@ -3,6 +3,7 @@ package CONTROLLER;
 import DAO.*;
 import ImplementazionePostgresDAO.*;
 import ImplementazionePostgresDAO.LuogoPostgresDAO;
+import MAIN.Main;
 import MAIN.User;
 import MODEL.*;
 import MODEL.Luogo;
@@ -241,6 +242,16 @@ public class Controller {
 
 //_______________________________________FUNZIONI PER UTENTE//
 
+    public boolean accessoUtente(String username, String password) throws SQLException{
+        UtenteDAO u = new UtentePostgresDAO();
+
+        boolean control = u.accessoUtenteDAO(username, password);
+
+        if(control) {
+            Main.user.setUsername(username);
+        }
+        return control;
+    }
 
     /**
      * Aggiunge un nuovo utente al sistema.
@@ -1699,8 +1710,6 @@ public void aggiungiLuogoDAO(float latitudine, float longitudine, String nome, S
 
         return stringTitolo;
     }
-
-
 
 
 }

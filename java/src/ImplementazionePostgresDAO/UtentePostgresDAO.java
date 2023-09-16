@@ -1,8 +1,8 @@
 package ImplementazionePostgresDAO;
 
+//LogForJ libreria per il logging
 import DAO.UtenteDAO;
 import DBconnection.ConnessioneDB;
-import MAIN.Main;
 import MAIN.User;
 
 import java.sql.Connection;
@@ -134,12 +134,13 @@ public class UtentePostgresDAO implements UtenteDAO {
     @Override
     public boolean accessoUtenteDAO(String usernameAccesso, String passwordAccesso) throws SQLException {
         PreparedStatement accessoUtente;
-        accessoUtente = connection.prepareStatement("SELECT username, password, admin FROM utente WHERE username = ? AND password = ?");
+        accessoUtente = connection.prepareStatement("SELECT username, admin FROM utente WHERE username = ? AND password = ?");
         accessoUtente.setString(1, usernameAccesso);
         accessoUtente.setString(2, passwordAccesso);
 
+
         ResultSet rs = accessoUtente.executeQuery();
-        return rs.next(); //Ritorna vero se è stato letto, falso se non è stato letto e dunque username e password non corrispondono
+        return rs.next(); //Ritorna vero se ha letto qualcosa, dunque le credenziali sono corrette, altrimenti falso
     }
 }
 
