@@ -1,6 +1,7 @@
 package GUI;
 
 import CONTROLLER.Controller;
+import MAIN.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -113,7 +114,7 @@ public class Login {
         JButton loginButton = new JButton("Accedi");
         loginButton.addActionListener(e -> {
             //chiudo finestra corrente
-            frame.setVisible(false);
+            frame.dispose();
             //apro menu principale
             GUI.MenuPrincipaleGUI menuPrincipale = new GUI.MenuPrincipaleGUI(controller, frame);
         });

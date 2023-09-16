@@ -2,6 +2,8 @@ package ImplementazionePostgresDAO;
 
 import DAO.UtenteDAO;
 import DBconnection.ConnessioneDB;
+import MAIN.Main;
+import MAIN.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,10 +38,7 @@ public class UtentePostgresDAO implements UtenteDAO {
         deleteUsr = connection.prepareStatement("DELETE FROM utente WHERE username = ? ");
         deleteUsr.setString(1, utenteSelezionato);
         int result = deleteUsr.executeUpdate();
-        if (result == 1) {
-            return true;
-        }
-        return false;
+        return result == 1;
     }
 
     @Override
@@ -50,10 +49,7 @@ public class UtentePostgresDAO implements UtenteDAO {
         insertUsr.setString(2, password);
         insertUsr.setBoolean(3, admin);
         int result = insertUsr.executeUpdate();
-        if (result == 1) {
-            return true;
-        }
-        return false;
+        return result == 1;
     }
 
     @Override
@@ -132,14 +128,22 @@ public class UtentePostgresDAO implements UtenteDAO {
         modificaUsr.setBoolean(2, admin);
         modificaUsr.setString(3, usernameSelezionato);
         int rs = modificaUsr.executeUpdate();
-        if (rs > 0) {
-            return true;
-        }
-        return false;
+        return rs > 0;
     }
 
+    @Override
+    public boolean accessoUtenteDAO(String usernameAccesso, String passwordAccesso) throws SQLException {
+        PreparedStatement accessoUtente;
+        accessoUtente = connection.prepareStatement("SELECT username, password, admin FROM utente WHERE username = ? AND password = ?");
+        accessoUtente.setString(1, usernameAccesso);
+        accessoUtente.setString(2, passwordAccesso);
 
+        ResultSet rs = accessoUtente.executeQuery();
+        return rs.next(); //Ritorna vero se è stato letto, falso se non è stato letto e dunque username e password non corrispondono
+    }
 }
+
+
 
 
 

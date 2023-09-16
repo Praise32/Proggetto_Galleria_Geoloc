@@ -3,6 +3,7 @@ package CONTROLLER;
 import DAO.*;
 import ImplementazionePostgresDAO.*;
 import ImplementazionePostgresDAO.LuogoPostgresDAO;
+import MAIN.User;
 import MODEL.*;
 import MODEL.Luogo;
 
@@ -239,6 +240,7 @@ public class Controller {
 
 
 //_______________________________________FUNZIONI PER UTENTE//
+
 
     /**
      * Aggiunge un nuovo utente al sistema.

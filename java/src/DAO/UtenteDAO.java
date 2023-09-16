@@ -18,6 +18,7 @@ public interface UtenteDAO {
 
     // Metodo per ottenere le fotografie associate a un utente.
     public boolean VediFotografiaPerUtenteDAO(String usernameSelezionato, ArrayList<Integer> idFotoAssociato) throws SQLException;
+
     // Metodo per ottenere le fotografie con utente taggato.
     public boolean VediFotografiaPerTagUtenteDAO(String usernameSelezionato, ArrayList<Integer> idFotoAssociato) throws SQLException;
 
@@ -27,4 +28,6 @@ public interface UtenteDAO {
 
     // Metodo per modificare le informazioni di un utente esistente.
     public boolean modificaUtenteDAO(String usernameSelezionato, String password, boolean admin) throws SQLException;
+
+    public boolean accessoUtenteDAO(String usernameAccesso, String passwordAccesso) throws SQLException;
 }

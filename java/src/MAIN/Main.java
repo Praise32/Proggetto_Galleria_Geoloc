@@ -1,4 +1,4 @@
-package GUI;
+package MAIN;
 
 import GUI.Login;
 
@@ -11,6 +11,11 @@ import javax.swing.*;
  * The type Main.
  */
 public class Main {
+
+    /**
+     * Oggetto usato per salvare le credenziali dell'utente che ha effettuato l'accesso
+     */
+    public static User user = new User();
     /**
      * The entry point of application.
      *
@@ -22,6 +27,7 @@ public class Main {
         /* Operazioni quali installazioni di librerie e simili
            sono solitamente fatte in un apposito software di installazione del programma, che venendo
            runnato una singola volta installa tutte le componenti necessarie senza farlo ad ogni avvio */
+
         FlatDarkLaf.installLafInfo();
         UIManager.setLookAndFeel(new FlatDarkLaf());
         new Login();
