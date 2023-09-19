@@ -135,6 +135,7 @@ public class Login {
 
             if (accesso){
 
+                Main.user.setUsername(usernameField.getText());
                 frame.dispose();
                 //Apro il menu principale
                 GUI.MenuPrincipaleGUI menuPrincipaleGUI = new GUI.MenuPrincipaleGUI(controller, frame);
