@@ -2,19 +2,14 @@ package CONTROLLER;
 
 import DAO.*;
 import ImplementazionePostgresDAO.*;
-import ImplementazionePostgresDAO.LuogoPostgresDAO;
-import MAIN.Main;
-import MAIN.User;
+import ImplementazionePostgresDAO.FramePostgresDAO;
+import ImplementazionePostgresDAO.VideoPostgresDAO;
 import MODEL.*;
-import MODEL.Luogo;
-
+import java.text.DecimalFormat;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import static javax.swing.text.html.parser.DTDConstants.MODEL;
 
 /**
  * The type Controller.
@@ -241,34 +236,6 @@ public class Controller {
 
 
 //_______________________________________FUNZIONI PER UTENTE//
-
-    public boolean accessoUtente(String username, String password) throws SQLException{
-        UtenteDAO u = new UtentePostgresDAO();
-
-        boolean control = u.accessoUtenteDAO(username, password);
-
-        if(control) {
-            Main.user.setUsername(username);
-        }
-        return control;
-    }
-
-    /**
-     * Funzione utilizzata per il controllo dello stato di admin dell'utente che ha effettuato l'accesso
-     * in maniera da permettergli o meno determinate funzioni
-     * Si è preferito l'uso di una funzione del genere anziché salvare il flag in una variabile poiché lo stato admin
-     * potrebbe cambiare all'interno del server durante il funzionamento del software
-     * @param username Username passato dall'oggetto Main.user
-     * @return se l'utente è admin o meno
-     * @throws SQLException
-     */
-    public boolean controlloAdmin(String username) throws SQLException{
-        UtenteDAO u = new UtentePostgresDAO();
-
-        boolean control = u.controlloAdminDAO(username);
-
-        return control;
-    }
 
     /**
      * Aggiunge un nuovo utente al sistema.
@@ -548,7 +515,8 @@ public class Controller {
     /**
      * Aggiunge una collezione al sistema con i dettagli forniti.
      *
-     * @param idCollezioneSelezionato ID univoco della collezione da aggiungere.
+     * @param idCollezione ID univoco della collezione da aggiungere.
+     * @param username     Nome utente associato alla collezione.
      * @param titolo       Titolo della collezione da aggiungere.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
@@ -767,7 +735,7 @@ public class Controller {
     /**
      * Ottiene l'elenco di ID delle collezioni in cui è presente la fotografia selezionata come contenuto.
      *
-     * @param idFotoSelezionata ID univoco della fotografia di cui visualizzare i contenuti.
+     * @param idFotoselezionata ID univoco della fotografia di cui visualizzare i contenuti.
      * @return Lista di ID delle collezioni che contengono la fotografia come contenuto.
      */
     public ArrayList<Integer> vediContenutoFotografia(int idFotoSelezionata) throws SQLException  {
@@ -954,7 +922,7 @@ public class Controller {
     /**
      * Rimuove un tag utente da una fotografia.
      *
-     * @param idFotoSelezionata ID univoco della fotografia da cui rimuovere il tag utente.
+     * @param idFotoselezionata ID univoco della fotografia da cui rimuovere il tag utente.
      * @param utenteSelezionato Nome utente da rimuovere come tag dalla fotografia.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
@@ -1397,104 +1365,6 @@ public class Controller {
      */
 
 
-//____________________________________________________________________________________________________________________//
-//____________________________________________________________________________________________________________________//
-
-
-//_______________________________________FUNZIONI PER LUOGO//
-
-/**
- * Aggiunge un nuovo luogo al sistema con i dettagli forniti.
- *
- * @param longitudine    ID composto coordinate del luogo.
- * @param latitudine     ID composto coordinate del luogo.
- * @param nome           Nome Univoco per identificare un luogo.
- * @param descrizione    Dispositivo con cui è stata scattata la fotografia.
- - @throws SQLException Eccezione sollevata in caso di problemi con il database.
-*/
-
-public void aggiungiLuogoDAO(float latitudine, float longitudine, String nome, String descrizione) throws SQLException   {
-    DAO.LuogoDAO l = new LuogoPostgresDAO();
-
-        boolean control = l.aggiungiLuogoDAO(latitudine, longitudine, nome, descrizione);
-
-        if (control) {
-            System.out.println("Luogo aggiunto con successo!");
-            MODEL.Luogo luogo = new Luogo(latitudine, longitudine, nome, descrizione);
-            listaLuogo.add(luogo);
-        }
-
-}
-
-
-    /**
-     * Elimina un Luogo dal sistema in base all'nome fornito.
-     *
-     * @param LuogoSelezionato nome univoco del luogo da eliminare.
-     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
-     */
-
-    public void eliminaLuogoDAO(String LuogoSelezionato) throws SQLException {
-
-        DAO.LuogoDAO l = new LuogoPostgresDAO();
-
-        boolean control = l.eliminaLuogoDAO(LuogoSelezionato);
-
-        if (control) {
-            System.out.println("Eliminazione avvenuta con successo ...!");
-
-            //SE L'ELIMINAZIONE HA AVUTO SUCCESSO ALLORA ELIMINO ANCHE DAL MODEL IL SOGGETTO...
-            for (Luogo luogo : listaLuogo) {
-                if (LuogoSelezionato.equals(luogo.getNome())) {
-                    listaLuogo.remove(luogo);
-                    break;
-                }
-            }
-        } else {
-            System.out.println("Impossibile rimuovere il luogo...");
-        }
-    }
-
-   public List<Luogo> getClassificaLuoghi() {
-
-       List<MODEL.Luogo> classifica = new ArrayList<>();
-      DAO.LuogoDAO l = new LuogoPostgresDAO();
-
-       boolean control = false;
-       try {
-           control = l.classificaLuoghiDAO(classifica);
-       } catch (SQLException e) {
-           throw new RuntimeException(e);
-       }
-
-       if (control){
-           return classifica;
-       }
-
-       return classifica;
-   }
-
-    public void modificaLuogoDAO(String LuogoSelezionato, String descrizione, float latitudine, float longitudine) throws SQLException {
-        DAO.LuogoDAO l = new LuogoPostgresDAO();
-
-        boolean control = l.modificaLuogoDAO(LuogoSelezionato,  descrizione, latitudine, longitudine);
-
-        if (control) {
-
-            //trovo il mio oggetto Luogo[...]
-            Luogo Luogo = null;
-            for (Luogo lu : listaLuogo)
-                if (Objects.equals(lu.getNome(), LuogoSelezionato))
-                    Luogo = lu;
-
-            //a questo punto aggiorno il mio model con i nuovi dati avuti dalla gui
-            Luogo.setDescrizione(descrizione);
-            Luogo.setLatitudine(latitudine);
-            Luogo.setLongitudine(longitudine);
-        }
-    }
-
-
 
 
 
@@ -1612,22 +1482,129 @@ public void aggiungiLuogoDAO(float latitudine, float longitudine, String nome, S
     }
 
 
+    public int getCollezioneIDcolViewGUI(int idCollezioneSelezionato) {
+        Collezione colSelezionata = null;
+        for (Collezione col : listaCollezione) {
+            if (col.getIdCollezione() == idCollezioneSelezionato) {
+                colSelezionata = col;
+                break;
+            }
+        }
+        if (colSelezionata != null) {
+            return colSelezionata.getIdCollezione();
+        } else {
+            // Gestione dell'errore o valore predefinito in caso di nessuna corrispondenza trovata
+            return -1; // Ad esempio, restituisco -1 in caso di nessuna corrispondenza
+        }
+    }
+    public String getCollezioneTitoloViewGUI(int idCollezioneSelezionato) {
+        Collezione colSelezionata = null;
+        for (Collezione col : listaCollezione) {
+            if (col.getIdCollezione() == idCollezioneSelezionato) {
+                colSelezionata = col;
+                break;
+            }
+        }
+        if (colSelezionata != null) {
+            return colSelezionata.getTitolo();
+        } else {
+            // Gestione dell'errore o valore predefinito in caso di nessuna corrispondenza trovata
+            return null; // Ad esempio, restituisco null in caso di nessuna corrispondenza
+        }
+    }
+
+
+    public String getCollezioneUsernameViewGUI(int idCollezioneSelezionato){
+
+        Collezione colSelezionata = null;
+        for(Collezione col : listaCollezione){
+            if(col.getUsername().equals(idCollezioneSelezionato)){
+                colSelezionata = col;
+                break;
+            }
+        }
+        return colSelezionata.getTitolo();
+    }
+
+
+
 
 //------------------------------------------------FOTOGRAFIA------------------------------------------------------------//
 
     public void getListaFotografiaGUI(ArrayList<Integer> listaIdFoto, ArrayList<String> listaAutoreFoto, ArrayList<byte[]> listaDatiFoto,ArrayList<String> listaDispositivoFoto, ArrayList<java.sql.Timestamp> listaDatafoto, ArrayList<Float> listaLatitudineFoto, ArrayList<Float> listaLongitudineFoto,ArrayList<Boolean> listaCondivisaFoto, ArrayList<String> listaTitoloFoto) {
         for (Fotografia fotografia : listaFotografia) {
+            DecimalFormat decimalFormat = new DecimalFormat("#.######"); // Formatta con 6 cifre decimali
+
             listaIdFoto.add(fotografia.getIdFoto());
-            listaAutoreFoto.add(fotografia.getUsernameAutore().getUsername()); // Aggiungi l'username dell'autore
+            // Verifica se l'autore non è null prima di ottenere l'username
+            if (fotografia.getUsernameAutore() != null) {
+                listaAutoreFoto.add(fotografia.getUsernameAutore().getUsername());
+            } else {
+                // Se l'autore è null, assegna una stringa vuota come autore
+                listaAutoreFoto.add("Sconosciuto"); // Specifichiamo un valore predefinito come "Sconosciuto"
+            }
             listaDatiFoto.add(fotografia.getDatiFoto());
             listaDispositivoFoto.add(fotografia.getDispositivo());
             listaDatafoto.add(fotografia.getDataFoto());
-            listaLatitudineFoto.add(fotografia.getLuogolat().getLatitudine());
-            listaLongitudineFoto.add(fotografia.getLuogolon().getLongitudine());
+
+            // Verifica se il luogo latitudine non è null prima di ottenere la latitudine
+            if (fotografia.getLuogolat() != null) {
+                listaLatitudineFoto.add(Float.parseFloat(decimalFormat.format(fotografia.getLuogolat().getLatitudine())));
+            } else {
+                // Se la latitudine è null, assegna un valore predefinito o gestisci il caso come preferisci
+                listaLatitudineFoto.add(0.0f); // Ad esempio, assegniamo 0.0 come valore predefinito
+            }
+
+            // Verifica se il luogo longitudine non è null prima di ottenere la longitudine
+            if (fotografia.getLuogolon() != null) {
+                listaLongitudineFoto.add(Float.parseFloat(decimalFormat.format(fotografia.getLuogolon().getLongitudine())));
+            } else {
+                // Se la longitudine è null, assegna un valore predefinito o gestisci il caso come preferisci
+                listaLongitudineFoto.add(0.0f); // Ad esempio, assegniamo 0.0 come valore predefinito
+            }
+
             listaCondivisaFoto.add(fotografia.isCondivisa());
             listaTitoloFoto.add(fotografia.getTitolo());
         }
     }
+    public ArrayList<String> getListaLuoghiDisponibiliGUI() {
+        ArrayList<String> luoghiDisponibili = new ArrayList<>();
+
+        for (Luogo luo : listaLuogo) {
+            luoghiDisponibili.add(luo.getNome());
+        }
+        return luoghiDisponibili;
+    }
+
+
+    public ArrayList<Float> getLatitudiniByNomeLuogo(String nomeLuogo) {
+        ArrayList<Float> latitudini = new ArrayList<>();
+
+        // Scorrere la lista dei luoghi e trovare quelli con il nome specificato
+        for (Luogo luogo : listaLuogo) {
+            if (luogo.getNome().equals(nomeLuogo)) {
+                latitudini.add(luogo.getLatitudine());
+            }
+        }
+
+        return latitudini;
+    }
+
+    public ArrayList<Float> getLongitudineByNomeLuogo(String nomeLuogo) {
+        ArrayList<Float> Longitudini = new ArrayList<>();
+
+        // Scorrere la lista dei luoghi e trovare quelli con il nome specificato
+        for (Luogo luogo : listaLuogo) {
+            if (luogo.getNome().equals(nomeLuogo)) {
+                Longitudini.add(luogo.getLongitudine());
+            }
+        }
+
+        return Longitudini;
+    }
+
+
+
 
 
 
@@ -1727,6 +1704,12 @@ public void aggiungiLuogoDAO(float latitudine, float longitudine, String nome, S
 
         return stringTitolo;
     }
+
+
+
+
+
+
 
 
 }
