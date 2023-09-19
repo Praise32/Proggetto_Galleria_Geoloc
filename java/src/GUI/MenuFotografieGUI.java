@@ -1,5 +1,4 @@
 package GUI;
-
 import CONTROLLER.Controller;
 import org.postgresql.util.PSQLException;
 
@@ -16,7 +15,9 @@ import java.util.ArrayList;
 /**
  * The type Menu impiegati gui.
  */
-public class MenuFotografieGUI {
+
+public class MenuFotografieGUI
+{
 
     private final JFrame frameMenuFotografie;
     private final JTable table;
@@ -27,7 +28,7 @@ public class MenuFotografieGUI {
      *
      * @param controller          the controller
      * @param frameMenuPrincipale the frame menu principale
-     */
+     * */
 
 
     public MenuFotografieGUI(Controller controller, JFrame frameMenuPrincipale) {
@@ -41,18 +42,22 @@ public class MenuFotografieGUI {
 
 //----------------------------------------------TABELLA FOTOGRAFIE--------------------------------------------------------//
 
+
+
+
         //Creazione
-        String[] colonneTabella = {"Id_foto", "Autore", "Dati Foto", "Dispositivo", "Data Foto", "latitudine", "longitudine", "condivisa", "titolo"};
+        String[] colonneTabella = {"Id_foto","Autore", "Dati Foto","Dispositivo","Data Foto", "latitudine", "longitudine","condivisa", "titolo"};
         ArrayList<Integer> listaIdFoto = new ArrayList<>();
         ArrayList<String> listaAutoreFoto = new ArrayList<>();
         ArrayList<byte[]> listaDatiFoto = new ArrayList<>();
-        ArrayList<Float> listaLatitudineFoto = new ArrayList<>();
-        ArrayList<Float> listaLongitudineFoto = new ArrayList<>();
         ArrayList<String> listaDispositivoFoto = new ArrayList<>();
         ArrayList<java.sql.Timestamp> listaDatafoto = new ArrayList<>();
+        ArrayList<Float> listaLatitudineFoto = new ArrayList<>();
+        ArrayList<Float> listaLongitudineFoto = new ArrayList<>();
         ArrayList<Boolean> listaCondivisaFoto = new ArrayList<>();
         ArrayList<String> listaTitoloFoto = new ArrayList<>();
-        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto, listaDatiFoto, listaDispositivoFoto, listaDatafoto, listaLatitudineFoto, listaLongitudineFoto, listaCondivisaFoto, listaTitoloFoto);
+
+        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto,listaDatiFoto, listaDispositivoFoto ,listaDatafoto,listaLatitudineFoto, listaLongitudineFoto,listaCondivisaFoto, listaTitoloFoto);
 
         Object[][] data = new Object[listaIdFoto.size()][9];
         for (int i = 0; i < listaIdFoto.size(); i++) {
@@ -117,12 +122,12 @@ public class MenuFotografieGUI {
             }
 
             public void search(String searchString) {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchString, 0));
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchString, 1));
             }
         });
 
         JPanel panelSearch = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        panelSearch.add(new JLabel("Cerca per username: "));
+        panelSearch.add(new JLabel("Cerca per autore: "));
         panelSearch.add(searchBar);
 
         frameMenuFotografie.add(panelSearch, BorderLayout.NORTH);
@@ -136,6 +141,7 @@ public class MenuFotografieGUI {
             frameMenuFotografie.dispose();
             frameMenuPrincipale.setVisible(true);
         });
+
 
 
         //BOTTONE ELIMINA FOTOGRAFIA
@@ -159,13 +165,32 @@ public class MenuFotografieGUI {
                         JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                     //aggiorno la tabella appena dopo l'eliminazione dell'utente
-                    updateTable(controller, colonneTabella);
+                    updateTable(controller,colonneTabella);
                 }
             } else {
                 // L'utente non ha selezionato una cella
                 JOptionPane.showMessageDialog(frameMenuFotografie, "Seleziona una fotografia per eliminarla.", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         });
+
+        // BOTTONE INSERISCI FOTOGRAFIA
+        JButton bottoneInserisci = new JButton("Inserisci");
+        bottoneInserisci.addActionListener(e -> {
+            InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
+            frameMenuFotografie.setVisible(false);
+            dialog.setVisible(true);
+            // Aggiungo un listener per la finestra di dialogo
+            dialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
+                    updateTable(controller, colonneTabella);
+
+                }
+            });
+        });
+
+
 
 
         // Aggiungiamo i pulsanti alla finestra
@@ -181,89 +206,72 @@ public class MenuFotografieGUI {
         panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);
         panelBottoni.add(panelBottoniRight, BorderLayout.EAST);
         frameMenuFotografie.add(panelBottoni, BorderLayout.SOUTH);
+        frameMenuFotografie.setVisible(true);
+
+
+
+
 
 
     }
 
-    private void updateTable(Controller controller, String[] colonneTabella) {
+    private void updateTable(Controller controller,String[] colonneTabella) {
 
         //LOAD DEI NUOVI DATI
-        ArrayList<Integer> listaIdFoto = (ArrayList<Integer>) controller.getListaFotografieIdFotoGUI();
-        ArrayList<String> listaAutore = (ArrayList<String>) controller.getListaFotografieAutoreGUI();
-        ArrayList<Byte> listaDatiFoto = (ArrayList<Byte>) controller.getListaFotografieDatiGUI();
-        ArrayList<String> listaDispositivoFoto = (ArrayList<String>) controller.getListaFotografieDispositivoGUI();
-        ArrayList<Float> listaLatitudinefoto = (ArrayList<Float>) controller.getListaFotografieLatitudineGUI();
-        ArrayList<Float> listaLonitudinefoto = (ArrayList<Float>) controller.getListaFotografieLongitudineGUI();
-        ArrayList<Boolean> listaCondivisaFoto = (ArrayList<Boolean>) controller.getListaFotografieCondivisaGUI();
-        ArrayList<String> listaTitoloFoto = (ArrayList<String>) controller.getListaFotografieTitoloGUI();
+        ArrayList<Integer> listaIdFoto = new ArrayList<>();
+        ArrayList<String> listaAutoreFoto = new ArrayList<>();
+        ArrayList<byte[]> listaDatiFoto = new ArrayList<>();
+        ArrayList<String> listaDispositivoFoto = new ArrayList<>();
+        ArrayList<java.sql.Timestamp> listaDatafoto = new ArrayList<>();
+        ArrayList<Float> listaLatitudineFoto = new ArrayList<>();
+        ArrayList<Float> listaLongitudineFoto = new ArrayList<>();
+        ArrayList<Boolean> listaCondivisaFoto = new ArrayList<>();
+        ArrayList<String> listaTitoloFoto = new ArrayList<>();
 
+        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto,listaDatiFoto, listaDispositivoFoto ,listaDatafoto,listaLatitudineFoto, listaLongitudineFoto,listaCondivisaFoto, listaTitoloFoto);
 
-        Object[][] newdata = new Object[listaIdFoto.size()][3];
+        Object[][] newdata = new Object[listaIdFoto.size()][9];
         for (int i = 0; i < listaIdFoto.size(); i++) {
-            newdata[i][0] = listaAutore.get(i);
-            newdata[i][1] = listaDatiFoto.get(i);
-            newdata[i][2] = listaDispositivoFoto.get(i);
-            newdata[i][3] = listaLatitudinefoto.get(i);
-            newdata[i][4] = listaLonitudinefoto.get(i);
-            newdata[i][5] = listaCondivisaFoto.get(i);
-            newdata[i][6] = listaTitoloFoto.get(i);
+            newdata[i][0] = listaIdFoto.get(i);
+            newdata[i][1] = listaAutoreFoto.get(i);
+            newdata[i][2] = listaDatiFoto.get(i);
+            newdata[i][3] = listaDispositivoFoto.get(i);
+            newdata[i][4] = listaDatafoto.get(i);
+            newdata[i][5] = listaLatitudineFoto.get(i);
+            newdata[i][6] = listaLongitudineFoto.get(i);
+            newdata[i][7] = listaCondivisaFoto.get(i);
+            newdata[i][8] = listaTitoloFoto.get(i);
         }
 
         //CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(newdata, colonneTabella);
     }
-    // Creiamo il pulsante per aprire la finestra d'inserimento utente
 
-    /**
-     * The Bottone inserisci.
-     */
-    JButton bottoneInserisci = new JButton("Inserisci");
 
 
 }
 
 
+
 /**
- * //BOTTONE PROFILO UTENTE
- * <p>
- * JButton bottoneProfiloUtente = new JButton("Profilo Utente");
- * bottoneProfiloUtente.addActionListener(e -> {
- * int selectedRow = table.getSelectedRow();
- * int selectedColumn = table.getSelectedColumn();
- * // L'utente ha selezionato una cella
- * if (selectedRow != -1 && selectedColumn != -1) {
- * // l'username è nella prima colonna della tabella
- * String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
- * try {
- * // Creo un'istanza della finestra di dialogo ProfiloImpiegato
- * ViewUserGUI profiloUtente = new ViewUserGUI(usernameSelezionato, controller, frameMenuUtenti);
- * frameMenuUtenti.setVisible(false);
- * // Mostro la finestra di dialogo
- * profiloUtente.setVisible(true);
- * } catch (java.sql.SQLException ex) {
- * // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
- * ex.printStackTrace(); // Stampa la traccia dell'eccezione
- * }
- * } else {
- * // L'utente non ha selezionato una cella
- * JOptionPane.showMessageDialog(frameMenuUtenti, "Seleziona un utente per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
- * }
- * });
- * <p>
- * <p>
- * //BOTTONE INSERISCI FOTOGRAFIA
- * bottoneInserisci.addActionListener(e -> {
- * InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
- * frameMenuFotografie.setVisible(false);
- * dialog.setVisible(true);
- * // Aggiungo un listener per la finestra di dialogo
- * dialog.addWindowListener(new WindowAdapter() {
- *
- * @Override public void windowClosed(WindowEvent e) {
- * // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
- * updateTable(controller, colonneTabella);
- * }
- * });
- * });
+
+
+
+ //BOTTONE INSERISCI FOTOGRAFIA
+ bottoneInserisci.addActionListener(e -> {
+ InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
+ frameMenuFotografie.setVisible(false);
+ dialog.setVisible(true);
+ // Aggiungo un listener per la finestra di dialogo
+ dialog.addWindowListener(new WindowAdapter() {
+@Override
+public void windowClosed(WindowEvent e) {
+// Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
+updateTable(controller, colonneTabella);
+}
+});
+ });
+
+
  */
