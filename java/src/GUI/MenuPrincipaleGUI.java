@@ -2,17 +2,9 @@ package GUI;
 
 
 import CONTROLLER.Controller;
-import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
 import java.awt.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableRowSorter;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 /**
  * The type Menu principale gui.
@@ -46,7 +38,8 @@ public class MenuPrincipaleGUI {
         JButton bottoneFotografie = new JButton("Fotografie");
         JButton bottoneCollezioni = new JButton("Collezioni");
         JButton bottoneVideo = new JButton("Video");
-        JButton bottoneLuoghi = new JButton("Classifica dei Luoghi");
+        JButton bottoneLuoghi = new JButton("Luoghi");
+        JButton bottoneSoggetti = new JButton("Soggetti");
 
 
         // Imposto il font dei bottoni
@@ -55,6 +48,7 @@ public class MenuPrincipaleGUI {
         bottoneCollezioni.setFont(new Font("Arial", Font.PLAIN, 16));
         bottoneVideo.setFont(new Font("Arial", Font.PLAIN, 16));
         bottoneLuoghi.setFont(new Font("Arial", Font.PLAIN, 16));
+        bottoneSoggetti.setFont(new Font("Arial", Font.PLAIN, 16));
 
         // Imposto il layout del frame come BoxLayout
         frameLogin.setLayout(new BoxLayout(frameLogin.getContentPane(), BoxLayout.Y_AXIS));
@@ -66,6 +60,7 @@ public class MenuPrincipaleGUI {
         bottoneCollezioni.setAlignmentX(Component.CENTER_ALIGNMENT);
         bottoneVideo.setAlignmentX(Component.CENTER_ALIGNMENT);
         bottoneLuoghi.setAlignmentX(Component.CENTER_ALIGNMENT);
+        bottoneSoggetti.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Aggiungi la JLabel e i bottoni al frame
         frameLogin.add(Box.createVerticalStrut(50));
@@ -80,6 +75,8 @@ public class MenuPrincipaleGUI {
         frameLogin.add(bottoneVideo);
         frameLogin.add(Box.createVerticalStrut(10));
         frameLogin.add(bottoneLuoghi);
+        frameLogin.add(Box.createVerticalStrut(10));
+        frameLogin.add(bottoneSoggetti);
 
         Dimension buttonSize = new Dimension(200, 50);
         bottoneUtenti.setMaximumSize(buttonSize);
@@ -87,6 +84,7 @@ public class MenuPrincipaleGUI {
         bottoneCollezioni.setMaximumSize(buttonSize);
         bottoneVideo.setMaximumSize(buttonSize);
         bottoneLuoghi.setMaximumSize(buttonSize);
+        bottoneSoggetti.setMaximumSize(buttonSize);
 
         JFrame finalFrameLogin = frameLogin;
         bottoneUtenti.addActionListener(e -> {
@@ -114,6 +112,30 @@ public class MenuPrincipaleGUI {
          MenuCollezioniGUI MenuCollezioni = new MenuCollezioniGUI(controller,finalFrameLogin);
 
          });
+
+        bottoneVideo.addActionListener(e -> {
+            // chiudo la finestra corrente
+            finalFrameLogin.setVisible(false);
+            // apro la finestra MenuCollezioni
+            MenuVideo MenuVideo = new MenuVideo(controller,finalFrameLogin);
+
+        });
+
+        bottoneLuoghi.addActionListener(e -> {
+            // chiudo la finestra corrente
+            finalFrameLogin.setVisible(false);
+            // apro la finestra MenuLuogo
+            MenuLuogo ClassificaLuogo = new MenuLuogo(controller,finalFrameLogin);
+
+        });
+
+        bottoneSoggetti.addActionListener(e -> {
+            // chiudo la finestra corrente
+            finalFrameLogin.setVisible(false);
+            // apro la finestra MenuSoggetti
+            MenuSoggetto menuSoggetto = new MenuSoggetto(controller,finalFrameLogin);
+
+        });
 
 
 

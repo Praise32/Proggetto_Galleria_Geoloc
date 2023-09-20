@@ -7,3 +7,9 @@
 - Inserire un pulsante che implementi ClassificaLuoghi in MenuPrincipaleGui che riporta la view apposita da traccia
 - Implementare KeyListener al pulsante accedi quando si clicca Enter
 - Ricontrollare le misure dei frame e dei singoli componenti (Su risoluzioni più piccole il Login è sminchiato)
+
+Non funziona l'inserimento dei video
+Non funziona bene l'inserimento delle collezioni
+Forse gli attributi che si modificano da soli tipo "durata" e "numero frames" non bisogna metterli durante l'inserimento.
+Finire di aggiungere "FUNZIONI PER LUOGO" nel controller
+in inserimento luogo forse si può risolvere anche il fatto che non da il valore in fotografia.

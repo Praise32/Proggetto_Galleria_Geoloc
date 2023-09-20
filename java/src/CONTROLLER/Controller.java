@@ -6,6 +6,8 @@ import ImplementazionePostgresDAO.FramePostgresDAO;
 import ImplementazionePostgresDAO.VideoPostgresDAO;
 import MAIN.Main;
 import MODEL.*;
+import com.sun.jdi.FloatType;
+
 import java.text.DecimalFormat;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -1201,6 +1203,34 @@ public class Controller {
         return fotografiaAssociato;
     }
 
+    //____________________________________________________________________________________________________________________//
+//____________________________________________________________________________________________________________________//
+
+
+//_______________________________________FUNZIONI PER LUOGO//
+
+    /**
+     * Aggiunge un luogo  al sistema.
+     *
+     * @param longitudine     latitudine del luogo da aggiungere.
+     * @param latitudine      longitudine del luogo da aggiungere.
+     * @param nome             nome del luogo.
+     * @param descrizione       descrizione del luogo.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+
+    public void aggiungiLuogo(Float latitudine,Float longitudine, String nome, String descrizione) throws SQLException {
+        LuogoDAO sog = new LuogoPostgresDAO();
+
+        boolean control = sog.aggiungiLuogoDAO(latitudine, longitudine, nome, descrizione);
+
+        if (control) {
+            System.out.println("Luogo aggiunto con successo!");
+            Luogo l = new Luogo(latitudine, longitudine, nome, descrizione);
+            listaLuogo.add(l);
+        }
+    }
+
 //____________________________________________________________________________________________________________________//
 //____________________________________________________________________________________________________________________//
 
@@ -1714,8 +1744,60 @@ public class Controller {
 
 
 
+//------------------------------------------------VIDEO------------------------------------------------------------//
+
+    public void getListaVideoGUI(ArrayList<Integer> listaIdVideo, ArrayList<String> listaAutore, ArrayList<String> listaTitolo, ArrayList<Integer> listaNumeroFrames, ArrayList<Integer> listaDurata, ArrayList<String> ListaDescrizione) {
+
+        for (Video video : listaVideo) {
+            listaIdVideo.add(video.getIdVideo());
+            listaAutore.add(video.getAutore().getUsername());
+            listaTitolo.add(video.getTitolo());
+            listaNumeroFrames.add(video.getNumeroFrames());
+            listaDurata.add(video.getDurata());
+            ListaDescrizione.add(video.getDescrizione());
+
+        }
+    }
 
 
+    public ArrayList<String> getListaUsernameDisponibileVideoGUI() {
+        ArrayList<String> userDisponibili = new ArrayList<>();
+
+        for (Utente usr : listaUtente) {
+            // Aggiungi tutti gli utenti presenti nella lista
+            userDisponibili.add(usr.getUsername());
+        }
+
+        return userDisponibili;
+    }
+
+//------------------------------------------------LUOGO------------------------------------------------------------//
+
+    public void getListaLuogoGUI(ArrayList<Float> listaLatitudine, ArrayList<Float> listaLongitudine, ArrayList<String> listaNome, ArrayList<String> ListaDescrizione) {
+
+        for (Luogo luogo : listaLuogo) {
+            listaLatitudine.add(luogo.getLatitudine());
+            listaLongitudine.add(luogo.getLongitudine());
+            listaNome.add(luogo.getNome());
+            ListaDescrizione.add(luogo.getDescrizione());
+
+        }
+    }
+
+
+
+
+
+
+    //------------------------------------------------SOGGETTO------------------------------------------------------------//
+
+    public void getListaSoggettoGUI(ArrayList<String> listaNome, ArrayList<String> listaCategoria) {
+
+        for (Soggetto soggetto : listaSoggetto) {
+            listaNome.add(soggetto.getNome());
+            listaCategoria.add(soggetto.getCategoria());
+        }
+    }
 
 
 
