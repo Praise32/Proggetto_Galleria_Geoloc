@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * The type Controller.
@@ -1230,6 +1231,76 @@ public class Controller {
             listaLuogo.add(l);
         }
     }
+
+    /**
+     * Elimina un Luogo dal sistema in base all'nome fornito.
+     *
+     * @param LuogoSelezionato nome univoco del luogo da eliminare.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+
+    public void eliminaLuogoDAO(String LuogoSelezionato) throws SQLException {
+
+        DAO.LuogoDAO l = new LuogoPostgresDAO();
+
+        boolean control = l.eliminaLuogoDAO(LuogoSelezionato);
+
+        if (control) {
+            System.out.println("Eliminazione avvenuta con successo ...!");
+
+            //SE L'ELIMINAZIONE HA AVUTO SUCCESSO ALLORA ELIMINO ANCHE DAL MODEL IL SOGGETTO...
+            for (Luogo luogo : listaLuogo) {
+                if (LuogoSelezionato.equals(luogo.getNome())) {
+                    listaLuogo.remove(luogo);
+                    break;
+                }
+            }
+        } else {
+            System.out.println("Impossibile rimuovere il luogo...");
+        }
+    }
+
+   /* public List<Luogo> getClassificaLuoghi() {
+
+        List<MODEL.Luogo> classifica = new ArrayList<>();
+        DAO.LuogoDAO l = new LuogoPostgresDAO();
+
+        boolean control = l.classificaLuoghiDAO(classifica);
+
+        if (control){
+            try {
+                return classifica;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return new ArrayList<>(); // Restituisce una lista vuota in caso di errore
+            }
+        }
+
+        return classifica;
+    }
+
+    */
+
+    public void modificaLuogoDAO(String LuogoSelezionato, String descrizione, float latitudine, float longitudine) throws SQLException {
+        DAO.LuogoDAO l = new LuogoPostgresDAO();
+
+        boolean control = l.modificaLuogoDAO(LuogoSelezionato,  descrizione, latitudine, longitudine);
+
+        if (control) {
+
+            //trovo il mio oggetto Luogo[...]
+            Luogo luogo = null;
+            for (Luogo lu : listaLuogo)
+                if (Objects.equals(lu.getNome(), LuogoSelezionato))
+                    luogo = lu;
+
+            //a questo punto aggiorno il mio model con i nuovi dati avuti dalla gui
+            luogo.setDescrizione(descrizione);
+            luogo.setLatitudine(latitudine);
+            luogo.setLongitudine(longitudine);
+        }
+    }
+
 
 //____________________________________________________________________________________________________________________//
 //____________________________________________________________________________________________________________________//
