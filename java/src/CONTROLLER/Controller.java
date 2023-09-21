@@ -491,10 +491,10 @@ public class Controller {
      * @param titolo       Titolo della collezione da aggiungere.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
-    public void aggiungiCollezione(int idCollezione, String username, String titolo, Timestamp dataCollezione, int numeroElementi) throws SQLException {
+    public void aggiungiCollezione(int idCollezione, String username, String titolo, Timestamp dataCollezione) throws SQLException {
         CollezioneDAO c = new CollezionePostgresDAO();
-
-        boolean control = c.aggiungiCollezioneDAO(idCollezione, username, titolo, dataCollezione, numeroElementi);
+        int numeroElementi = 0;
+        boolean control = c.aggiungiCollezioneDAO(idCollezione, username, titolo, dataCollezione);
         if (control) {
 
             //cerco il proprietario fra gli utenti:
@@ -1314,15 +1314,14 @@ public class Controller {
      * @param idVideo L'identificatore univoco del video da aggiungere.
      * @param autore L'autore del video.
      * @param titolo Il titolo del video.
-     * @param numeroFrames Il numero di frames nel video.
-     * @param durata La durata del video in secondi.
      * @param descrizione Una breve descrizione del video.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
-    public void aggiungiVideo(int idVideo, String autore, String titolo, int numeroFrames, int durata, String descrizione) throws SQLException {
+    public void aggiungiVideo(int idVideo, String autore, String titolo, String descrizione) throws SQLException {
         VideoDAO v = new VideoPostgresDAO();
-
-        boolean control = v.aggiungiVideoDAO(idVideo, autore, titolo, numeroFrames, durata, descrizione);
+        int numero_frames = 0;
+        int durata = 0;
+        boolean control = v.aggiungiVideoDAO(idVideo, autore, titolo, descrizione);
 
         if (control) {
         Utente proprietario = null;
@@ -1332,7 +1331,7 @@ public class Controller {
                 break;
             }
         }
-        Video video = new Video(idVideo, proprietario, titolo, numeroFrames, durata, descrizione);
+        Video video = new Video(idVideo, proprietario, titolo, numero_frames, durata, descrizione);
         listaVideo.add(video);
 
         }

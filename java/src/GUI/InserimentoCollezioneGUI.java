@@ -60,10 +60,7 @@ public class InserimentoCollezioneGUI extends JDialog {
         dataCollezionePicker.setFormats(new SimpleDateFormat("yy-MM-dd"));
         inputPanel.add(dataCollezionePicker);
 
-        // CAMPO NUMERO ELEMENTI
-        inputPanel.add(new JLabel("Numero Elementi:"));
-        JTextField NumeroElementiField = new JTextField();
-        inputPanel.add(NumeroElementiField);
+
 
 
 
@@ -87,10 +84,10 @@ public class InserimentoCollezioneGUI extends JDialog {
                 String titolo = titoloField.getText();
                 java.util.Date utilDate = dataCollezionePicker.getDate();
                 java.sql.Timestamp dataCollezione = new java.sql.Timestamp(utilDate.getTime());
-                int numeroElementi = Integer.parseInt(NumeroElementiField.getText());
+
 
                 try {
-                    controller.aggiungiCollezione(idCollezione, username, titolo, dataCollezione, numeroElementi);
+                    controller.aggiungiCollezione(idCollezione, username, titolo, dataCollezione);
                     JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
                 } catch (PSQLException ex) {
                     JOptionPane.showMessageDialog(null, "Errore durante il salvataggio dei dati della collezione:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);

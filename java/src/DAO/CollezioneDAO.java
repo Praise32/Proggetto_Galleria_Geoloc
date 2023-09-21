@@ -9,7 +9,7 @@ public interface CollezioneDAO {
     // Questa interfaccia definisce metodi per l'accesso ai dati delle collezioni.
 
     // Metodo per aggiungere una nuova collezione al database.
-    public boolean aggiungiCollezioneDAO(int idCollezione, String username, String titolo, Timestamp dataCollezione, int numeroElementi) throws SQLException;
+    public boolean aggiungiCollezioneDAO(int idCollezione, String username, String titolo, Timestamp dataCollezione) throws SQLException;
 
     // Metodo per eliminare una collezione dal database.
     public boolean eliminaCollezioneDAO(int collezioneSelezionato) throws SQLException;

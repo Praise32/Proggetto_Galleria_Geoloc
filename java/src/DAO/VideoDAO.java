@@ -7,8 +7,7 @@ import java.util.ArrayList;
 public interface VideoDAO {
 
     // Aggiunge un nuovo video con le informazioni specificate
-    boolean aggiungiVideoDAO(int idVideo, String autore, String titolo, int numeroFrames, int durata, String descrizione) throws SQLException;
-
+    public boolean aggiungiVideoDAO(int idVideo, String autore, String titolo,  String descrizione) throws SQLException;
     // Elimina un video in base all'ID specificato
     boolean eliminaVideoDAO(int idVideoSelezionato) throws SQLException;
 

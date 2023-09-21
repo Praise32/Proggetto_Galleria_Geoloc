@@ -158,13 +158,14 @@ public class MenuVideo
 
             if (selectedRow != -1 && selectedColumn != -1) {
                 // L'utente si trova nella prima colonna della tabella
-                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 2).toString();
+                 String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int videoSel = Integer.parseInt(usernameSelezionato);
                 int response = JOptionPane.showOptionDialog(frameMenuVideo, "Sei sicuro di voler eliminare il video " + usernameSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
                 if (response == JOptionPane.YES_OPTION) {
                     //elimino l'utente con l'username selezionata
                     try {
-                        controller.eliminaUtente(usernameSelezionato);
+                        controller.eliminaVideo(videoSel);
                     } catch (PSQLException ex) {
                         JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati del video:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
                     } catch (Exception ee) {

@@ -34,13 +34,19 @@ public class VideoPostgresDAO implements VideoDAO{
     }
 
     @Override
-    public boolean aggiungiVideoDAO(int idVideo, String autore, String titolo, int numero_frames, int durata, String descrizione) throws SQLException {
+    public boolean aggiungiVideoDAO(int idVideo, String autore, String titolo,  String descrizione) throws SQLException {
+
+        int numero_frames = 0;
+        int durata = 0;
+
         PreparedStatement insertVid;
-        insertVid = connection.prepareStatement("INSERT INTO video (id_video, autore, titolo, numero_frames, durata, descrizione) VALUES (?, ?, ?, ?)");
+        insertVid = connection.prepareStatement("INSERT INTO video (id_video, autore, titolo, numero_frames, durata, descrizione) VALUES (?, ?, ?, ?, ?, ?)");
         insertVid.setInt(1, idVideo);
         insertVid.setString(2, autore);
         insertVid.setString(3, titolo);
-        insertVid.setString(4, descrizione);
+        insertVid.setInt(4, numero_frames);
+        insertVid.setInt(5, durata);
+        insertVid.setString(6, descrizione);
         int result = insertVid.executeUpdate();
         return result == 1;
     }
