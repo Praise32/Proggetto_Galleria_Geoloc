@@ -2,6 +2,9 @@ package ImplementazionePostgresDAO;
 
 import DAO.GalleriaDAO;
 import DBconnection.ConnessioneDB;
+import MAIN.Main;
+import MAIN.User;
+import org.jdesktop.swingx.auth.UserNameStore;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,7 +49,9 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
     public void getListFotografiaDAO (ArrayList <Integer> idFotoList, ArrayList <String> utenteUsernameAutoreList, ArrayList <byte[]> datiFotoList, ArrayList <String> dispositivoList, ArrayList <java.sql.Timestamp> dataFotoList, ArrayList <Float>luogolatitudineList, ArrayList <Float>luogolongituineList, ArrayList <Boolean> condivisaList, ArrayList <String> titoloList){
         try {
             PreparedStatement selectListaFotografia;
-            selectListaFotografia = connection.prepareStatement("SELECT * FROM fotografia");
+            //TODO Risolvere l'username che non viene salvato, probabilmente questa funzione viene avviata prima di avere l'istanza
+            selectListaFotografia = connection.prepareStatement("SELECT * FROM fotografia WHERE username_autore = ? OR condivisa = TRUE");
+            selectListaFotografia.setString(1, User.getInstance().getUsername());
             ResultSet rs = selectListaFotografia.executeQuery();
             while (rs.next()) {
                 int idFoto = rs.getInt("id_foto");
@@ -54,6 +59,8 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
                 byte[] datiFoto = rs.getBytes("dati_foto");
                 String dispositivo = rs.getString("dispositivo");
                 Timestamp dataFoto = rs.getTimestamp("data_foto");
+
+                //TODO RISOLVERE IL FLOAT CHE VIENE LETTO COME NULL
                 float latitudine = rs.getFloat("latitudine");
                 float longitudine = rs.getFloat("longitudine");
                 boolean condivisa = rs.getBoolean("condivisa");

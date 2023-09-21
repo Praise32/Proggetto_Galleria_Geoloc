@@ -1,11 +1,14 @@
 package MAIN;
 
 public class User {
-    private String username = "";
+    private static User istance = null;
+    public String username = "";
 
-    public User() {
-        username = "";
-
+    public static User getInstance() {
+        if (istance == null) {
+            istance = new User();
+        }
+        return istance;
     }
 
     public void setUsername(String username) {
@@ -15,7 +18,6 @@ public class User {
     public String getUsername() {
         return username;
     }
-
 
 
 }
