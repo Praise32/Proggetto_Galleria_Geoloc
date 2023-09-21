@@ -19,8 +19,7 @@ public class InserimentoVideoGUI extends JDialog {
     private final JTextField IdVideoField;
     private final JComboBox<String> usernameComboBox;
     private final JTextField titoloField;
-    private final JTextField numeroFrameField;
-    private final JTextField durataField;
+
     private final JTextField descrizioneField;
 
 
@@ -55,7 +54,7 @@ public class InserimentoVideoGUI extends JDialog {
         inputPanel.add(new JLabel("Titolo:"));
         titoloField = new JTextField();
         inputPanel.add(titoloField);
-
+        /*
         // CAMPO NUMEROFRAMES
         inputPanel.add(new JLabel("Numero Frames:"));
         numeroFrameField = new JTextField();
@@ -65,6 +64,8 @@ public class InserimentoVideoGUI extends JDialog {
         inputPanel.add(new JLabel("Durata:"));
         durataField = new JTextField();
         inputPanel.add(durataField);
+
+         */
 
         // CAMPO DESCRIZIONE
         inputPanel.add(new JLabel("Descrizione:"));
@@ -92,16 +93,19 @@ public class InserimentoVideoGUI extends JDialog {
                 int idVideo = Integer.parseInt(IdVideoField.getText());
                 String username = (String) usernameComboBox.getSelectedItem();
                 String titolo = titoloField.getText();
+                /*
                 int numeroFrames = Integer.parseInt(numeroFrameField.getText());
                 int durata = Integer.parseInt(durataField.getText());
+
+                 */
                 String descrizione = descrizioneField.getText();
 
 
                 try {
-                    controller.aggiungiVideo(idVideo, username, titolo, numeroFrames, durata, descrizione);
+                    controller.aggiungiVideo(idVideo, username, titolo, descrizione);
                     JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
                 } catch (PSQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Errore durante il salvataggio dei dati della collezione:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Errore durante il salvataggio dei dati del video:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ee) {
                     JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 } finally {

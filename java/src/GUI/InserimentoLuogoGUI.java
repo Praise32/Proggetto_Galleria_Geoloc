@@ -79,7 +79,7 @@ public class InserimentoLuogoGUI extends JDialog {
                     controller.aggiungiLuogo(latitudine,longitudine,nome,descrizione);
                     JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
                 } catch (PSQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Errore durante il salvataggio dei dati dell'impiegato:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Errore durante il salvataggio dei dati del luogo:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ee) {
                     JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 } finally {
