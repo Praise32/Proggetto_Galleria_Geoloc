@@ -1870,6 +1870,29 @@ public class Controller {
         }
     }
 
+    public String getNomeSoggettoViewGUI(String soggettoSelezionato){
+
+        Soggetto sogSelezionato = null;
+        for(Soggetto sog : listaSoggetto){
+            if(sog.getNome().equals(soggettoSelezionato)){
+                sogSelezionato = sog;
+                break;
+            }
+        }
+        return sogSelezionato.getNome();
+    }
+
+    public String getCategoriaSoggettoViewGUI(String soggettoSelezionato){
+
+        Soggetto sogSelezionato = null;
+        for(Soggetto sog : listaSoggetto){
+            if(sog.getNome().equals(soggettoSelezionato)){
+                sogSelezionato = sog;
+                break;
+            }
+        }
+        return sogSelezionato.getCategoria();
+    }
 
 
 }

@@ -172,22 +172,22 @@ public class MenuSoggetto
         });
 
 
-        //BOTTONE PROFILO UTENTE
+        //BOTTONE Profilo Foto
 
-        JButton bottoneProfiloVideo = new JButton("Foto per Soggetto");
+        JButton bottoneProfiloVideo = new JButton("Profilo Foto");
         bottoneProfiloVideo.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
             // L'utente ha selezionato una cella
             if (selectedRow != -1 && selectedColumn != -1) {
                 // l'username è nella prima colonna della tabella
-                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+                String nomeSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
                 try {
                     // Creo un'istanza della finestra di dialogo ProfiloImpiegato
-                    ViewUserGUI profiloUtente = new ViewUserGUI(usernameSelezionato, controller, frameMenuSoggetto);
+                    ViewSoggettoGUI fotoPerSoggetto = new ViewSoggettoGUI(nomeSelezionato, controller, frameMenuSoggetto);
                     frameMenuSoggetto.setVisible(false);
                     // Mostro la finestra di dialogo
-                    profiloUtente.setVisible(true);
+                    fotoPerSoggetto.setVisible(true);
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
                     ex.printStackTrace(); // Stampa la traccia dell'eccezione
