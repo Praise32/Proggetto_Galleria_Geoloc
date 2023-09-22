@@ -4,9 +4,7 @@ import DAO.*;
 import ImplementazionePostgresDAO.*;
 import ImplementazionePostgresDAO.FramePostgresDAO;
 import ImplementazionePostgresDAO.VideoPostgresDAO;
-import MAIN.Main;
 import MODEL.*;
-import com.sun.jdi.FloatType;
 
 import java.text.DecimalFormat;
 import java.sql.SQLException;
@@ -1301,6 +1299,37 @@ public class Controller {
         }
     }
 
+    public ArrayList<Integer> vediFotoAssociateLuogo(String nomeSelezionato) throws SQLException {
+        LuogoDAO s = new LuogoPostgresDAO();
+
+        //trovo soggetto a cui si riferisce la vista
+        Luogo displaySog = null;
+        for (Luogo lug : listaLuogo)
+            if (lug.getNome().equals(nomeSelezionato)) {
+                displaySog = lug;
+                break;
+            }
+
+        //trovo le fotografie associate
+        ArrayList<Integer> fotografiaAssociato = new ArrayList<>();
+        boolean control = s.vediFotoAssociateLuogoDAO(nomeSelezionato, fotografiaAssociato);
+
+        //inzializzo la lista di fotografie a cui afferisce il soggetto
+        if (control) {
+            for (Fotografia fot : listaFotografia) {
+                for (int f : fotografiaAssociato) {
+                    if (fot.getIdFoto() == f) {
+                        assert displaySog != null;
+                        displaySog.aggiungiFotografia(fot);
+                    }
+                }
+
+            }
+        }
+        return fotografiaAssociato;
+
+    }
+
 
 //____________________________________________________________________________________________________________________//
 //____________________________________________________________________________________________________________________//
@@ -1408,6 +1437,7 @@ public class Controller {
                 videoselezionato = vid;
             }
         }
+
 
         //2 step : trovo i frame associati
         ArrayList<Integer> frameAssociati = new ArrayList<>();
@@ -1854,8 +1884,53 @@ public class Controller {
         }
     }
 
+    public float getLatitudineViewGUI(String luogoSelezionato){
 
+        Luogo lugSelezionato = null;
+        for(Luogo lug : listaLuogo){
+            if(lug.getNome().equals(luogoSelezionato)){
+                lugSelezionato = lug;
+                break;
+            }
+        }
+        return lugSelezionato.getLatitudine();
+    }
 
+    public float getLongitudineViewGUI(String luogoSelezionato){
+
+        Luogo lugSelezionato = null;
+        for(Luogo lug : listaLuogo){
+            if(lug.getNome().equals(luogoSelezionato)){
+                lugSelezionato = lug;
+                break;
+            }
+        }
+        return lugSelezionato.getLongitudine();
+    }
+
+    public String  getNomeViewGUI(String luogoSelezionato){
+
+        Luogo lugSelezionato = null;
+        for(Luogo lug : listaLuogo){
+            if(lug.getNome().equals(luogoSelezionato)){
+                lugSelezionato = lug;
+                break;
+            }
+        }
+        return lugSelezionato.getNome();
+    }
+
+    public String  getDescrizioneViewGUI(String luogoSelezionato){
+
+        Luogo lugSelezionato = null;
+        for(Luogo lug : listaLuogo){
+            if(lug.getNome().equals(luogoSelezionato)){
+                lugSelezionato = lug;
+                break;
+            }
+        }
+        return lugSelezionato.getDescrizione();
+    }
 
 
 

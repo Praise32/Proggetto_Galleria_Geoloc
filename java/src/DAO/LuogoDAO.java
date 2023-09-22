@@ -3,6 +3,7 @@ package DAO;  // Questo codice è all'interno del package "DAO".
 import MODEL.Luogo;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,5 +19,8 @@ public interface LuogoDAO {
     public boolean classificaLuoghiDAO(List<Luogo> classifica) throws SQLException;
 
     public boolean modificaLuogoDAO(String LuogoSelezionato, String descrizione, float latitudine, float longitudine) throws SQLException;
+
+    public  boolean vediFotoAssociateLuogoDAO(String nomeSelezionato, ArrayList<Integer> fotografiaAssociato) throws SQLException;
+
 
 }

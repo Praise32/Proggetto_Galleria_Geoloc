@@ -178,17 +178,17 @@ public class MenuLuogo
 
         //BOTTONE PROFILO UTENTE
 
-        JButton bottoneProfiloVideo = new JButton("Classifica Luoghi");
+        JButton bottoneProfiloVideo = new JButton("Profilo Luogo");
         bottoneProfiloVideo.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
             // L'utente ha selezionato una cella
             if (selectedRow != -1 && selectedColumn != -1) {
                 // l'username è nella prima colonna della tabella
-                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 2).toString();
                 try {
                     // Creo un'istanza della finestra di dialogo ProfiloImpiegato
-                    ViewUserGUI profiloUtente = new ViewUserGUI(usernameSelezionato, controller, frameMenuLuogo);
+                    ViewLuogoGUI profiloUtente = new ViewLuogoGUI(usernameSelezionato, controller, frameMenuLuogo);
                     frameMenuLuogo.setVisible(false);
                     // Mostro la finestra di dialogo
                     profiloUtente.setVisible(true);

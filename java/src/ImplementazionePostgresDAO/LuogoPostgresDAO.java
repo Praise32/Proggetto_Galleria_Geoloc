@@ -103,6 +103,27 @@ public class LuogoPostgresDAO implements DAO.LuogoDAO {
         return false;
     }
 
+
+    public boolean vediFotoAssociateLuogoDAO(String nomeSelezionato, ArrayList<Integer> fotografiaAssociato) throws SQLException{
+
+        try {
+            PreparedStatement vediFotoSoggetto;
+            vediFotoSoggetto = connection.prepareStatement("SELECT id_foto FROM Luogo NATURAL LEFT JOIN Fotografia WHERE nome = ?");
+            vediFotoSoggetto.setString(1, nomeSelezionato);
+            ResultSet rs =  vediFotoSoggetto.executeQuery();
+            while (rs.next() ){
+                fotografiaAssociato.add(rs.getInt("id_foto"));
+            }
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
+
+
 }
 
 
