@@ -188,6 +188,34 @@ public class MenuFotografieGUI {
             });
         });
 
+        //BOTTONE PROFILO FOTO
+
+        JButton bottoneProfiloFotografia = new JButton("Profilo Fotografia");
+        bottoneProfiloFotografia.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            int selectedColumn = table.getSelectedColumn();
+            // L'utente ha selezionato una cella
+            if (selectedRow != -1 && selectedColumn != -1) {
+                // l'username è nella prima colonna della tabella
+                int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
+                try {
+                    // Creo un'istanza della finestra di dialogo ProfiloImpiegato
+                    ViewFotografiaGUI profiloFoto = new ViewFotografiaGUI(fotoSelezionata, controller, frameMenuFotografie);
+                    frameMenuFotografie.setVisible(false);
+                    // Mostro la finestra di dialogo
+                    profiloFoto.setVisible(true);
+                } catch (java.sql.SQLException ex) {
+                    // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
+                    ex.printStackTrace(); // Stampa la traccia dell'eccezione
+                }
+            } else {
+                // L'utente non ha selezionato una cella
+                JOptionPane.showMessageDialog(frameMenuFotografie, "Seleziona una fotografia per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+
+
 
         // Aggiungiamo i pulsanti alla finestra
         JPanel panelBottoni = new JPanel(new BorderLayout());
@@ -196,7 +224,7 @@ public class MenuFotografieGUI {
         panelBottoniLeft.add(bottoneMenuPrincipale);
         panelBottoniRight.add(bottoneInserisci);
         panelBottoniRight.add(bottoneElimina);
-        //panelBottoniRight.add(bottoneProfiloFotografia);
+        panelBottoniRight.add(bottoneProfiloFotografia);
 
 
         panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);
@@ -243,21 +271,3 @@ public class MenuFotografieGUI {
 
 
 }
-
-
-/**
- * //BOTTONE INSERISCI FOTOGRAFIA
- * bottoneInserisci.addActionListener(e -> {
- * InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
- * frameMenuFotografie.setVisible(false);
- * dialog.setVisible(true);
- * // Aggiungo un listener per la finestra di dialogo
- * dialog.addWindowListener(new WindowAdapter() {
- *
- * @Override public void windowClosed(WindowEvent e) {
- * // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
- * updateTable(controller, colonneTabella);
- * }
- * });
- * });
- */
