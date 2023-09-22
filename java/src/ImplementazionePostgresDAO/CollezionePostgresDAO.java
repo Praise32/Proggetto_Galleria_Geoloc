@@ -111,7 +111,7 @@ public class CollezionePostgresDAO implements CollezioneDAO{
     @Override
     public boolean modificaCollezioneDAO(int idCollezioneSelezionato, String titolo) throws SQLException {
         PreparedStatement modificaCol;
-        modificaCol = connection.prepareStatement("UPDATE collezione SET titolo = ?, WHERE id_collezione = ?");
+        modificaCol = connection.prepareStatement("UPDATE collezione SET titolo = ? WHERE id_collezione = ?");
         modificaCol.setString(1, titolo);
         modificaCol.setInt(2, idCollezioneSelezionato);
         int rs = modificaCol.executeUpdate();

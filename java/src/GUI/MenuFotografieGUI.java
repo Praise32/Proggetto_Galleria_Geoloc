@@ -1,5 +1,7 @@
 package GUI;
+
 import CONTROLLER.Controller;
+import MAIN.Main;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
@@ -16,8 +18,7 @@ import java.util.ArrayList;
  * The type Menu impiegati gui.
  */
 
-public class MenuFotografieGUI
-{
+public class MenuFotografieGUI {
 
     private final JFrame frameMenuFotografie;
     private final JTable table;
@@ -28,7 +29,7 @@ public class MenuFotografieGUI
      *
      * @param controller          the controller
      * @param frameMenuPrincipale the frame menu principale
-     * */
+     */
 
 
     public MenuFotografieGUI(Controller controller, JFrame frameMenuPrincipale) {
@@ -43,10 +44,8 @@ public class MenuFotografieGUI
 //----------------------------------------------TABELLA FOTOGRAFIE--------------------------------------------------------//
 
 
-
-
         //Creazione
-        String[] colonneTabella = {"Id_foto","Autore", "Dati Foto","Dispositivo","Data Foto", "latitudine", "longitudine","condivisa", "titolo"};
+        String[] colonneTabella = {"Id_foto", "Autore", "Dati Foto", "Dispositivo", "Data Foto", "latitudine", "longitudine", "condivisa", "titolo"};
         ArrayList<Integer> listaIdFoto = new ArrayList<>();
         ArrayList<String> listaAutoreFoto = new ArrayList<>();
         ArrayList<byte[]> listaDatiFoto = new ArrayList<>();
@@ -57,7 +56,7 @@ public class MenuFotografieGUI
         ArrayList<Boolean> listaCondivisaFoto = new ArrayList<>();
         ArrayList<String> listaTitoloFoto = new ArrayList<>();
 
-        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto,listaDatiFoto, listaDispositivoFoto ,listaDatafoto,listaLatitudineFoto, listaLongitudineFoto,listaCondivisaFoto, listaTitoloFoto);
+        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto, listaDatiFoto, listaDispositivoFoto, listaDatafoto, listaLatitudineFoto, listaLongitudineFoto, listaCondivisaFoto, listaTitoloFoto);
 
         Object[][] data = new Object[listaIdFoto.size()][9];
         for (int i = 0; i < listaIdFoto.size(); i++) {
@@ -143,7 +142,6 @@ public class MenuFotografieGUI
         });
 
 
-
         //BOTTONE ELIMINA FOTOGRAFIA
         JButton bottoneElimina = new JButton("Elimina");
         bottoneElimina.addActionListener(e -> {
@@ -165,7 +163,7 @@ public class MenuFotografieGUI
                         JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                     //aggiorno la tabella appena dopo l'eliminazione dell'utente
-                    updateTable(controller,colonneTabella);
+                    updateTable(controller, colonneTabella);
                 }
             } else {
                 // L'utente non ha selezionato una cella
@@ -191,8 +189,6 @@ public class MenuFotografieGUI
         });
 
 
-
-
         // Aggiungiamo i pulsanti alla finestra
         JPanel panelBottoni = new JPanel(new BorderLayout());
         JPanel panelBottoniLeft = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -209,13 +205,9 @@ public class MenuFotografieGUI
         frameMenuFotografie.setVisible(true);
 
 
-
-
-
-
     }
 
-    private void updateTable(Controller controller,String[] colonneTabella) {
+    private void updateTable(Controller controller, String[] colonneTabella) {
 
         //LOAD DEI NUOVI DATI
         ArrayList<Integer> listaIdFoto = new ArrayList<>();
@@ -228,7 +220,7 @@ public class MenuFotografieGUI
         ArrayList<Boolean> listaCondivisaFoto = new ArrayList<>();
         ArrayList<String> listaTitoloFoto = new ArrayList<>();
 
-        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto,listaDatiFoto, listaDispositivoFoto ,listaDatafoto,listaLatitudineFoto, listaLongitudineFoto,listaCondivisaFoto, listaTitoloFoto);
+        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto, listaDatiFoto, listaDispositivoFoto, listaDatafoto, listaLatitudineFoto, listaLongitudineFoto, listaCondivisaFoto, listaTitoloFoto);
 
         Object[][] newdata = new Object[listaIdFoto.size()][9];
         for (int i = 0; i < listaIdFoto.size(); i++) {
@@ -246,32 +238,26 @@ public class MenuFotografieGUI
         //CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(newdata, colonneTabella);
+
     }
 
 
-
 }
-
 
 
 /**
-
-
-
- //BOTTONE INSERISCI FOTOGRAFIA
- bottoneInserisci.addActionListener(e -> {
- InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
- frameMenuFotografie.setVisible(false);
- dialog.setVisible(true);
- // Aggiungo un listener per la finestra di dialogo
- dialog.addWindowListener(new WindowAdapter() {
-@Override
-public void windowClosed(WindowEvent e) {
-// Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
-updateTable(controller, colonneTabella);
-}
-});
- });
-
-
+ * //BOTTONE INSERISCI FOTOGRAFIA
+ * bottoneInserisci.addActionListener(e -> {
+ * InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
+ * frameMenuFotografie.setVisible(false);
+ * dialog.setVisible(true);
+ * // Aggiungo un listener per la finestra di dialogo
+ * dialog.addWindowListener(new WindowAdapter() {
+ *
+ * @Override public void windowClosed(WindowEvent e) {
+ * // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
+ * updateTable(controller, colonneTabella);
+ * }
+ * });
+ * });
  */

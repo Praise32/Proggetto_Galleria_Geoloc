@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 /**
  * The type Menu principale gui.
@@ -89,8 +90,9 @@ public class Login {
             @Override
             public void focusGained(FocusEvent e) {
                 //Se nella casella c'è scritto il testo di default allora svuota la casella al focus, altrimenti lascia l'input utente
-                if(usernameField.getText().equals("Username")) usernameField.setText(null);
+                if (usernameField.getText().equals("Username")) usernameField.setText(null);
             }
+
             @Override
             public void focusLost(FocusEvent e) {
                 if (usernameField.getText().isBlank()) usernameField.setText("Username");
@@ -110,6 +112,7 @@ public class Login {
             public void focusGained(FocusEvent e) {
                 passwordField.setText(null); // Empty the text field when it receives focus
             }
+
             @Override
             public void focusLost(FocusEvent e) {
                 if (usernameField.getText().isBlank()) usernameField.setText("Password");
@@ -133,19 +136,19 @@ public class Login {
                 throw new RuntimeException(ex);
             }
 
-            if (accesso){
+            if (accesso) {
+                User istance = User.getInstance();
+                istance.setUsername(usernameField.getText());
 
-                Main.user.setUsername(usernameField.getText());
                 frame.dispose();
                 //Apro il menu principale
                 GUI.MenuPrincipaleGUI menuPrincipaleGUI = new GUI.MenuPrincipaleGUI(controller, frame);
 
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Credenziali errate!\n", "Accesso non riuscito.", JOptionPane.INFORMATION_MESSAGE);
             }
 
         });
-        //loginButton.addKeyListener(); TODO Controllare come aggiungere un KeyListener sul tasto invio per accedere
         addComponent(credentialsPanel, loginButton, constraints, 0, 2, 2, GridBagConstraints.CENTER);
 
         frame.getRootPane().setDefaultButton(loginButton);
@@ -177,8 +180,6 @@ public class Login {
 
         return imagePanel;
     }
-
-    //TODO Capire perché il programma non parte quando anchor = NONE o HORIZONTAL
 
     /**
      * Funzione che permette di designare delle costraints per un JComponent, per poi inserirlo in un panel
@@ -215,15 +216,5 @@ public class Login {
 
         if (parent instanceof JPanel) ((JPanel) parent).setBorder(BorderFactory.createLineBorder(Color.green, 2));
     }
-
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        new Login();
-    }
-
 
 }

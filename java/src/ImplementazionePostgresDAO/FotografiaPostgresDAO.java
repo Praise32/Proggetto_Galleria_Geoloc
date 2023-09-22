@@ -149,7 +149,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     public boolean eliminaTagUtenteDAO(int idFotoSelezionata, String utenteSelezionato) throws SQLException {
 
         PreparedStatement insertTagUtente;
-        insertTagUtente = connection.prepareStatement("DELETE FROM tag_utente (id_foto, username) VALUES (?, ?)");
+        insertTagUtente = connection.prepareStatement("DELETE FROM tag_utente WHERE id_foto = ? AND username = ?");
         insertTagUtente.setInt(1, idFotoSelezionata);
         insertTagUtente.setString(2, utenteSelezionato);
         int rs = insertTagUtente.executeUpdate();
@@ -196,7 +196,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     public boolean eliminaTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) throws SQLException{
 
         PreparedStatement insertTagSoggetto;
-        insertTagSoggetto = connection.prepareStatement("DELETE FROM tag_soggetto (id_foto, nome_soggetto) VALUES (?, ?)");
+        insertTagSoggetto = connection.prepareStatement("DELETE FROM tag_soggetto WHERE id_foto = ? AND nome_soggetto = ?");
         insertTagSoggetto.setInt(1, idFotoSelezionata);
         insertTagSoggetto.setString(2, soggettoSelezionato);
         int rs = insertTagSoggetto.executeUpdate();
