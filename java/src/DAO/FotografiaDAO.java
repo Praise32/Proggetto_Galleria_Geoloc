@@ -14,6 +14,8 @@ public interface FotografiaDAO {
     // Metodo per eliminare una fotografia dal database.
     public boolean eliminaFotografiaDAO(int idFotoSelezionata) throws SQLException;
 
+    public boolean modificaFotografiaDAO(int idFotoSelezionata,String DispositivoNuovo ,String TitoloNuovo) throws SQLException;
+
     // Metodo per aggiungere una fotografia a una collezione esistente.
     public boolean aggiungiContenutoFotografiaDAO(int idFotoSelezionata, int idCollezioneSelezionato) throws SQLException;
 
