@@ -137,7 +137,8 @@ public class MenuSoggetto
                 @Override
                 public void windowClosed(WindowEvent e) {
                     // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
-                    updateTable(controller, colonneTabella);
+                    updateTable(controller, colonneTabella, modelloTabella);
+
                 }
             });
         });
@@ -163,7 +164,7 @@ public class MenuSoggetto
                         JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                     //aggiorno la tabella appena dopo l'eliminazione dell'utente
-                    updateTable(controller,colonneTabella);
+                    updateTable(controller, colonneTabella, modelloTabella);
                 }
             } else {
                 // L'utente non ha selezionato una cella
@@ -172,10 +173,10 @@ public class MenuSoggetto
         });
 
 
-        //BOTTONE Profilo Foto
+        //BOTTONE Profilo SOGGETTO
 
-        JButton bottoneProfiloVideo = new JButton("Profilo Foto");
-        bottoneProfiloVideo.addActionListener(e -> {
+        JButton bottoneProfiloSoggetto = new JButton("Profilo Soggetto");
+        bottoneProfiloSoggetto.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
             // L'utente ha selezionato una cella
@@ -207,7 +208,7 @@ public class MenuSoggetto
         panelBottoniLeft.add(bottoneMenuPrincipale);
         panelBottoniRight.add(bottoneInserisci);
         panelBottoniRight.add(bottoneElimina);
-        panelBottoniRight.add(bottoneProfiloVideo);
+        panelBottoniRight.add(bottoneProfiloSoggetto);
 
 
         panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);
@@ -224,25 +225,39 @@ public class MenuSoggetto
 
     }
 
-    private void updateTable(Controller controller,String[] colonneTabella) {
-
-        //LOAD DEI NUOVI DATI
+    private void updateTable(Controller controller, String[] colonneTabella, DefaultTableModel model) {
+        // LOAD DEI NUOVI DATI
         ArrayList<String> listaNome = new ArrayList<>();
         ArrayList<String> listaCategoria = new ArrayList<>();
 
         controller.getListaSoggettoGUI(listaNome, listaCategoria);
-        Object[][] newdata = new Object[listaNome.size()][6];
+        Object[][] newdata = new Object[listaNome.size()][model.getColumnCount()];
+
         for (int i = 0; i < listaNome.size(); i++) {
-            newdata[i][0] = listaNome.get(i);
-            newdata[i][1] = listaCategoria.get(i);
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                // Utilizza j per ottenere il valore corrispondente dalla lista
+                if (j == 0) {
+                    newdata[i][j] = listaNome.get(i);
+                } else if (j == 1) {
+                    newdata[i][j] = listaCategoria.get(i);
+                }
+                // Puoi aggiungere ulteriori condizioni per altre colonne, se necessario
+            }
         }
 
-
-
-        //CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setDataVector(newdata, colonneTabella);
+        // CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
+        model.setDataVector(newdata, getColumnNames(model));
     }
+
+    // Metodo ausiliario per ottenere i nomi delle colonne dal modello di tabella
+    private String[] getColumnNames(DefaultTableModel model) {
+        String[] columnNames = new String[model.getColumnCount()];
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            columnNames[i] = model.getColumnName(i);
+        }
+        return columnNames;
+    }
+
 
 
 
