@@ -1651,16 +1651,16 @@ public class Controller {
     }
 
 
-    public String getCollezioneUsernameViewGUI(int idCollezioneSelezionato){
+    public String getCollezioneUsernameViewGUI(int idCollezioneSelezionato) {
 
         Collezione colSelezionata = null;
-        for(Collezione col : listaCollezione){
-            if(col.getUsername().equals(idCollezioneSelezionato)){
+        for(Collezione col : listaCollezione) {
+            if(col.getIdCollezione() == idCollezioneSelezionato) {
                 colSelezionata = col;
                 break;
             }
         }
-        return colSelezionata.getTitolo();
+        return colSelezionata.getUsername().getUsername();
     }
 
 
@@ -1741,105 +1741,62 @@ public class Controller {
     }
 
 
+    public int getFotografiaIdViewGUI(int idFotografiaSelezionata) {
 
-
-
-
-    public ArrayList<Integer> getListaFotografieIdFotoGUI() {
-        ArrayList<Integer> intidfoto = new ArrayList<>();
-
-        for (Fotografia fot : listaFotografia)
-            intidfoto.add(fot.getIdFoto());
-
-        return intidfoto;
-    }
-
-    public ArrayList<String> getListaFotografieAutoreGUI() {
-        ArrayList<String> stringAutore = new ArrayList<>();
-
-        for (Fotografia aut : listaFotografia)
-            stringAutore.add(aut.getUsernameAutore().getUsername());
-
-        return stringAutore;
-    }
-
-    public ArrayList<Byte> getListaFotografieDatiGUI() {
-        ArrayList<Byte> bytefoto = new ArrayList<>();
-
-        for (Fotografia foto : listaFotografia) {
-            byte[] datiFoto = foto.getDatiFoto();
-            for (byte b : datiFoto) {
-                bytefoto.add(b);
+        Fotografia fotSelezionata = null;
+        for(Fotografia fot : listaFotografia) {
+            if(fot.getIdFoto() == idFotografiaSelezionata) {
+                fotSelezionata = fot;
+                break;
             }
         }
-
-        return bytefoto;
+        return fotSelezionata.getIdFoto();
     }
 
+    public String getFotografiaUsernameViewGUI(int idFotografiaSelezionata) {
 
-    public ArrayList<String> getListaFotografieDispositivoGUI() {
-        ArrayList<String> stringDispositivo = new ArrayList<>();
-
-        for (Fotografia dis : listaFotografia)
-            stringDispositivo.add(dis.getDispositivo());
-
-        return stringDispositivo;
-    }
-
-
-
-    public ArrayList<java.sql.Timestamp> getListaFotografieDataGUI() {
-        ArrayList<java.sql.Timestamp> datafoto = new ArrayList<>();
-
-        for (Fotografia data : listaFotografia)
-            datafoto.add(data.getDataFoto());
-
-        return datafoto;
-    }
-
-    public ArrayList<Float> getListaFotografieLatitudineGUI() {
-        ArrayList<Float> floatlatitudine = new ArrayList<>();
-
-        for (Fotografia foto : listaFotografia) {
-            Luogo luogo = foto.getLuogolat();
-            if (luogo != null) { // Assicurati che il luogo non sia null
-                floatlatitudine.add(luogo.getLatitudine());
+        Fotografia fotSelezionata = null;
+        for(Fotografia fot : listaFotografia) {
+            if(fot.getIdFoto() == idFotografiaSelezionata) {
+                fotSelezionata = fot;
+                break;
             }
         }
-
-        return floatlatitudine;
+        return fotSelezionata.getUsernameAutore().getUsername();
     }
 
-
-    public ArrayList<Float> getListaFotografieLongitudineGUI() {
-        ArrayList<Float> floatlongitudine = new ArrayList<>();
-
-        for (Fotografia foto : listaFotografia) {
-            Luogo luogo = foto.getLuogolon();
-            if (luogo != null) { // Assicurati che il luogo non sia null
-                floatlongitudine.add(luogo.getLongitudine());
+    public byte[] getFotografiaDatiFotoViewGUI(int idFotografiaSelezionata) {
+        Fotografia fotSelezionata = null;
+        for(Fotografia fot : listaFotografia) {
+            if(fot.getIdFoto() == idFotografiaSelezionata) {
+                fotSelezionata = fot;
+                break;
             }
         }
-
-        return floatlongitudine;
+        return fotSelezionata.getDatiFoto();
     }
 
-    public ArrayList<Boolean> getListaFotografieCondivisaGUI() {
-        ArrayList<Boolean> condivisabool = new ArrayList<>();
+    public String getFotografiaDispositivoViewGUI(int idFotografiaSelezionata) {
+        Fotografia fotSelezionata = null;
+        for(Fotografia fot : listaFotografia) {
+            if(fot.getIdFoto() == idFotografiaSelezionata) {
+                fotSelezionata = fot;
+                break;
+            }
+        }
+        return fotSelezionata.getDispositivo();
 
-        for (Fotografia con : listaFotografia)
-            condivisabool.add(con.isCondivisa());
-
-        return condivisabool;
     }
 
-    public ArrayList<String> getListaFotografieTitoloGUI() {
-        ArrayList<String> stringTitolo = new ArrayList<>();
+    public ArrayList<String> getListaSoggettiDisponibiliGUI() {
+        ArrayList<String> sogDisponibili = new ArrayList<>();
 
-        for (Fotografia tit : listaFotografia)
-            stringTitolo.add(tit.getTitolo());
+        for (Soggetto sog : listaSoggetto) {
+            // Aggiungi tutti gli utenti presenti nella lista
+            sogDisponibili.add(sog.getNome());
+        }
 
-        return stringTitolo;
+        return sogDisponibili;
     }
 
 
