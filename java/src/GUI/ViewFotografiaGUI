@@ -31,6 +31,7 @@ public class ViewFotografiaGUI extends JDialog {
         String usernameSelezionato = controller.getFotografiaUsernameViewGUI(idFotografiaSelezionata);
         byte[] datiFotoSelezionato = controller.getFotografiaDatiFotoViewGUI(idFotografiaSelezionata);
         String dispositivoSelezionato = controller.getFotografiaDispositivoViewGUI(idFotografiaSelezionata);
+        String titoloSelezionato = controller.getFotografiaTitoloViewGUI(idFotografiaSelezionata);
 
 
 
@@ -77,6 +78,14 @@ public class ViewFotografiaGUI extends JDialog {
         dispositivoField.setText(dispositivoSelezionato);
         datiPanel.add(dispositivoLabel);
         datiPanel.add(dispositivoField);
+
+        // TITOLO
+        JLabel titoloLabel = new JLabel("titolo:", SwingConstants.CENTER);
+        titoloLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        JTextField titoloField = new JTextField();
+        titoloField.setText(titoloSelezionato);
+        datiPanel.add(titoloLabel);
+        datiPanel.add(titoloField);
 
 
         // AGGIUNGI DATI AL PANNELLO
@@ -392,6 +401,33 @@ public class ViewFotografiaGUI extends JDialog {
                 }
             }
         });
+
+        // BOTTONE SALVA
+        JButton bottoneSalva;
+        bottoneSalva = new JButton("Salva Modifiche");
+        int finalIdFotografiaSelezionata6 = idFotografiaSelezionata;
+        bottoneSalva.addActionListener(e -> {
+            setVisible(false);
+            String dispositivoModificato = dispositivoField.getText();
+            String titoloModificato = titoloField.getText();
+
+            try {
+
+                controller.modificaFotografia(finalIdFotografiaSelezionata6, dispositivoModificato, titoloModificato);
+                JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Errore durante la modifica dei dati della fotografia:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ee) {
+                JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+            } finally {
+                dispose();
+                framePadre.setVisible(true);
+            }
+
+        });
+        panelBottoniLeft.add(bottoneSalva);
 
         //BOTTONE ANNULLA
         JButton bottoneTornaIndietro;
