@@ -64,6 +64,19 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
         }
         return false;
     }
+    public boolean modificaFotografiaDAO(int idFotoSelezionata,String DispositivoNuovo ,String TitoloNuovo) throws SQLException{
+        PreparedStatement modificaFot;
+        modificaFot = connection.prepareStatement("UPDATE fotografia SET dispositivo = ?, titolo = ? WHERE id_foto = ?");
+        modificaFot.setString(1, DispositivoNuovo);
+        modificaFot.setString(2, TitoloNuovo);
+        modificaFot.setInt(3, idFotoSelezionata);
+        int rs = modificaFot.executeUpdate();
+        return rs > 0;
+
+
+    }
+
+
     //Contenuto
     @Override
     public boolean vediContenutoFotografiaDAO(int idFotoSelezionata, ArrayList<Integer> idCollezioneAssociato) throws SQLException {
