@@ -31,7 +31,7 @@ public class ViewFotografiaGUI extends JDialog {
         String usernameSelezionato = controller.getFotografiaUsernameViewGUI(idFotografiaSelezionata);
         byte[] datiFotoSelezionato = controller.getFotografiaDatiFotoViewGUI(idFotografiaSelezionata);
         String dispositivoSelezionato = controller.getFotografiaDispositivoViewGUI(idFotografiaSelezionata);
-        Timestamp dataFotoSelezionato = controller.getFotografiaDataFotoViewGUI(idFotografiaSelezionata);
+
 
 
         // Creiamo il pannello principale
@@ -50,6 +50,7 @@ public class ViewFotografiaGUI extends JDialog {
         idFotoField.setText(String.valueOf(idFotografiaSelezionata));
         datiPanel.add(idFotoLabel);
         datiPanel.add(idFotoField);
+        idFotoField.setEditable(false);
 
         // USERNAME AUTORE
         JLabel autoreLabel = new JLabel("Autore:", SwingConstants.CENTER);
@@ -58,6 +59,7 @@ public class ViewFotografiaGUI extends JDialog {
         autoreField.setText(usernameSelezionato);
         datiPanel.add(autoreLabel);
         datiPanel.add(autoreField);
+        autoreField.setEditable(false);
 
         // DATIFOTO
         JLabel datiFotoLabel = new JLabel("id foto:", SwingConstants.CENTER);
@@ -66,6 +68,7 @@ public class ViewFotografiaGUI extends JDialog {
         datiFotoField.setText(String.valueOf(datiFotoSelezionato));
         datiPanel.add(datiFotoLabel);
         datiPanel.add(datiFotoField);
+        datiFotoField.setEditable(false);
 
         // DISPOSITIVO
         JLabel dispositivoLabel = new JLabel("dispositivo:", SwingConstants.CENTER);
