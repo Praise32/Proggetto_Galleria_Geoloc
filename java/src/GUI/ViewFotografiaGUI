@@ -87,18 +87,18 @@ public class ViewFotografiaGUI extends JDialog {
         //TABELLA VIDEO
         // Creiamo il pannello destro per la tabella video
         JPanel rightPanel = new JPanel(new BorderLayout());
-        rightPanel.setBorder(BorderFactory.createTitledBorder("Compare nel video:"));
+        rightPanel.setBorder(BorderFactory.createTitledBorder("Compare in:"));
 
         // TABELLA CONTENUTO IN VIDEO a destra
-        ArrayList<Integer> listaVideoAssociati = controller.vediContenutoFotografia(idFotografiaSelezionata);
+        ArrayList<Integer> listaCollezioniAssociati = controller.vediContenutoFotografia(idFotografiaSelezionata);
         DefaultTableModel tabellaFotografieModel = new DefaultTableModel();
-        Object[][] data = new Object[listaVideoAssociati.size()][2];
-        for (int i = 0; i < listaVideoAssociati.size(); i++) {
-            data[i][0] = listaVideoAssociati.get(i);
-            data[i][1] = listaVideoAssociati.get(i);
+        Object[][] data = new Object[listaCollezioniAssociati.size()][2];
+        for (int i = 0; i < listaCollezioniAssociati.size(); i++) {
+            data[i][0] = listaCollezioniAssociati.get(i);
+            data[i][1] = listaCollezioniAssociati.get(i);
 
         }
-        tabellaFotografieModel.setDataVector(data, new Object[]{"ID"});
+        tabellaFotografieModel.setDataVector(data, new Object[]{"ID Collezione"});
         this.tabellaFotografie = new JTable(tabellaFotografieModel);
         this.tabellaFotografie.setShowGrid(true);
 
@@ -139,7 +139,7 @@ public class ViewFotografiaGUI extends JDialog {
         //TABELLA TAG
         // Creiamo il pannello inferiore per la tabella
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBorder(BorderFactory.createTitledBorder("Collezione:"));
+        bottomPanel.setBorder(BorderFactory.createTitledBorder("TAG:"));
 
         // Tabella della fotografia
         ArrayList<String> listaTagUtente = controller.vediTagUtente(idFotografiaSelezionata);
@@ -210,7 +210,6 @@ public class ViewFotografiaGUI extends JDialog {
         JPanel panelBottoni = new JPanel(new BorderLayout());
         JPanel panelBottoniLeft = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel panelBottoniRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
 
 
         panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);
@@ -299,8 +298,6 @@ public class ViewFotografiaGUI extends JDialog {
 
 
         //BOTTONE RIMUOVI TAG UTENTE
-        // Logica per rimuovere tag utente
-        //BOTTONE RIMUOVI TAG UTENTE
         JButton bottoneRimuoviTagUtente;
         bottoneRimuoviTagUtente = new JButton("Rimuovi Tag Utente");
         panelBottoniRight.add(bottoneRimuoviTagUtente);
@@ -348,8 +345,6 @@ public class ViewFotografiaGUI extends JDialog {
 
 
         //BOTTONE RIMUOVI TAG SOGGETTO
-        // Logica per rimuovere tag utente
-        //BOTTONE RIMUOVI TAG UTENTE
         JButton bottoneRimuoviTagSoggetto;
         bottoneRimuoviTagSoggetto = new JButton("Rimuovi Tag Soggetto");
         panelBottoniRight.add(bottoneRimuoviTagSoggetto);
@@ -394,6 +389,16 @@ public class ViewFotografiaGUI extends JDialog {
                 }
             }
         });
+
+        //BOTTONE ANNULLA
+        JButton bottoneTornaIndietro;
+        bottoneTornaIndietro = new JButton("Indietro");
+        bottoneTornaIndietro.addActionListener(e -> {
+            //chiudo la finestra di dialogo
+            dispose();
+            framePadre.setVisible(true);
+        });
+        panelBottoniLeft.add(bottoneTornaIndietro);
 
 
 
