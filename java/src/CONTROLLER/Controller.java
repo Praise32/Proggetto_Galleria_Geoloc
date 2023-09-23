@@ -748,6 +748,34 @@ public class Controller {
         }
     }
 
+
+    /**
+     * Modifica una fotografia dal sistema in base all'ID fornito.
+     *
+     * @param idFotoSelezionata ID univoco della fotografia da modificare.
+     * @param DispositivoNuovo dispositivo modificato della fotografia.
+     * @param TitoloNuovo titolo modificato della fotografia.
+     * @throws SQLException Eccezione sollevata in caso di problemi con il database.
+     */
+    public void modificaFotografia(int idFotoSelezionata,String DispositivoNuovo ,String TitoloNuovo) throws SQLException {
+
+        FotografiaDAO f = new FotografiaPostgresDAO();
+
+        boolean control = f.modificaFotografiaDAO(idFotoSelezionata, DispositivoNuovo, TitoloNuovo);
+
+
+        //se modifico la foto nel database allora lo modifico anche nel MODEL
+        if (control) {
+            for (Fotografia fot : listaFotografia)
+                if (fot.getIdFoto() == idFotoSelezionata) {
+                    fot.setDispositivo(DispositivoNuovo);
+                    fot.setTitolo(TitoloNuovo);
+                    break;
+                }
+        }
+
+    }
+
 //-------------------------------------------       CONTENUTO      --------------------------------------------------//
 
     /**
