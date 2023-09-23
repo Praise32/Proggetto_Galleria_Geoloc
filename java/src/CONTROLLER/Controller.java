@@ -1663,7 +1663,16 @@ public class Controller {
         return colSelezionata.getUsername().getUsername();
     }
 
+    public ArrayList<Integer> getListaFotoDisponibileCollezioneGUI() {
+        ArrayList<Integer> fotoDisponibili = new ArrayList<>();
 
+        for (Fotografia fot : listaFotografia) {
+            // Aggiungi tutte le foto presenti nella lista
+            fotoDisponibili.add(fot.getIdFoto());
+        }
+
+        return fotoDisponibili;
+    }
 
 
 //------------------------------------------------FOTOGRAFIA------------------------------------------------------------//
