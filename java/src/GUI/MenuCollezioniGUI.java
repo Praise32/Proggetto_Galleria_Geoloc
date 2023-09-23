@@ -17,7 +17,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
- * The type Menu impiegati gui.
+ * The type Menu Collezioni gui.
  */
 
 public class MenuCollezioniGUI
@@ -28,7 +28,7 @@ public class MenuCollezioniGUI
     private final JTextField searchBar;
 
     /**
-     * Instantiates a new Menu impiegati gui.
+     * Instantiates a new Menu Collezione gui.
      *
      * @param controller          the controller
      * @param frameMenuPrincipale the frame menu principale
@@ -135,7 +135,7 @@ public class MenuCollezioniGUI
             frameMenuPrincipale.setVisible(true);
         });
 
-// BOTTONE INSERISCI COLLEZIONE
+        // BOTTONE INSERISCI COLLEZIONE
         JButton bottoneInserisci = new JButton("Inserisci");
         bottoneInserisci.addActionListener(e -> {
             InserimentoCollezioneGUI dialog = new InserimentoCollezioneGUI(controller, frameMenuCollezioni);
@@ -146,13 +146,15 @@ public class MenuCollezioniGUI
                 @Override
                 public void windowClosed(WindowEvent e) {
                     // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
-                    loadTable(controller, colonneTabella);
+                    updateTable(controller, colonneTabella, modelloTabella);
 
                     // Aggiungi qui eventuali altre azioni dopo l'inserimento della collezione
                 }
             });
         });
-//BOTTONE ELIMINA COLLEZIONE
+
+
+        //BOTTONE ELIMINA COLLEZIONE
         JButton bottoneElimina = new JButton("Elimina");
         bottoneElimina.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -173,7 +175,7 @@ public class MenuCollezioniGUI
                             try {
                                 controller.eliminaCollezione(idCollezioneSelezionato);
                                 // Aggiornamento della tabella dopo l'eliminazione con successo
-                                loadTable(controller, colonneTabella);
+                                updateTable(controller, colonneTabella, modelloTabella);
                             } catch (PSQLException ex) {
                                 JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati della collezione:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
                             } catch (Exception ee) {
@@ -193,6 +195,34 @@ public class MenuCollezioniGUI
         });
 
 
+        //BOTTONE PROFILO COLLEZIONE
+
+        JButton bottoneProfiloCollezione = new JButton("Profilo Collezione");
+        bottoneProfiloCollezione.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            int selectedColumn = table.getSelectedColumn();
+            // L'utente ha selezionato una cella
+            if (selectedRow != -1 && selectedColumn != -1) {
+                // L'id della collezione è nella prima colonna della tabella
+                String idCollezioneSelezionatoStr = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int idCollezioneSelezionato = Integer.parseInt(idCollezioneSelezionatoStr);
+                try {
+                    // Creo un'istanza della finestra di dialogo ProfiloCollezioneGUI
+                    ViewCollezioneGUI profiloCollezione = new ViewCollezioneGUI(idCollezioneSelezionato, controller, frameMenuCollezioni);
+                    frameMenuCollezioni.setVisible(false);
+                    // Mostro la finestra di dialogo
+                    profiloCollezione.setVisible(true);
+                } catch (java.sql.SQLException ex) {
+                    // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
+                    ex.printStackTrace(); // Stampa la traccia dell'eccezione
+                }
+            } else {
+                // L'utente non ha selezionato una cella
+                JOptionPane.showMessageDialog(frameMenuCollezioni, "Seleziona una collezione per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
+            }});
+
+
+
 
 
         // Aggiungiamo i pulsanti alla finestra
@@ -202,40 +232,39 @@ public class MenuCollezioniGUI
         panelBottoniRight.add(bottoneInserisci);
         panelBottoniRight.add(bottoneElimina);
         panelBottoniLeft.add(bottoneMenuPrincipale);
-
+        panelBottoniRight.add(bottoneProfiloCollezione);
 
         panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);
         panelBottoni.add(panelBottoniRight, BorderLayout.EAST);
         frameMenuCollezioni.add(panelBottoni, BorderLayout.SOUTH);
 
+
     }
 
-    private void loadTable(Controller controller,String[] colonneTabella) {
-
-        //LOAD DEI NUOVI DATI
+    private void updateTable(Controller controller, String[] columnNames, DefaultTableModel tableModel) {
         ArrayList<Integer> listaIdCollezione = new ArrayList<>();
         ArrayList<String> listaUsername = new ArrayList<>();
         ArrayList<String> listaTitolo = new ArrayList<>();
-        ArrayList<java.sql.Timestamp> listaDataCollezioni= new ArrayList<>();
+        ArrayList<java.sql.Timestamp> listaDataCollezioni = new ArrayList<>();
         ArrayList<Integer> listaNumeroElementi = new ArrayList<>();
 
-        controller.getListaCollezioniGUI(listaIdCollezione,listaUsername, listaTitolo, listaDataCollezioni, listaNumeroElementi);
+        controller.getListaCollezioniGUI(listaIdCollezione, listaUsername, listaTitolo, listaDataCollezioni, listaNumeroElementi);
 
-        Object[][] newdata = new Object[listaUsername.size()][5];
+        Object[][] newData = new Object[listaUsername.size()][columnNames.length];
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         for (int i = 0; i < listaIdCollezione.size(); i++) {
-            newdata[i][0] = listaIdCollezione.get(i);
-            newdata[i][1] = listaUsername.get(i);
-            newdata[i][2] = listaTitolo.get(i);
-            newdata[i][3] = dateFormat.format(listaDataCollezioni.get(i)); // Converti Timestamp in stringa
-            newdata[i][4] = listaNumeroElementi.get(i);
+            newData[i][0] = listaIdCollezione.get(i);
+            newData[i][1] = listaUsername.get(i);
+            newData[i][2] = listaTitolo.get(i);
+            newData[i][3] = dateFormat.format(listaDataCollezioni.get(i));
+            newData[i][4] = listaNumeroElementi.get(i);
         }
 
-        //CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setDataVector(newdata, colonneTabella);
-
+        // Aggiorna il modello della tabella con i nuovi dati
+        tableModel.setDataVector(newData, columnNames);
     }
+
 
 
 
