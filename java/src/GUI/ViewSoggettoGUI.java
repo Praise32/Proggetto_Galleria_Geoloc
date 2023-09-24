@@ -240,7 +240,7 @@ public class ViewSoggettoGUI extends JDialog {
 
             try {
 
-                controller.modificaSoggettoString(nomeModificato, passwordModificata, nomeSelezionato);
+                controller.modificaSoggettoString(nomeSelezionato, passwordModificata, nomeModificato);
                 JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (SQLException ex) {
@@ -252,7 +252,7 @@ public class ViewSoggettoGUI extends JDialog {
                 dispose();
                 framePadre.setVisible(true);
             }
-            //}
+
 
         });
 
