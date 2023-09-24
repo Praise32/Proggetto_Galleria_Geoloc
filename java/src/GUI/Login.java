@@ -15,12 +15,12 @@ import java.util.Scanner;
  * The type Menu principale gui.
  */
 public class Login {
-    /**
-     * The Controller.
-     */
-    Controller controller = new Controller();
 
     private final JFrame frame;
+    /**
+     * Il controller
+     */
+    Controller controller = new Controller();    //Prima inizializzazione del controller
 
     /**
      * Instantiates a new Menu principale gui.
@@ -130,6 +130,8 @@ public class Login {
         loginButton.addActionListener(e -> {
             boolean accesso = false;
 
+
+
             try {
                 accesso = controller.accessoUtente(usernameField.getText(), passwordField.getText());
             } catch (SQLException ex) {
@@ -139,7 +141,12 @@ public class Login {
             if (accesso) {
                 User istance = User.getInstance();
                 istance.setUsername(usernameField.getText());
-
+                /**
+                 * Inizializzo una seconda volta il controller dopo aver ricevuto l'username in input
+                 * Così facendo le query lo necessitavano ma non l'hanno ricevuto al primo avvio lo ricevono al secondo
+                 * Questa cosa si poteva evitare avendo controller diversi per ogni classe, purtroppo ci siamo trovati a farlo a progetto quasi concluso :))))))))
+                 */
+                controller = new Controller();
                 frame.dispose();
                 //Apro il menu principale
                 GUI.MenuPrincipaleGUI menuPrincipaleGUI = new GUI.MenuPrincipaleGUI(controller, frame);
