@@ -27,7 +27,7 @@ public class Fotografia {
     private List<Soggetto> listaTagSoggetto = new ArrayList<>();
 
     public Fotografia(int idFoto, Utente usernameAutore, byte[] datiFoto, String dispositivo, Timestamp dataFoto,
-                      Luogo latitudine, Luogo longitudine, boolean condivisa, String titolo) {
+                      Luogo luogolat, Luogo luogolon, boolean condivisa, String titolo) {
         this.idFoto = idFoto;
         this.usernameAutore = usernameAutore;
         this.datiFoto = datiFoto;

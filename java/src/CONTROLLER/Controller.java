@@ -1475,7 +1475,7 @@ public class Controller {
         if (control) {
             for (Frame frame : listaFrame)
                 for (int f : frameAssociati)
-                    if (frame.getIdFoto().equals(f)) {
+                    if (frame.getIdFoto().getIdFoto() == f) {
                         assert videoselezionato != null;
                         videoselezionato.aggiungiFrame(frame);
                     }
@@ -1721,12 +1721,22 @@ public class Controller {
             listaDispositivoFoto.add(fotografia.getDispositivo());
             listaDatafoto.add(fotografia.getDataFoto());
 
+            //DA FIXAAREEEEEEEEEEE
+            //DA FIXAAREEEEEEEEEEE
+            //DA FIXAAREEEEEEEEEEE
+            //DA FIXAAREEEEEEEEEEE
+            //DA FIXAAREEEEEEEEEEE
+            //DA FIXAAREEEEEEEEEEE
+            //DA FIXAAREEEEEEEEEEE SOTTO
+
+
+
             // Verifica se il luogo latitudine non è null prima di ottenere la latitudine
             if (fotografia.getLuogolat() != null) {
                 listaLatitudineFoto.add(Float.parseFloat(decimalFormat.format(fotografia.getLuogolat().getLatitudine())));
             } else {
                 // Se la latitudine è null, assegna un valore predefinito o gestisci il caso come preferisci
-                listaLatitudineFoto.add(0.0f); // Ad esempio, assegniamo 0.0 come valore predefinito
+                listaLatitudineFoto.add(1.0f); // Ad esempio, assegniamo 0.0 come valore predefinito
             }
 
             // Verifica se il luogo longitudine non è null prima di ottenere la longitudine
@@ -1734,7 +1744,7 @@ public class Controller {
                 listaLongitudineFoto.add(Float.parseFloat(decimalFormat.format(fotografia.getLuogolon().getLongitudine())));
             } else {
                 // Se la longitudine è null, assegna un valore predefinito o gestisci il caso come preferisci
-                listaLongitudineFoto.add(0.0f); // Ad esempio, assegniamo 0.0 come valore predefinito
+                listaLongitudineFoto.add(1.0f); // Ad esempio, assegniamo 0.0 come valore predefinito
             }
 
             listaCondivisaFoto.add(fotografia.isCondivisa());
@@ -2053,6 +2063,91 @@ public class Controller {
         }
         return sogSelezionato.getCategoria();
     }
+
+
+    //------------------------------------------------FRAME------------------------------------------------------------//
+
+
+
+    public void getListaFrameGUI(ArrayList<Integer> listaIdVideo, ArrayList<Integer> listaIdFoto, ArrayList<Integer> listaDurata, ArrayList<Integer> listaOrdine ) {
+
+
+
+        for (Frame frame : listaFrame) {
+
+            if (frame.getIdVideo() != null) {
+                listaIdVideo.add(frame.getIdVideo().getIdVideo());
+            } else {
+                listaIdVideo.add(100);
+            }
+
+            if (frame.getIdFoto() != null) {
+                listaIdFoto.add(frame.getIdFoto().getIdFoto());
+            } else {
+                listaIdFoto.add(100);
+            }
+            listaDurata.add(frame.getDurata());
+            listaOrdine.add(frame.getDurata());
+
+        }
+    }
+
+
+
+
+
+    public void getListaFrameGUI(ArrayList<Integer> listaIdVideo, ArrayList<Integer> listaIdFoto, ArrayList<Integer> listaDurata, ArrayList<Integer> listaOrdine, int idVideoSelezionato) throws SQLException {
+        VideoDAO v = new VideoPostgresDAO();
+
+        // Recupero il video selezionato
+        Video videoselezionato = null;
+        for (Video vid : listaVideo) {
+            if (vid.getIdVideo() == idVideoSelezionato) {
+                videoselezionato = vid;
+                break;
+            }
+        }
+
+        // Trovo i frame associati
+        ArrayList<Integer> frameAssociati = new ArrayList<>();
+        boolean control = v.vediFrameVideoDAO(idVideoSelezionato, frameAssociati);
+
+        // Inizializzo la lista di frame presenti nel video
+        if (control) {
+            for (Frame frame : listaFrame) {
+                for (int f : frameAssociati) {
+                    if (frame.getIdFoto().getIdFoto() == f) {
+                        assert videoselezionato != null;
+                        videoselezionato.aggiungiFrame(frame);
+                        if (frame.getIdVideo() != null) {
+
+
+                            //DA FIXAAREEEEEEEEEEE
+                            //DA FIXAAREEEEEEEEEEE
+
+                            //DA FIXAAREEEEEEEEEEE SOTTO
+
+
+                            listaIdVideo.add(frame.getIdVideo().getIdVideo());                        } else {
+                            // Se l'autore è null, assegna una stringa vuota come autore
+                            listaIdVideo.add(idVideoSelezionato); // Specifichiamo un valore predefinito come "Sconosciuto"
+                        }
+
+                        listaIdFoto.add(frame.getIdFoto().getIdFoto());
+                        listaDurata.add(frame.getDurata());
+                        listaOrdine.add(frame.getOrdine());
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
 
 
 }

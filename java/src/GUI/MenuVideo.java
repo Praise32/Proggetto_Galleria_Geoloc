@@ -183,7 +183,7 @@ public class MenuVideo
 
         //BOTTONE PROFILO VIDEO
 
-        JButton bottoneProfiloVideo = new JButton("Modifica Video");
+        JButton bottoneProfiloVideo = new JButton("Profilo Video");
         bottoneProfiloVideo.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
@@ -194,10 +194,9 @@ public class MenuVideo
                 int idVideoSelezionato = Integer.parseInt(idVideoSelezionatoStr);
                 try {
                     // Creo un'istanza della finestra di dialogo ProfiloImpiegato
-                    ViewVideoGUI profiloUtente = new ViewVideoGUI(idVideoSelezionato, controller, frameMenuVideo);
                     frameMenuVideo.setVisible(false);
+                    ViewFrameGUI profiloUtente = new ViewFrameGUI(idVideoSelezionato, controller, frameMenuVideo);
                     // Mostro la finestra di dialogo
-                    profiloUtente.setVisible(true);
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
                     ex.printStackTrace(); // Stampa la traccia dell'eccezione
@@ -210,7 +209,7 @@ public class MenuVideo
 
         //BOTTONE PROFILO VIDEO
 
-        JButton bottoneProfiloFrame = new JButton("Profilo Video");
+        JButton bottoneProfiloFrame = new JButton("Modifica Video");
         bottoneProfiloFrame.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
