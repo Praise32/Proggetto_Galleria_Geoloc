@@ -46,7 +46,6 @@ public class Controller {
         dumpDatiFrame();
         dumpDatiSoggetto();
         dumpDatiVideo();
-
     }
 
     public void updateDatabase() {
@@ -75,7 +74,6 @@ public class Controller {
     public void dumpDatiFotografia() {
         GalleriaDAO galleriaDAO = new GalleriaPostgresDAO();
 
-
         ArrayList<Integer> idFotoList = new ArrayList<>();
         ArrayList<String> utenteUsernameAutoreList = new ArrayList<>();
         ArrayList<byte[]> datiFotoList = new ArrayList<>();
@@ -100,6 +98,15 @@ public class Controller {
                     break;
                 }
             }
+
+            /** CONTROLLANDO IN DEBUG NON ENTRA PROPRIO IN QUESTA PARTE DI CODICE
+             * listaLuogo HA size = 0 PER TUTTA L'ESECUZIONE
+             * Inserire Breakpoint al for e latitudine = lata per verificare
+             * Il controllo del for viene eseguito, tuttavia il suo contenuto, cioè if no
+             * in quanto il programma rileva come se non ci fossero elementi in listaLuogo
+             */
+
+            //TODO CONTROLLARE LA FUNZIONE CHE SI OCCUPA DI PRENDERE LA DIMENSIONE DI listaLuogo
             //ciclo che associa ogni luogo le fotografia scattate e ogni fotografia ad un luogo
             for (Luogo lat : listaLuogo) {
                 if (Float.compare(lat.getLatitudine(), luogolatitudineList.get(i)) == 0) {
