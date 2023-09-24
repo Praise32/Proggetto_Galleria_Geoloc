@@ -15,7 +15,7 @@ public class Frame {
     private List<Video> listaComposizioneVideo = new ArrayList<>();
 
     // Costruttore con parametri per inizializzare gli attributi della classe Frame
-    public Frame(Video idVideo, Fotografia fotografia, int durata, int ordine) {
+    public Frame(Video idVideo, Fotografia idFoto, int durata, int ordine) {
         this.idVideo = idVideo;   
         this.idFoto = idFoto;
         this.durata = durata;       

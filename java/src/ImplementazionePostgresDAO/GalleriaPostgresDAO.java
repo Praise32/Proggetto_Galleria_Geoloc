@@ -49,7 +49,6 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
     public void getListFotografiaDAO (ArrayList <Integer> idFotoList, ArrayList <String> utenteUsernameAutoreList, ArrayList <byte[]> datiFotoList, ArrayList <String> dispositivoList, ArrayList <java.sql.Timestamp> dataFotoList, ArrayList <Float>luogolatitudineList, ArrayList <Float>luogolongituineList, ArrayList <Boolean> condivisaList, ArrayList <String> titoloList){
         try {
             PreparedStatement selectListaFotografia;
-            //TODO Risolvere l'username che non viene salvato, probabilmente questa funzione viene avviata prima di avere l'istanza
             selectListaFotografia = connection.prepareStatement("SELECT * FROM fotografia WHERE username_autore = ? OR condivisa = TRUE");
             selectListaFotografia.setString(1, User.getInstance().getUsername());
             ResultSet rs = selectListaFotografia.executeQuery();
