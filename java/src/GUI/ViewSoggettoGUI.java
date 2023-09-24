@@ -20,7 +20,7 @@ public class ViewSoggettoGUI extends JDialog {
 
 
     public ViewSoggettoGUI(String nomeSelezionato, Controller controller, JFrame framePadre) throws SQLException {
-        setTitle("Profilo Foto");
+        setTitle("Profilo Soggetto");
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -269,8 +269,7 @@ public class ViewSoggettoGUI extends JDialog {
         add(panel,BorderLayout.CENTER);
         add(panelBottoni, BorderLayout.SOUTH);
 
-        // username non modificabile
-        usernameField.setEditable(false);
+
 
 
         // impostazioni finestra

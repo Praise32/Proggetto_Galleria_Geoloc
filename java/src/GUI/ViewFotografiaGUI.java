@@ -95,7 +95,7 @@ public class ViewFotografiaGUI extends JDialog {
 
 
         //-----------------------------------------------TABELLE-----------------------------------------------------------------//
-        
+
         //TABELLA VIDEO
         // Creiamo il pannello destro per la tabella video
         JPanel rightPanel = new JPanel(new BorderLayout());
@@ -146,8 +146,8 @@ public class ViewFotografiaGUI extends JDialog {
         this.tabellaFotografie.getTableHeader().setReorderingAllowed(false);
         panel.add(rightPanel, BorderLayout.EAST);
 
-        
-        
+
+
         //TABELLA TAG
         // Creiamo il pannello inferiore per la tabella
         JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -187,7 +187,7 @@ public class ViewFotografiaGUI extends JDialog {
                 idStringBuilderSoggetto.append(", ");
             }
         }
-        
+
         // Imposta la stringhe ottenute
         tabellaFotografiaTagModel.setValueAt(idStringBuilderTagUtente.toString(), 0, 0); // 0, 0 rappresenta la riga e la colonna in cui vuoi visualizzare gli ID
         tabellaFotografiaTagModel.setValueAt(idStringBuilderSoggetto.toString(), 0, 1); // 0, 1 rappresenta la riga e la colonna in cui vuoi visualizzare gli ID
@@ -213,8 +213,8 @@ public class ViewFotografiaGUI extends JDialog {
         tabellaCollezione.setBackground(Color.DARK_GRAY);
         tabellaCollezione.getTableHeader().setBackground(Color.DARK_GRAY);
         tabellaCollezione.getTableHeader().setForeground(Color.WHITE);
-        
-        
+
+
 //---------------------------------------------------BOTTONI----------------------------------------------------------------//
 
 
@@ -519,4 +519,3 @@ public class ViewFotografiaGUI extends JDialog {
 
 
 }
-

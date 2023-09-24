@@ -1825,6 +1825,18 @@ public class Controller {
 
     }
 
+    public String getFotografiaTitoloViewGUI(int idFotografiaSelezionata) {
+        Fotografia fotSelezionata = null;
+        for(Fotografia fot : listaFotografia) {
+            if(fot.getIdFoto() == idFotografiaSelezionata) {
+                fotSelezionata = fot;
+                break;
+            }
+        }
+        return fotSelezionata.getTitolo();
+
+    }
+
     public ArrayList<String> getListaSoggettiDisponibiliGUI() {
         ArrayList<String> sogDisponibili = new ArrayList<>();
 
@@ -1864,6 +1876,86 @@ public class Controller {
 
         return userDisponibili;
     }
+
+
+    public int getIdVideoViewGUI(int VideoSelezionato) {
+        Video videoSelezionato = null;
+        for (Video video : listaVideo) {
+            if (video.getIdVideo() == VideoSelezionato) {
+                videoSelezionato = video;
+                break;
+            }
+        }
+        if (videoSelezionato != null) {
+            return videoSelezionato.getIdVideo();
+        } else {
+            // Gestione dell'errore o valore predefinito in caso di nessuna corrispondenza trovata
+            return -1; // Ad esempio, restituisco -1 in caso di nessuna corrispondenza
+        }
+    }
+
+    public String getAutoreVideoViewGUI(int VideoSelezionato) {
+
+        Video videoSelezionato = null;
+        for(Video video : listaVideo) {
+            if (video.getIdVideo() == VideoSelezionato) {
+                videoSelezionato = video;
+                break;
+            }
+        }
+        return videoSelezionato.getAutore().getUsername();
+    }
+
+    public String getTitoloVideoViewGUI(int VideoSelezionato) {
+
+        Video videoSelezionato = null;
+        for(Video video : listaVideo) {
+            if (video.getIdVideo() == VideoSelezionato) {
+                videoSelezionato = video;
+                break;
+            }
+        }
+        return videoSelezionato.getTitolo();
+    }
+
+    public String getDescrizioneVideoViewGUI(int VideoSelezionato) {
+
+        Video videoSelezionato = null;
+        for(Video video : listaVideo) {
+            if (video.getIdVideo() == VideoSelezionato) {
+                videoSelezionato = video;
+                break;
+            }
+        }
+        return videoSelezionato.getDescrizione();
+    }
+
+    public int getNumeroFramesVideoViewGUI(int VideoSelezionato) {
+
+        Video videoSelezionato = null;
+        for(Video video : listaVideo) {
+            if (video.getIdVideo() == VideoSelezionato) {
+                videoSelezionato = video;
+                break;
+            }
+        }
+        return videoSelezionato.getNumeroFrames();
+    }
+
+
+    public int getDurataVideoViewGUI(int VideoSelezionato) {
+
+        Video videoSelezionato = null;
+        for(Video video : listaVideo) {
+            if (video.getIdVideo() == VideoSelezionato) {
+                videoSelezionato = video;
+                break;
+            }
+        }
+        return videoSelezionato.getDurata();
+    }
+
+
 
 //------------------------------------------------LUOGO------------------------------------------------------------//
 

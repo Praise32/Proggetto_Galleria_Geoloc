@@ -40,7 +40,7 @@ public class MenuVideo
         frameMenuVideo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-//----------------------------------------------TABELLA Video--------------------------------------------------------//
+//----------------------------------------------TABELLA VIDEO--------------------------------------------------------//
 
         //Creazione
         String[] colonneTabella = {"idVideo", "Autore", "Titolo", "NumeroFrames","Durata", "Descrizione"};
@@ -181,19 +181,47 @@ public class MenuVideo
         });
 
 
-        //BOTTONE PROFILO UTENTE
+        //BOTTONE PROFILO VIDEO
 
-        JButton bottoneProfiloVideo = new JButton("Dettagli Video");
+        JButton bottoneProfiloVideo = new JButton("Modifica Video");
         bottoneProfiloVideo.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
             // L'utente ha selezionato una cella
             if (selectedRow != -1 && selectedColumn != -1) {
                 // l'username è nella prima colonna della tabella
-                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+                String idVideoSelezionatoStr = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int idVideoSelezionato = Integer.parseInt(idVideoSelezionatoStr);
                 try {
                     // Creo un'istanza della finestra di dialogo ProfiloImpiegato
-                    ViewUserGUI profiloUtente = new ViewUserGUI(usernameSelezionato, controller, frameMenuVideo);
+                    ViewVideoGUI profiloUtente = new ViewVideoGUI(idVideoSelezionato, controller, frameMenuVideo);
+                    frameMenuVideo.setVisible(false);
+                    // Mostro la finestra di dialogo
+                    profiloUtente.setVisible(true);
+                } catch (java.sql.SQLException ex) {
+                    // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
+                    ex.printStackTrace(); // Stampa la traccia dell'eccezione
+                }
+            } else {
+                // L'utente non ha selezionato una cella
+                JOptionPane.showMessageDialog(frameMenuVideo, "Seleziona un video per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        //BOTTONE PROFILO VIDEO
+
+        JButton bottoneProfiloFrame = new JButton("Profilo Video");
+        bottoneProfiloFrame.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            int selectedColumn = table.getSelectedColumn();
+            // L'utente ha selezionato una cella
+            if (selectedRow != -1 && selectedColumn != -1) {
+                // l'username è nella prima colonna della tabella
+                String idVideoSelezionatoStr = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int idVideoSelezionato = Integer.parseInt(idVideoSelezionatoStr);
+                try {
+                    // Creo un'istanza della finestra di dialogo ProfiloImpiegato
+                    ViewVideoGUI profiloUtente = new ViewVideoGUI(idVideoSelezionato, controller, frameMenuVideo);
                     frameMenuVideo.setVisible(false);
                     // Mostro la finestra di dialogo
                     profiloUtente.setVisible(true);
@@ -217,6 +245,7 @@ public class MenuVideo
         panelBottoniRight.add(bottoneInserisci);
         panelBottoniRight.add(bottoneElimina);
         panelBottoniRight.add(bottoneProfiloVideo);
+        panelBottoniRight.add(bottoneProfiloFrame);
 
 
         panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);

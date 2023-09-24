@@ -26,7 +26,7 @@ public class ViewLuogoGUI extends JDialog {
 
         //Creiamo le variabili per ricevere dal controller i dati del soggetto
         Float LatitudineSelezionata = controller.getLatitudineViewGUI(nomeSelezionato);
-        Float LongitudineSelezionata = controller.getLatitudineViewGUI(nomeSelezionato);
+        Float LongitudineSelezionata = controller.getLongitudineViewGUI(nomeSelezionato);
         String NomeSelezionato = controller.getNomeViewGUI(nomeSelezionato);
         String CategoriaSelezionata = controller.getDescrizioneViewGUI(nomeSelezionato);
 
