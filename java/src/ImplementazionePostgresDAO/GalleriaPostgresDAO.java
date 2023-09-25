@@ -52,6 +52,7 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
             selectListaFotografia = connection.prepareStatement("SELECT * FROM fotografia WHERE username_autore = ? OR condivisa = TRUE");
             selectListaFotografia.setString(1, User.getInstance().getUsername());
             ResultSet rs = selectListaFotografia.executeQuery();
+
             while (rs.next()) {
                 int idFoto = rs.getInt("id_foto");
                 String usernameAutore = rs.getString("username_autore");

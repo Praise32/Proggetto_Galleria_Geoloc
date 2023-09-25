@@ -1,10 +1,7 @@
 package MAIN;
 
-import DBconnection.ConnessioneDB;
 import GUI.Login;
-
 import com.formdev.flatlaf.FlatDarkLaf;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.Pack;
 
 import javax.swing.*;
 
@@ -29,7 +26,7 @@ public class Main {
 
         FlatDarkLaf.installLafInfo();
         UIManager.setLookAndFeel(new FlatDarkLaf());
-        new Login();;
+        new Login();
 
 
     }
