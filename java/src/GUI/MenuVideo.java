@@ -135,7 +135,7 @@ public class MenuVideo
 
 
         //BOTTONE INSERISCI UTENTE
-        JButton bottoneInserisci = new JButton("Inserisci");
+        JButton bottoneInserisci = new JButton("Inserisci Video");
         bottoneInserisci.addActionListener(e -> {
             InserimentoVideoGUI dialog = new InserimentoVideoGUI(controller, frameMenuVideo);
             frameMenuVideo.setVisible(false);
@@ -151,7 +151,7 @@ public class MenuVideo
         });
 
         //BOTTONE ELIMINA UTENTE
-        JButton bottoneElimina = new JButton("Elimina");
+        JButton bottoneElimina = new JButton("Elimina Video");
         bottoneElimina.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
@@ -183,7 +183,7 @@ public class MenuVideo
 
         //BOTTONE PROFILO VIDEO
 
-        JButton bottoneProfiloVideo = new JButton("Profilo Video");
+        JButton bottoneProfiloVideo = new JButton("Visualizza Video");
         bottoneProfiloVideo.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();

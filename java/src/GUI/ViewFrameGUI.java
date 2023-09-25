@@ -138,7 +138,7 @@ public class ViewFrameGUI {
 
 
         //BOTTONE ELIMINA FRAME
-        JButton bottoneElimina = new JButton("Elimina");
+        JButton bottoneElimina = new JButton("Elimina Frame");
         bottoneElimina.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
@@ -168,7 +168,7 @@ public class ViewFrameGUI {
         });
 
         // BOTTONE INSERISCI FRAME
-        JButton bottoneInserisci = new JButton("Inserisci");
+        JButton bottoneInserisci = new JButton("Inserisci Frame");
         bottoneInserisci.addActionListener(e -> {
             InserimentoFrameGUI dialog = new InserimentoFrameGUI(idvideosec, controller, frameMenuFotografie);
             frameMenuFotografie.setVisible(false);

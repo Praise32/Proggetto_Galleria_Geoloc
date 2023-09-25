@@ -63,7 +63,7 @@ public class ViewFotografiaGUI extends JDialog {
         autoreField.setEditable(false);
 
         // DATIFOTO
-        JLabel datiFotoLabel = new JLabel("id foto:", SwingConstants.CENTER);
+        JLabel datiFotoLabel = new JLabel("Dati Foto:", SwingConstants.CENTER);
         datiFotoLabel.setHorizontalAlignment(SwingConstants.LEFT);
         JTextField datiFotoField = new JTextField();
         datiFotoField.setText(String.valueOf(datiFotoSelezionato));
@@ -229,7 +229,7 @@ public class ViewFotografiaGUI extends JDialog {
 
         //BOTTONE TAG UTENTE
         JButton bottoneAggiungiTagUtente;
-        bottoneAggiungiTagUtente = new JButton("Aggiungi Tag Utente");
+        bottoneAggiungiTagUtente = new JButton("Add Tag Utente");
         panelBottoniRight.add(bottoneAggiungiTagUtente);
 
         int finalIdFotografiaSelezionata = idFotografiaSelezionata;
@@ -269,7 +269,7 @@ public class ViewFotografiaGUI extends JDialog {
 
         //BOTTONE TAG SOGGETTO
         JButton bottoneAggiungiTagSoggetto;
-        bottoneAggiungiTagUtente = new JButton("Aggiungi Tag Soggetto");
+        bottoneAggiungiTagUtente = new JButton("Add Tag Soggetto");
         panelBottoniRight.add(bottoneAggiungiTagUtente);
 
         int finalIdFotografiaSelezionata2 = idFotografiaSelezionata;
@@ -311,7 +311,7 @@ public class ViewFotografiaGUI extends JDialog {
 
         //BOTTONE RIMUOVI TAG UTENTE
         JButton bottoneRimuoviTagUtente;
-        bottoneRimuoviTagUtente = new JButton("Rimuovi Tag Utente");
+        bottoneRimuoviTagUtente = new JButton("Remove Tag Utente");
         panelBottoniRight.add(bottoneRimuoviTagUtente);
         int finalIdFotografiaSelezionata4 = idFotografiaSelezionata;
         bottoneRimuoviTagUtente.addActionListener(e -> {
@@ -358,7 +358,7 @@ public class ViewFotografiaGUI extends JDialog {
 
         //BOTTONE RIMUOVI TAG SOGGETTO
         JButton bottoneRimuoviTagSoggetto;
-        bottoneRimuoviTagSoggetto = new JButton("Rimuovi Tag Soggetto");
+        bottoneRimuoviTagSoggetto = new JButton("Remove Tag Soggetto");
         panelBottoniRight.add(bottoneRimuoviTagSoggetto);
         int finalIdFotografiaSelezionata5 = idFotografiaSelezionata;
         bottoneRimuoviTagSoggetto.addActionListener(e -> {
