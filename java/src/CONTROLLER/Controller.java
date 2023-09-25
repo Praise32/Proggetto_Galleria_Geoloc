@@ -2119,20 +2119,8 @@ public class Controller {
                     if (frame.getIdFoto().getIdFoto() == f) {
                         assert videoselezionato != null;
                         videoselezionato.aggiungiFrame(frame);
-                        if (frame.getIdVideo() != null) {
 
-
-                            //DA FIXAAREEEEEEEEEEE
-                            //DA FIXAAREEEEEEEEEEE
-
-                            //DA FIXAAREEEEEEEEEEE SOTTO
-
-
-                            listaIdVideo.add(frame.getIdVideo().getIdVideo());                        } else {
-                            // Se l'autore è null, assegna una stringa vuota come autore
-                            listaIdVideo.add(idVideoSelezionato); // Specifichiamo un valore predefinito come "Sconosciuto"
-                        }
-
+                        listaIdVideo.add(videoselezionato.getIdVideo());
                         listaIdFoto.add(frame.getIdFoto().getIdFoto());
                         listaDurata.add(frame.getDurata());
                         listaOrdine.add(frame.getOrdine());
