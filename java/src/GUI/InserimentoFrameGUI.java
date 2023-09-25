@@ -4,54 +4,64 @@ import CONTROLLER.*;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
+
+import org.jdesktop.swingx.JXDatePicker;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 /**
  * The type Inserimento Utente gui.
  */
-public class InserimentoLuogoGUI extends JDialog {
-
-    private final JTextField latitudineField;
-    private final JTextField longitudineField;
-
-    private final JTextField nomeField;
-    private final JTextField descrizioneField;
+public class InserimentoFrameGUI extends JDialog {
+    private final JTextField IdVideoField;
+    private final JComboBox<Integer> FotoComboBox;
+    private final JTextField durataField;
+    private final JTextField ordineField;
 
 
     /**
      * Instantiates a new Inserimento impiegato gui.
      *
-     * @param controller the controller
-     * @param framePadre the frame padre
+     * @param controller     the controller
+     * @param framePadre     the frame padre
      */
-    public InserimentoLuogoGUI (Controller controller, JFrame framePadre) {
+    public InserimentoFrameGUI(int IdVideoSelezionato, Controller controller, JFrame framePadre) {
 //----------------------------------------------PANNELLO CAMPI-------------------------------------------------------//
 
         JPanel inputPanel = new JPanel(new GridLayout(0, 2, 5, 5));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(30, 100, 10, 100));
-        setTitle("Inserimento Luogo");
+        setTitle("Inserimento Frame");
 
-        // CAMPO LATITUDINE
-        inputPanel.add(new JLabel("Latitudine:"));
-        latitudineField = new JTextField();
-        inputPanel.add(latitudineField);
 
-        // CAMPO LONGITUDINE
-        inputPanel.add(new JLabel("Longitudine:"));
-        longitudineField = new JTextField();
-        inputPanel.add(longitudineField);
+        // CAMPO IDVIDEO
+        inputPanel.add(new JLabel("Id Video:"));
+        IdVideoField = new JTextField();
+        inputPanel.add(IdVideoField);
+        IdVideoField.setText(String.valueOf(IdVideoSelezionato));
+        IdVideoField.setEditable(false);
 
-        // CAMPO NOME
-        inputPanel.add(new JLabel("Nome:"));
-        nomeField = new JTextField();
-        inputPanel.add(nomeField);
+        // CAMPO IDFOTO
+        inputPanel.add(new JLabel("Id_Foto:"));
+        FotoComboBox = new JComboBox<>();
+        ArrayList<Integer> FotoList = controller.getListaFotoDisponibileCollezioneGUI();
+        for (int i : FotoList)
+            FotoComboBox.addItem(i);
+        inputPanel.add(FotoComboBox);
 
-        // CAMPO DESCRIZIONE
-        inputPanel.add(new JLabel("Descrizione:"));
-        descrizioneField = new JTextField();
-        inputPanel.add(descrizioneField);
+        // CAMPO TITOLO
+        inputPanel.add(new JLabel("Durata:"));
+        durataField = new JTextField();
+        inputPanel.add(durataField);
+
+        // CAMPO Ordine
+        inputPanel.add(new JLabel("Ordine:"));
+        ordineField = new JTextField();
+        inputPanel.add(ordineField);
+
+
 
 
 
@@ -64,22 +74,23 @@ public class InserimentoLuogoGUI extends JDialog {
         bottoneSalva.addActionListener(e -> {
             setVisible(false);
 
+
             //controllo che non ci siano dei campi vuoti
-            if (nomeField.getText().isEmpty() || latitudineField.getText().isEmpty()) {
+            if (FotoComboBox.getSelectedItem() == null || durataField.getText().isEmpty())  {
                 setVisible(true);
             } else {
                 //Tutti i campi sono stati inseriti
-                Float latitudine = Float.parseFloat(latitudineField.getText());
-                Float longitudine = Float.parseFloat(longitudineField.getText());
-                String nome = nomeField.getText();
-                String descrizione = descrizioneField.getText();
+                int idVideo = Integer.parseInt(IdVideoField.getText());
+                int idFoto = (int) FotoComboBox.getSelectedItem();
+                int durata = Integer.parseInt(durataField.getText());
+                int ordine = Integer.parseInt(ordineField.getText());
 
 
                 try {
-                    controller.aggiungiLuogo(latitudine,longitudine,nome,descrizione);
+                    controller.aggiungiFrame(idVideo, idFoto,durata,ordine);
                     JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
                 } catch (PSQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Errore durante il salvataggio dei dati del luogo:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Errore durante il salvataggio dei dati del frame:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ee) {
                     JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 } finally {

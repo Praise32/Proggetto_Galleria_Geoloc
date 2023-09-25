@@ -1538,13 +1538,45 @@ public class Controller {
     }
 
 
+    public void eliminaFrameGUI(int idVideoSelezionato, int idFotoSelezionata) throws SQLException{
+        FrameDAO fr = new FramePostgresDAO();
+
+        boolean control = fr.eliminaFrameDAO(idVideoSelezionato, idFotoSelezionata);
+
+        if (control) {
+
+            //allora elimino anche dal model...
+            for (Frame frame : listaFrame) {
+                if (frame.getIdVideo().getIdVideo() == idVideoSelezionato && frame.getIdFoto().getIdFoto() == idFotoSelezionata) {
+                    listaFrame.remove(frame);
+                    break;
+                }
+            }
+        }
+    }
 
 
 
 
+    public void modificaFrame(int idVideoSelezionato, int idFotoSelezionata, int durata, int ordine) throws SQLException{
+        FrameDAO fr = new FramePostgresDAO();
 
+        boolean control = fr.modificaFrameDAO(idVideoSelezionato,idFotoSelezionata,durata,ordine);
 
+        if(control){
+            //allora modifico anche il model...
+            Frame frame = null;
+            for(Frame f : listaFrame)
+                if(f.getIdVideo().getIdVideo() == idVideoSelezionato && f.getOrdine() == ordine){
+                    frame = f;
+                }
 
+            //trovato il video allora setto tutti gli attributi.
+            assert frame != null;
+            frame.setDurata(durata);
+            frame.setOrdine(ordine);
+        }
+    }
 
 
 
@@ -2136,8 +2168,54 @@ public class Controller {
             }
         }
     }
+    public int getIdVideoFrameViewGUI(int frameSelezionato, int ordineSelezionato){
+
+        Frame frame = null;
+        for(Frame fr : listaFrame){
+            if(fr.getIdVideo().getIdVideo() ==  frameSelezionato && fr.getOrdine() == ordineSelezionato){
+                frame = fr;
+                break;
+            }
+        }
+        return frame.getIdVideo().getIdVideo();
+    }
+
+    public int getIdFotoFrameViewGUI(int frameSelezionato, int ordineSelezionato){
+
+        Frame frame = null;
+        for(Frame fr : listaFrame){
+            if(fr.getIdVideo().getIdVideo() ==  frameSelezionato && fr.getOrdine() == ordineSelezionato){
+                frame = fr;
+                break;
+            }
+        }
+        return frame.getIdFoto().getIdFoto();
+    }
 
 
+    public int getDurataViewGUI(int frameSelezionato, int ordineSelezionato){
+
+        Frame frame = null;
+        for(Frame fr : listaFrame){
+            if(fr.getIdVideo().getIdVideo() ==  frameSelezionato && fr.getOrdine() == ordineSelezionato){
+                frame = fr;
+                break;
+            }
+        }
+        return frame.getDurata();
+    }
+
+    public int getOrdineViewGUI(int frameSelezionato, int ordineSelezionato){
+
+        Frame frame = null;
+        for(Frame fr : listaFrame){
+            if(fr.getIdVideo().getIdVideo() ==  frameSelezionato && fr.getOrdine() == ordineSelezionato){
+                frame = fr;
+                break;
+            }
+        }
+        return frame.getOrdine();
+    }
 
 
 

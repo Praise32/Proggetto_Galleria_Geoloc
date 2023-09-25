@@ -37,7 +37,7 @@ public class ViewFrameGUI {
     public ViewFrameGUI(int IdVideoSelezionato, Controller controller, JFrame frameMenuPrincipale) throws SQLException {
 //----------------------------------------------FINESTRA--------------------------------------------------------//
 
-        frameMenuFotografie = new JFrame("Finestra Fotografie");
+        frameMenuFotografie = new JFrame("Profilo Video");
         frameMenuFotografie.setSize(800, 600);
         frameMenuFotografie.setLocationRelativeTo(null);
         frameMenuFotografie.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -121,7 +121,7 @@ public class ViewFrameGUI {
         });
 
         JPanel panelSearch = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        panelSearch.add(new JLabel("Cerca per autore: "));
+        panelSearch.add(new JLabel("Cerca Id_Foto: "));
         panelSearch.add(searchBar);
 
         frameMenuFotografie.add(panelSearch, BorderLayout.NORTH);
@@ -130,14 +130,14 @@ public class ViewFrameGUI {
 
 //----------------------------------------------BOTTONI---------------------------------------------------------------//
         //MENU PRINCIPALE
-        JButton bottoneMenuPrincipale = new JButton("Menù Principale");
+        JButton bottoneMenuPrincipale = new JButton("Indietro");
         bottoneMenuPrincipale.addActionListener(e -> {
             frameMenuFotografie.dispose();
             frameMenuPrincipale.setVisible(true);
         });
 
 
-        //BOTTONE ELIMINA FOTOGRAFIA
+        //BOTTONE ELIMINA FRAME
         JButton bottoneElimina = new JButton("Elimina");
         bottoneElimina.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -145,15 +145,16 @@ public class ViewFrameGUI {
 
             if (selectedRow != -1 && selectedColumn != -1) {
                 // La foto si trova nella prima colonna della tabella
-                String fotoSelezionata = table.getValueAt(table.getSelectedRow(), 0).toString();
-                int response = JOptionPane.showOptionDialog(frameMenuFotografie, "Sei sicuro di voler eliminare la fotografia " + fotoSelezionata + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+                int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 1).toString());
+                int videoSelezionato = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
+                int response = JOptionPane.showOptionDialog(frameMenuFotografie, "Sei sicuro di voler eliminare il frame " + fotoSelezionata + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
                 if (response == JOptionPane.YES_OPTION) {
                     //elimino l'utente con l'username selezionata
                     try {
-                        controller.eliminaUtente(fotoSelezionata);
+                        controller.eliminaFrameGUI(videoSelezionato, fotoSelezionata);
                     } catch (PSQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati dell'utente:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati del frame:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
                     } catch (Exception ee) {
                         JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
@@ -166,10 +167,10 @@ public class ViewFrameGUI {
             }
         });
 
-        // BOTTONE INSERISCI FOTOGRAFIA
+        // BOTTONE INSERISCI FRAME
         JButton bottoneInserisci = new JButton("Inserisci");
         bottoneInserisci.addActionListener(e -> {
-            InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
+            InserimentoFrameGUI dialog = new InserimentoFrameGUI(idvideosec, controller, frameMenuFotografie);
             frameMenuFotografie.setVisible(false);
             dialog.setVisible(true);
             // Aggiungo un listener per la finestra di dialogo
@@ -185,7 +186,7 @@ public class ViewFrameGUI {
 
         //BOTTONE PROFILO FOTO
 
-        JButton bottoneProfiloFotografia = new JButton("Profilo Fotografia");
+        JButton bottoneProfiloFotografia = new JButton("Modifica Frame");
         bottoneProfiloFotografia.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
@@ -193,9 +194,11 @@ public class ViewFrameGUI {
             if (selectedRow != -1 && selectedColumn != -1) {
                 // l'username è nella prima colonna della tabella
                 int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
+                int ordineSelezionato = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 3).toString());
+
                 try {
                     // Creo un'istanza della finestra di dialogo ProfiloImpiegato
-                    ViewFotografiaGUI profiloFoto = new ViewFotografiaGUI(fotoSelezionata, controller, frameMenuFotografie);
+                    ViewModificaFrameGUI profiloFoto = new ViewModificaFrameGUI(fotoSelezionata, ordineSelezionato,controller, frameMenuFotografie);
                     frameMenuFotografie.setVisible(false);
                     // Mostro la finestra di dialogo
                     profiloFoto.setVisible(true);

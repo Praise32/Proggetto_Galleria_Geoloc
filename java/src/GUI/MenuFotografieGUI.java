@@ -150,15 +150,15 @@ public class MenuFotografieGUI {
 
             if (selectedRow != -1 && selectedColumn != -1) {
                 // La foto si trova nella prima colonna della tabella
-                String fotoSelezionata = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
                 int response = JOptionPane.showOptionDialog(frameMenuFotografie, "Sei sicuro di voler eliminare la fotografia " + fotoSelezionata + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
                 if (response == JOptionPane.YES_OPTION) {
                     //elimino l'utente con l'username selezionata
                     try {
-                        controller.eliminaUtente(fotoSelezionata);
+                        controller.eliminaFotografia(fotoSelezionata);
                     } catch (PSQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati dell'utente:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati della fotografia:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
                     } catch (Exception ee) {
                         JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
