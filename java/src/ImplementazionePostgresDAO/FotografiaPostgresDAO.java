@@ -2,6 +2,7 @@ package ImplementazionePostgresDAO;
 
 import DAO.FotografiaDAO;
 import DBconnection.ConnessioneDB;
+import MAIN.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -220,10 +221,24 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     }
 
 
+    /**
+     * Funzione di controllo proprietario di una fotografia
+     * @param idFotoSelezionata
+     * @return True se il proprietario è l'utente che ha fatto l'accesso, altrimenti false
+     * @throws SQLException
+     */
+    @Override
+    public boolean controlloProprietarioDAO(int idFotoSelezionata) throws SQLException {
+        PreparedStatement controlloProprietario;
+        controlloProprietario = connection.prepareStatement("SELECT username_autore FROM fotografia WHERE id_foto = ?");
+        controlloProprietario.setInt(1, idFotoSelezionata);
 
+        ResultSet rs = controlloProprietario.executeQuery();
+        rs.next();
 
+        String readUsr = rs.getString("username_autore");
 
-
-
+        return readUsr.equals(User.getInstance().getUsername()); //Ritorna vero se i nomi equivalgono, altrimenti ritorna falso
+    }
 
 }

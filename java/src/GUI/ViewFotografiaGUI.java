@@ -412,7 +412,6 @@ public class ViewFotografiaGUI extends JDialog {
             String titoloModificato = titoloField.getText();
 
             try {
-
                 controller.modificaFotografia(finalIdFotografiaSelezionata6, dispositivoModificato, titoloModificato);
                 JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
 

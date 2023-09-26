@@ -4,6 +4,7 @@ import DAO.*;
 import ImplementazionePostgresDAO.*;
 import ImplementazionePostgresDAO.FramePostgresDAO;
 import ImplementazionePostgresDAO.VideoPostgresDAO;
+import MAIN.User;
 import MODEL.*;
 import MODEL.Frame;
 
@@ -132,7 +133,7 @@ public class Controller {
             //TODO CONTROLLARE LA FUNZIONE CHE SI OCCUPA DI PRENDERE LA DIMENSIONE DI listaLuogo
             //ciclo che associa ogni luogo le fotografia scattate e ogni fotografia ad un luogo
             for (Luogo lat : listaLuogo) {
-                if (Float.compare(lat.getLatitudine(), luogolatitudineList.get(i)) == 0){
+                if (Float.compare(lat.getLatitudine(), luogolatitudineList.get(i)) == 0) {
                     latitudine = lat;
                     break;
                 }
@@ -153,7 +154,6 @@ public class Controller {
         }
 
     }
-
 
 
     public void dumpDatiCollezione() {
@@ -251,8 +251,6 @@ public class Controller {
     }
 
 
-
-
 //____________________________________________________________________________________________________________________//
 //____________________________________________________________________________________________________________________//
 
@@ -262,12 +260,13 @@ public class Controller {
 
     /**
      * Funzione di accesso al database
+     *
      * @param username Nome utente, usato anche come PK nel DB
      * @param password Password dell'utente
      * @return Ritorna vero se le credenziali sono corrette, altrimenti ritorna falso
      * @throws SQLException
      */
-    public boolean accessoUtente(String username, String password) throws SQLException{
+    public boolean accessoUtente(String username, String password) throws SQLException {
         UtenteDAO u = new UtentePostgresDAO();
 
         //Modificato da boolean control = -> return u.accessoUtenteDAO
@@ -275,6 +274,11 @@ public class Controller {
 
     }
 
+    public boolean controlloAdmin(String username) throws SQLException {
+        UtenteDAO u = new UtentePostgresDAO();
+
+        return u.controlloAdminDAO(username);
+    }
 
     /**
      * Aggiunge un nuovo utente al sistema.
@@ -348,9 +352,6 @@ public class Controller {
         }
 
     }
-
-
-
 
 
     /**
@@ -458,8 +459,6 @@ public class Controller {
     }
 
 
-
-
     /**
      * Ottiene una lista di identificatori di fotografie associate a un utente per visualizzazione.
      *
@@ -555,7 +554,7 @@ public class Controller {
      * Aggiunge una collezione al sistema con i dettagli forniti.
      *
      * @param idCollezioneSelezionato ID univoco della collezione da aggiungere.
-     * @param titolo       Titolo della collezione da aggiungere.
+     * @param titolo                  Titolo della collezione da aggiungere.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
     public void modificaCollezione(int idCollezioneSelezionato, String titolo) throws SQLException {
@@ -773,13 +772,16 @@ public class Controller {
      * Modifica una fotografia dal sistema in base all'ID fornito.
      *
      * @param idFotoSelezionata ID univoco della fotografia da modificare.
-     * @param DispositivoNuovo dispositivo modificato della fotografia.
-     * @param TitoloNuovo titolo modificato della fotografia.
+     * @param DispositivoNuovo  dispositivo modificato della fotografia.
+     * @param TitoloNuovo       titolo modificato della fotografia.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
-    public void modificaFotografia(int idFotoSelezionata,String DispositivoNuovo ,String TitoloNuovo) throws SQLException {
+    public boolean modificaFotografia(int idFotoSelezionata, String DispositivoNuovo, String TitoloNuovo) throws SQLException {
 
         FotografiaDAO f = new FotografiaPostgresDAO();
+
+        boolean userCheck = f.controlloProprietarioDAO(idFotoSelezionata);
+        if (!userCheck) return false;
 
         boolean control = f.modificaFotografiaDAO(idFotoSelezionata, DispositivoNuovo, TitoloNuovo);
 
@@ -793,7 +795,7 @@ public class Controller {
                     break;
                 }
         }
-
+        return true;
     }
 
 //-------------------------------------------       CONTENUTO      --------------------------------------------------//
@@ -804,7 +806,7 @@ public class Controller {
      * @param idFotoSelezionata ID univoco della fotografia di cui visualizzare i contenuti.
      * @return Lista di ID delle collezioni che contengono la fotografia come contenuto.
      */
-    public ArrayList<Integer> vediContenutoFotografia(int idFotoSelezionata) throws SQLException  {
+    public ArrayList<Integer> vediContenutoFotografia(int idFotoSelezionata) throws SQLException {
         FotografiaDAO c = new FotografiaPostgresDAO();
 
         //step 1°: trovo foto a cui si riferisce la vista
@@ -1259,14 +1261,14 @@ public class Controller {
     /**
      * Aggiunge un luogo  al sistema.
      *
-     * @param longitudine     latitudine del luogo da aggiungere.
-     * @param latitudine      longitudine del luogo da aggiungere.
-     * @param nome             nome del luogo.
-     * @param descrizione       descrizione del luogo.
+     * @param longitudine latitudine del luogo da aggiungere.
+     * @param latitudine  longitudine del luogo da aggiungere.
+     * @param nome        nome del luogo.
+     * @param descrizione descrizione del luogo.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
 
-    public void aggiungiLuogo(Float latitudine,Float longitudine, String nome, String descrizione) throws SQLException {
+    public void aggiungiLuogo(Float latitudine, Float longitudine, String nome, String descrizione) throws SQLException {
         LuogoDAO sog = new LuogoPostgresDAO();
 
         boolean control = sog.aggiungiLuogoDAO(latitudine, longitudine, nome, descrizione);
@@ -1306,12 +1308,11 @@ public class Controller {
         }
     }
 
- 
 
     public void modificaLuogoDAO(String LuogoSelezionato, String descrizione, float latitudine, float longitudine) throws SQLException {
         DAO.LuogoDAO l = new LuogoPostgresDAO();
 
-        boolean control = l.modificaLuogoDAO(LuogoSelezionato,  descrizione, latitudine, longitudine);
+        boolean control = l.modificaLuogoDAO(LuogoSelezionato, descrizione, latitudine, longitudine);
 
         if (control) {
 
@@ -1369,9 +1370,9 @@ public class Controller {
     /**
      * Aggiunge un nuovo video al database.
      *
-     * @param idVideo L'identificatore univoco del video da aggiungere.
-     * @param autore L'autore del video.
-     * @param titolo Il titolo del video.
+     * @param idVideo     L'identificatore univoco del video da aggiungere.
+     * @param autore      L'autore del video.
+     * @param titolo      Il titolo del video.
      * @param descrizione Una breve descrizione del video.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
@@ -1382,15 +1383,15 @@ public class Controller {
         boolean control = v.aggiungiVideoDAO(idVideo, autore, titolo, descrizione);
 
         if (control) {
-        Utente proprietario = null;
-        for (Utente u : listaUtente) {
-            if (u.getUsername().equals(autore)) {
-                proprietario = u;
-                break;
+            Utente proprietario = null;
+            for (Utente u : listaUtente) {
+                if (u.getUsername().equals(autore)) {
+                    proprietario = u;
+                    break;
+                }
             }
-        }
-        Video video = new Video(idVideo, proprietario, titolo, numero_frames, durata, descrizione);
-        listaVideo.add(video);
+            Video video = new Video(idVideo, proprietario, titolo, numero_frames, durata, descrizione);
+            listaVideo.add(video);
 
         }
     }
@@ -1402,7 +1403,7 @@ public class Controller {
      * @param idVideoSelezionato L'identificatore univoco del video da eliminare.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
-    public void eliminaVideo(int idVideoSelezionato) throws SQLException{
+    public void eliminaVideo(int idVideoSelezionato) throws SQLException {
         VideoDAO v = new VideoPostgresDAO();
 
         boolean control = v.eliminaVideoDAO(idVideoSelezionato);
@@ -1423,20 +1424,20 @@ public class Controller {
      * Modifica il titolo e/o la descrizione di un video esistente nel database in base all'ID del video selezionato.
      *
      * @param idVideoSelezionato L'identificatore univoco del video da modificare.
-     * @param titolo Il nuovo titolo del video.
-     * @param descrizione La nuova descrizione del video.
+     * @param titolo             Il nuovo titolo del video.
+     * @param descrizione        La nuova descrizione del video.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
-    public void modificaVideo(int idVideoSelezionato, String titolo, String descrizione) throws SQLException{
+    public void modificaVideo(int idVideoSelezionato, String titolo, String descrizione) throws SQLException {
         VideoDAO vid = new VideoPostgresDAO();
 
-        boolean control = vid.modificaVideoDAO(idVideoSelezionato,titolo,descrizione);
+        boolean control = vid.modificaVideoDAO(idVideoSelezionato, titolo, descrizione);
 
-        if(control){
+        if (control) {
             //allora modifico anche il model...
             Video video = null;
-            for(Video v : listaVideo)
-                if(v.getIdVideo() == idVideoSelezionato){
+            for (Video v : listaVideo)
+                if (v.getIdVideo() == idVideoSelezionato) {
                     video = v;
                 }
 
@@ -1449,7 +1450,6 @@ public class Controller {
     }
 
 
-
     /**
      * Restituisce un elenco di frame di un video specifico in base all'ID del video selezionato.
      *
@@ -1457,12 +1457,12 @@ public class Controller {
      * @return Un ArrayList di Integer contenente l'elenco dei frame del video.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
-    public ArrayList<Integer> vediFrameVideo(int idVideoSelezionato) throws SQLException{
+    public ArrayList<Integer> vediFrameVideo(int idVideoSelezionato) throws SQLException {
         VideoDAO v = new VideoPostgresDAO();
         //come prima cosa recupero qual è il video scelto
         Video videoselezionato = null;
-        for(Video vid : listaVideo){
-            if(vid.getIdVideo() == idVideoSelezionato){
+        for (Video vid : listaVideo) {
+            if (vid.getIdVideo() == idVideoSelezionato) {
                 videoselezionato = vid;
             }
         }
@@ -1494,14 +1494,13 @@ public class Controller {
 //_______________________________________FUNZIONI PER FRAME//
 
 
-
     /**
      * Aggiunge un nuovo frame al database associato a un video specifico.
      *
      * @param idVideo L'identificatore univoco del video a cui appartiene il frame.
-     * @param idFoto L'identificatore univoco del frame da aggiungere.
-     * @param durata La durata del frame in millisecondi.
-     * @param ordine L'ordine del frame all'interno del video.
+     * @param idFoto  L'identificatore univoco del frame da aggiungere.
+     * @param durata  La durata del frame in millisecondi.
+     * @param ordine  L'ordine del frame all'interno del video.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
     public void aggiungiFrame(int idVideo, int idFoto, int durata, int ordine) throws SQLException {
@@ -1532,7 +1531,7 @@ public class Controller {
     }
 
 
-    public void eliminaFrameGUI(int idVideoSelezionato, int idFotoSelezionata) throws SQLException{
+    public void eliminaFrameGUI(int idVideoSelezionato, int idFotoSelezionata) throws SQLException {
         FrameDAO fr = new FramePostgresDAO();
 
         boolean control = fr.eliminaFrameDAO(idVideoSelezionato, idFotoSelezionata);
@@ -1550,18 +1549,16 @@ public class Controller {
     }
 
 
-
-
-    public void modificaFrame(int idVideoSelezionato, int idFotoSelezionata, int durata, int ordine) throws SQLException{
+    public void modificaFrame(int idVideoSelezionato, int idFotoSelezionata, int durata, int ordine) throws SQLException {
         FrameDAO fr = new FramePostgresDAO();
 
-        boolean control = fr.modificaFrameDAO(idVideoSelezionato,idFotoSelezionata,durata,ordine);
+        boolean control = fr.modificaFrameDAO(idVideoSelezionato, idFotoSelezionata, durata, ordine);
 
-        if(control){
+        if (control) {
             //allora modifico anche il model...
             Frame frame = null;
-            for(Frame f : listaFrame)
-                if(f.getIdVideo().getIdVideo() == idVideoSelezionato && f.getOrdine() == ordine){
+            for (Frame f : listaFrame)
+                if (f.getIdVideo().getIdVideo() == idVideoSelezionato && f.getOrdine() == ordine) {
                     frame = f;
                 }
 
@@ -1573,18 +1570,13 @@ public class Controller {
     }
 
 
-
-
-
-
     //________________________________________________________________________________________________________________//
     //________________________________________________________________________________________________________________//
-
 
 
 //___________________________________________FUNZIONI PER LA GUI__________________________________________________//
 
-//------------------------------------------------UTENTE--------------------------------------------------------------//
+    //------------------------------------------------UTENTE--------------------------------------------------------------//
     public ArrayList<String> getListaUtentiUsernameGUI() {
         ArrayList<String> stringUsername = new ArrayList<>();
 
@@ -1603,6 +1595,7 @@ public class Controller {
 
         return stringPassword;
     }
+
     public ArrayList<Boolean> getListaUtentiAdminGUI() {
         ArrayList<Boolean> adminbool = new ArrayList<>();
 
@@ -1614,14 +1607,11 @@ public class Controller {
     }
 
 
-
-
-
-    public String getUsernameViewGUI(String usernameSelezionato){
+    public String getUsernameViewGUI(String usernameSelezionato) {
 
         Utente usrSelezionato = null;
-        for(Utente usr : listaUtente){
-            if(usr.getUsername().equals(usernameSelezionato)){
+        for (Utente usr : listaUtente) {
+            if (usr.getUsername().equals(usernameSelezionato)) {
                 usrSelezionato = usr;
                 break;
             }
@@ -1629,11 +1619,11 @@ public class Controller {
         return usrSelezionato.getUsername();
     }
 
-    public String getUsernamePasswordViewGUI(String usernameSelezionato){
+    public String getUsernamePasswordViewGUI(String usernameSelezionato) {
 
         Utente usrSelezionato = null;
-        for(Utente usr : listaUtente){
-            if(usr.getUsername().equals(usernameSelezionato)){
+        for (Utente usr : listaUtente) {
+            if (usr.getUsername().equals(usernameSelezionato)) {
                 usrSelezionato = usr;
                 break;
             }
@@ -1641,11 +1631,11 @@ public class Controller {
         return usrSelezionato.getPassword();
     }
 
-    public boolean getUtenteadminviewGUI(String usernameSelezionato){
+    public boolean getUtenteadminviewGUI(String usernameSelezionato) {
 
         Utente usrSelezionato = null;
-        for(Utente usr : listaUtente){
-            if(usr.getUsername().equals(usernameSelezionato)){
+        for (Utente usr : listaUtente) {
+            if (usr.getUsername().equals(usernameSelezionato)) {
                 usrSelezionato = usr;
                 break;
             }
@@ -1658,7 +1648,7 @@ public class Controller {
 
 //------------------------------------------------COLLEZIONE------------------------------------------------------------//
 
-    public void getListaCollezioniGUI(ArrayList<Integer> listaIdCollezione, ArrayList<String> listaUsername, ArrayList<String> listaTitolo, ArrayList<java.sql.Timestamp> listaDataCollezioni, ArrayList<Integer> listaNumeroElementi){
+    public void getListaCollezioniGUI(ArrayList<Integer> listaIdCollezione, ArrayList<String> listaUsername, ArrayList<String> listaTitolo, ArrayList<java.sql.Timestamp> listaDataCollezioni, ArrayList<Integer> listaNumeroElementi) {
         for (Collezione collezione : listaCollezione) {
             listaIdCollezione.add(collezione.getIdCollezione());
             listaUsername.add(collezione.getUsername().getUsername());
@@ -1695,6 +1685,7 @@ public class Controller {
             return -1; // Ad esempio, restituisco -1 in caso di nessuna corrispondenza
         }
     }
+
     public String getCollezioneTitoloViewGUI(int idCollezioneSelezionato) {
         Collezione colSelezionata = null;
         for (Collezione col : listaCollezione) {
@@ -1715,8 +1706,8 @@ public class Controller {
     public String getCollezioneUsernameViewGUI(int idCollezioneSelezionato) {
 
         Collezione colSelezionata = null;
-        for(Collezione col : listaCollezione) {
-            if(col.getIdCollezione() == idCollezioneSelezionato) {
+        for (Collezione col : listaCollezione) {
+            if (col.getIdCollezione() == idCollezioneSelezionato) {
                 colSelezionata = col;
                 break;
             }
@@ -1738,7 +1729,7 @@ public class Controller {
 
 //------------------------------------------------FOTOGRAFIA------------------------------------------------------------//
 
-    public void getListaFotografiaGUI(ArrayList<Integer> listaIdFoto, ArrayList<String> listaAutoreFoto, ArrayList<byte[]> listaDatiFoto,ArrayList<String> listaDispositivoFoto, ArrayList<java.sql.Timestamp> listaDatafoto, ArrayList<Float> listaLatitudineFoto, ArrayList<Float> listaLongitudineFoto,ArrayList<Boolean> listaCondivisaFoto, ArrayList<String> listaTitoloFoto) {
+    public void getListaFotografiaGUI(ArrayList<Integer> listaIdFoto, ArrayList<String> listaAutoreFoto, ArrayList<byte[]> listaDatiFoto, ArrayList<String> listaDispositivoFoto, ArrayList<java.sql.Timestamp> listaDatafoto, ArrayList<Float> listaLatitudineFoto, ArrayList<Float> listaLongitudineFoto, ArrayList<Boolean> listaCondivisaFoto, ArrayList<String> listaTitoloFoto) {
         for (Fotografia fotografia : listaFotografia) {
             DecimalFormat decimalFormat = new DecimalFormat("#.######"); // Formatta con 6 cifre decimali
 
@@ -1763,7 +1754,6 @@ public class Controller {
             //DA FIXAAREEEEEEEEEEE SOTTO
 
 
-
             // Verifica se il luogo latitudine non è null prima di ottenere la latitudine
             if (fotografia.getLuogolat() != null) {
                 listaLatitudineFoto.add(fotografia.getLuogolat().getLatitudine());
@@ -1784,6 +1774,7 @@ public class Controller {
             listaTitoloFoto.add(fotografia.getTitolo());
         }
     }
+
     public ArrayList<String> getListaLuoghiDisponibiliGUI() {
         ArrayList<String> luoghiDisponibili = new ArrayList<>();
 
@@ -1824,8 +1815,8 @@ public class Controller {
     public int getFotografiaIdViewGUI(int idFotografiaSelezionata) {
 
         Fotografia fotSelezionata = null;
-        for(Fotografia fot : listaFotografia) {
-            if(fot.getIdFoto() == idFotografiaSelezionata) {
+        for (Fotografia fot : listaFotografia) {
+            if (fot.getIdFoto() == idFotografiaSelezionata) {
                 fotSelezionata = fot;
                 break;
             }
@@ -1836,8 +1827,8 @@ public class Controller {
     public String getFotografiaUsernameViewGUI(int idFotografiaSelezionata) {
 
         Fotografia fotSelezionata = null;
-        for(Fotografia fot : listaFotografia) {
-            if(fot.getIdFoto() == idFotografiaSelezionata) {
+        for (Fotografia fot : listaFotografia) {
+            if (fot.getIdFoto() == idFotografiaSelezionata) {
                 fotSelezionata = fot;
                 break;
             }
@@ -1847,8 +1838,8 @@ public class Controller {
 
     public byte[] getFotografiaDatiFotoViewGUI(int idFotografiaSelezionata) {
         Fotografia fotSelezionata = null;
-        for(Fotografia fot : listaFotografia) {
-            if(fot.getIdFoto() == idFotografiaSelezionata) {
+        for (Fotografia fot : listaFotografia) {
+            if (fot.getIdFoto() == idFotografiaSelezionata) {
                 fotSelezionata = fot;
                 break;
             }
@@ -1858,8 +1849,8 @@ public class Controller {
 
     public String getFotografiaDispositivoViewGUI(int idFotografiaSelezionata) {
         Fotografia fotSelezionata = null;
-        for(Fotografia fot : listaFotografia) {
-            if(fot.getIdFoto() == idFotografiaSelezionata) {
+        for (Fotografia fot : listaFotografia) {
+            if (fot.getIdFoto() == idFotografiaSelezionata) {
                 fotSelezionata = fot;
                 break;
             }
@@ -1870,8 +1861,8 @@ public class Controller {
 
     public String getFotografiaTitoloViewGUI(int idFotografiaSelezionata) {
         Fotografia fotSelezionata = null;
-        for(Fotografia fot : listaFotografia) {
-            if(fot.getIdFoto() == idFotografiaSelezionata) {
+        for (Fotografia fot : listaFotografia) {
+            if (fot.getIdFoto() == idFotografiaSelezionata) {
                 fotSelezionata = fot;
                 break;
             }
@@ -1890,7 +1881,6 @@ public class Controller {
 
         return sogDisponibili;
     }
-
 
 
 //------------------------------------------------VIDEO------------------------------------------------------------//
@@ -1940,7 +1930,7 @@ public class Controller {
     public String getAutoreVideoViewGUI(int VideoSelezionato) {
 
         Video videoSelezionato = null;
-        for(Video video : listaVideo) {
+        for (Video video : listaVideo) {
             if (video.getIdVideo() == VideoSelezionato) {
                 videoSelezionato = video;
                 break;
@@ -1952,7 +1942,7 @@ public class Controller {
     public String getTitoloVideoViewGUI(int VideoSelezionato) {
 
         Video videoSelezionato = null;
-        for(Video video : listaVideo) {
+        for (Video video : listaVideo) {
             if (video.getIdVideo() == VideoSelezionato) {
                 videoSelezionato = video;
                 break;
@@ -1964,7 +1954,7 @@ public class Controller {
     public String getDescrizioneVideoViewGUI(int VideoSelezionato) {
 
         Video videoSelezionato = null;
-        for(Video video : listaVideo) {
+        for (Video video : listaVideo) {
             if (video.getIdVideo() == VideoSelezionato) {
                 videoSelezionato = video;
                 break;
@@ -1976,7 +1966,7 @@ public class Controller {
     public int getNumeroFramesVideoViewGUI(int VideoSelezionato) {
 
         Video videoSelezionato = null;
-        for(Video video : listaVideo) {
+        for (Video video : listaVideo) {
             if (video.getIdVideo() == VideoSelezionato) {
                 videoSelezionato = video;
                 break;
@@ -1989,7 +1979,7 @@ public class Controller {
     public int getDurataVideoViewGUI(int VideoSelezionato) {
 
         Video videoSelezionato = null;
-        for(Video video : listaVideo) {
+        for (Video video : listaVideo) {
             if (video.getIdVideo() == VideoSelezionato) {
                 videoSelezionato = video;
                 break;
@@ -1997,7 +1987,6 @@ public class Controller {
         }
         return videoSelezionato.getDurata();
     }
-
 
 
 //------------------------------------------------LUOGO------------------------------------------------------------//
@@ -2013,7 +2002,7 @@ public class Controller {
         }
     }
 
-        public void getListaLuogoClassificaGUI(DefaultTableModel tableModel) throws SQLException {
+    public void getListaLuogoClassificaGUI(DefaultTableModel tableModel) throws SQLException {
         // Istanzia il tuo DAO
         LuogoDAO l = new LuogoPostgresDAO();
 
@@ -2033,11 +2022,11 @@ public class Controller {
         }
     }
 
-    public float getLatitudineViewGUI(String luogoSelezionato){
+    public float getLatitudineViewGUI(String luogoSelezionato) {
 
         Luogo lugSelezionato = null;
-        for(Luogo lug : listaLuogo){
-            if(lug.getNome().equals(luogoSelezionato)){
+        for (Luogo lug : listaLuogo) {
+            if (lug.getNome().equals(luogoSelezionato)) {
                 lugSelezionato = lug;
                 break;
             }
@@ -2045,11 +2034,11 @@ public class Controller {
         return lugSelezionato.getLatitudine();
     }
 
-    public float getLongitudineViewGUI(String luogoSelezionato){
+    public float getLongitudineViewGUI(String luogoSelezionato) {
 
         Luogo lugSelezionato = null;
-        for(Luogo lug : listaLuogo){
-            if(lug.getNome().equals(luogoSelezionato)){
+        for (Luogo lug : listaLuogo) {
+            if (lug.getNome().equals(luogoSelezionato)) {
                 lugSelezionato = lug;
                 break;
             }
@@ -2057,11 +2046,11 @@ public class Controller {
         return lugSelezionato.getLongitudine();
     }
 
-    public String  getNomeViewGUI(String luogoSelezionato){
+    public String getNomeViewGUI(String luogoSelezionato) {
 
         Luogo lugSelezionato = null;
-        for(Luogo lug : listaLuogo){
-            if(lug.getNome().equals(luogoSelezionato)){
+        for (Luogo lug : listaLuogo) {
+            if (lug.getNome().equals(luogoSelezionato)) {
                 lugSelezionato = lug;
                 break;
             }
@@ -2069,18 +2058,17 @@ public class Controller {
         return lugSelezionato.getNome();
     }
 
-    public String  getDescrizioneViewGUI(String luogoSelezionato){
+    public String getDescrizioneViewGUI(String luogoSelezionato) {
 
         Luogo lugSelezionato = null;
-        for(Luogo lug : listaLuogo){
-            if(lug.getNome().equals(luogoSelezionato)){
+        for (Luogo lug : listaLuogo) {
+            if (lug.getNome().equals(luogoSelezionato)) {
                 lugSelezionato = lug;
                 break;
             }
         }
         return lugSelezionato.getDescrizione();
     }
-
 
 
     //------------------------------------------------SOGGETTO------------------------------------------------------------//
@@ -2093,11 +2081,11 @@ public class Controller {
         }
     }
 
-    public String getNomeSoggettoViewGUI(String soggettoSelezionato){
+    public String getNomeSoggettoViewGUI(String soggettoSelezionato) {
 
         Soggetto sogSelezionato = null;
-        for(Soggetto sog : listaSoggetto){
-            if(sog.getNome().equals(soggettoSelezionato)){
+        for (Soggetto sog : listaSoggetto) {
+            if (sog.getNome().equals(soggettoSelezionato)) {
                 sogSelezionato = sog;
                 break;
             }
@@ -2105,11 +2093,11 @@ public class Controller {
         return sogSelezionato.getNome();
     }
 
-    public String getCategoriaSoggettoViewGUI(String soggettoSelezionato){
+    public String getCategoriaSoggettoViewGUI(String soggettoSelezionato) {
 
         Soggetto sogSelezionato = null;
-        for(Soggetto sog : listaSoggetto){
-            if(sog.getNome().equals(soggettoSelezionato)){
+        for (Soggetto sog : listaSoggetto) {
+            if (sog.getNome().equals(soggettoSelezionato)) {
                 sogSelezionato = sog;
                 break;
             }
@@ -2121,9 +2109,7 @@ public class Controller {
     //------------------------------------------------FRAME------------------------------------------------------------//
 
 
-
-    public void getListaFrameGUI(ArrayList<Integer> listaIdVideo, ArrayList<Integer> listaIdFoto, ArrayList<Integer> listaDurata, ArrayList<Integer> listaOrdine ) {
-
+    public void getListaFrameGUI(ArrayList<Integer> listaIdVideo, ArrayList<Integer> listaIdFoto, ArrayList<Integer> listaDurata, ArrayList<Integer> listaOrdine) {
 
 
         for (Frame frame : listaFrame) {
@@ -2144,9 +2130,6 @@ public class Controller {
 
         }
     }
-
-
-
 
 
     public void getListaFrameGUI(ArrayList<Integer> listaIdVideo, ArrayList<Integer> listaIdFoto, ArrayList<Integer> listaDurata, ArrayList<Integer> listaOrdine, int idVideoSelezionato) throws SQLException {
@@ -2182,11 +2165,12 @@ public class Controller {
             }
         }
     }
-    public int getIdVideoFrameViewGUI(int frameSelezionato, int ordineSelezionato){
+
+    public int getIdVideoFrameViewGUI(int frameSelezionato, int ordineSelezionato) {
 
         Frame frame = null;
-        for(Frame fr : listaFrame){
-            if(fr.getIdVideo().getIdVideo() ==  frameSelezionato && fr.getOrdine() == ordineSelezionato){
+        for (Frame fr : listaFrame) {
+            if (fr.getIdVideo().getIdVideo() == frameSelezionato && fr.getOrdine() == ordineSelezionato) {
                 frame = fr;
                 break;
             }
@@ -2194,11 +2178,11 @@ public class Controller {
         return frame.getIdVideo().getIdVideo();
     }
 
-    public int getIdFotoFrameViewGUI(int frameSelezionato, int ordineSelezionato){
+    public int getIdFotoFrameViewGUI(int frameSelezionato, int ordineSelezionato) {
 
         Frame frame = null;
-        for(Frame fr : listaFrame){
-            if(fr.getIdVideo().getIdVideo() ==  frameSelezionato && fr.getOrdine() == ordineSelezionato){
+        for (Frame fr : listaFrame) {
+            if (fr.getIdVideo().getIdVideo() == frameSelezionato && fr.getOrdine() == ordineSelezionato) {
                 frame = fr;
                 break;
             }
@@ -2207,11 +2191,11 @@ public class Controller {
     }
 
 
-    public int getDurataViewGUI(int frameSelezionato, int ordineSelezionato){
+    public int getDurataViewGUI(int frameSelezionato, int ordineSelezionato) {
 
         Frame frame = null;
-        for(Frame fr : listaFrame){
-            if(fr.getIdVideo().getIdVideo() ==  frameSelezionato && fr.getOrdine() == ordineSelezionato){
+        for (Frame fr : listaFrame) {
+            if (fr.getIdVideo().getIdVideo() == frameSelezionato && fr.getOrdine() == ordineSelezionato) {
                 frame = fr;
                 break;
             }
@@ -2219,22 +2203,17 @@ public class Controller {
         return frame.getDurata();
     }
 
-    public int getOrdineViewGUI(int frameSelezionato, int ordineSelezionato){
+    public int getOrdineViewGUI(int frameSelezionato, int ordineSelezionato) {
 
         Frame frame = null;
-        for(Frame fr : listaFrame){
-            if(fr.getIdVideo().getIdVideo() ==  frameSelezionato && fr.getOrdine() == ordineSelezionato){
+        for (Frame fr : listaFrame) {
+            if (fr.getIdVideo().getIdVideo() == frameSelezionato && fr.getOrdine() == ordineSelezionato) {
                 frame = fr;
                 break;
             }
         }
         return frame.getOrdine();
     }
-
-
-
-
-
 
 
 }

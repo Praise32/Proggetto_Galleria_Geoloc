@@ -150,7 +150,10 @@ public class UtentePostgresDAO implements UtenteDAO {
         controlloAdmin.setString(1, username);
 
         ResultSet rs = controlloAdmin.executeQuery();
+        rs.next();  //Necessario a spostare il resultset
+
         return rs.getBoolean("admin");
+
     }
 }
 

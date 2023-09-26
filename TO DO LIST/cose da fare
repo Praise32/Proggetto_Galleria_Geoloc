@@ -1,6 +1,5 @@
 -Controllare che l'utente possa modificare solo le cose create da lui come Video, Collezione ecc...
 -Controllare che solo un'admin possa eliminare un utente e vedere se tutte le trigger funzionano correttamente
--Vedere perchè quando si passano chiavi esterne con Int e Float danno valore NULL
 -FIXARE per via del punto precedente ci sono dei problemi nelle chiavi esterne di latitudine e longitudine nella tabella fotografie, non funziona la chiamata al
 metodo GetIdVideo all'interno di Frame ma GetIdFotografia a volte funziona e altre volte no, potrebbe essere perchè la chiave primaria di Frame è composta da 
 Id_video e Frame, forse per questo dà dei problemi.

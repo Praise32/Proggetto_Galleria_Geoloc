@@ -43,4 +43,5 @@ public interface FotografiaDAO {
     // Metodo per eliminare un TagSoggetto in una foto esistente
     public boolean eliminaTagSoggettoDAO(int idFotoSelezionata, String soggettoSelezionato) throws SQLException;
 
+    public boolean controlloProprietarioDAO(int idFotoSelezionata) throws SQLException;
 }

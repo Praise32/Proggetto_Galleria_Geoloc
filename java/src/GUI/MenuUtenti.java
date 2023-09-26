@@ -1,5 +1,7 @@
 package GUI;
+
 import CONTROLLER.Controller;
+import MAIN.User;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
@@ -10,14 +12,14 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
  * The type Menu impiegati gui.
  */
 
-public class MenuUtenti
-{
+public class MenuUtenti {
 
     private final JFrame frameMenuUtenti;
     private final JTable table;
@@ -28,7 +30,7 @@ public class MenuUtenti
      *
      * @param controller          the controller
      * @param frameMenuPrincipale the frame menu principale
-     * */
+     */
 
 
     public MenuUtenti(Controller controller, JFrame frameMenuPrincipale) {
@@ -128,17 +130,29 @@ public class MenuUtenti
         //BOTTONE INSERISCI UTENTE
         JButton bottoneInserisci = new JButton("Inserisci");
         bottoneInserisci.addActionListener(e -> {
-            InserimentoUtenteGUI dialog = new InserimentoUtenteGUI(controller, frameMenuUtenti);
-            frameMenuUtenti.setVisible(false);
-            dialog.setVisible(true);
-            // Aggiungo un listener per la finestra di dialogo
-            dialog.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
-                    updateTable(controller, colonneTabella);
-                }
-            });
+            boolean check;
+            try {
+                check = controller.controlloAdmin(User.getInstance().getUsername());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            if (!check) {
+                JOptionPane.showMessageDialog(null, "Non posiedi le autorizzazioni necessarie");
+
+            } else {
+                InserimentoUtenteGUI dialog = new InserimentoUtenteGUI(controller, frameMenuUtenti);
+                frameMenuUtenti.setVisible(false);
+                dialog.setVisible(true);
+                // Aggiungo un listener per la finestra di dialogo
+                dialog.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
+                        updateTable(controller, colonneTabella);
+                    }
+                });
+            }
         });
 
         //BOTTONE ELIMINA UTENTE
@@ -162,7 +176,7 @@ public class MenuUtenti
                         JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                     //aggiorno la tabella appena dopo l'eliminazione dell'utente
-                    updateTable(controller,colonneTabella);
+                    updateTable(controller, colonneTabella);
                 }
             } else {
                 // L'utente non ha selezionato una cella
@@ -198,13 +212,20 @@ public class MenuUtenti
         });
 
 
+        // Variabile usata per controllare quali pulsanti inserire in base ai permessi
+        boolean adminCheck;
+        try {
+            adminCheck = controller.controlloAdmin(User.getInstance().getUsername());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         // Aggiungiamo i pulsanti alla finestra
         JPanel panelBottoni = new JPanel(new BorderLayout());
         JPanel panelBottoniLeft = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel panelBottoniRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelBottoniLeft.add(bottoneMenuPrincipale);
-        panelBottoniRight.add(bottoneInserisci);
+        if(adminCheck) panelBottoniRight.add(bottoneInserisci);
         panelBottoniRight.add(bottoneElimina);
         panelBottoniRight.add(bottoneProfiloUtente);
 
@@ -214,16 +235,9 @@ public class MenuUtenti
         frameMenuUtenti.add(panelBottoni, BorderLayout.SOUTH);
 
 
-
-
-
-
-
-
-
     }
 
-    private void updateTable(Controller controller,String[] colonneTabella) {
+    private void updateTable(Controller controller, String[] colonneTabella) {
 
         //LOAD DEI NUOVI DATI
         ArrayList<String> listaUsername = (ArrayList<String>) controller.getListaUtentiUsernameGUI();
@@ -240,10 +254,6 @@ public class MenuUtenti
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setDataVector(nuoviDati, colonneTabella);
     }
-
-
-
-
 
 
 }

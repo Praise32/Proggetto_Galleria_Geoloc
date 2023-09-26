@@ -200,6 +200,7 @@ public class MenuFotografieGUI {
                 int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
                 try {
                     // Creo un'istanza della finestra di dialogo ProfiloImpiegato
+
                     ViewFotografiaGUI profiloFoto = new ViewFotografiaGUI(fotoSelezionata, controller, frameMenuFotografie);
                     frameMenuFotografie.setVisible(false);
                     // Mostro la finestra di dialogo
