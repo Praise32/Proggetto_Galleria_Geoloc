@@ -5,6 +5,11 @@ import ImplementazionePostgresDAO.*;
 import ImplementazionePostgresDAO.FramePostgresDAO;
 import ImplementazionePostgresDAO.VideoPostgresDAO;
 import MODEL.*;
+import MODEL.Frame;
+
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.text.DecimalFormat;
 import java.sql.SQLException;
@@ -1301,26 +1306,7 @@ public class Controller {
         }
     }
 
-   /* public List<Luogo> getClassificaLuoghi() {
-
-        List<MODEL.Luogo> classifica = new ArrayList<>();
-        DAO.LuogoDAO l = new LuogoPostgresDAO();
-
-        boolean control = l.classificaLuoghiDAO(classifica);
-
-        if (control){
-            try {
-                return classifica;
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return new ArrayList<>(); // Restituisce una lista vuota in caso di errore
-            }
-        }
-
-        return classifica;
-    }
-
-    */
+ 
 
     public void modificaLuogoDAO(String LuogoSelezionato, String descrizione, float latitudine, float longitudine) throws SQLException {
         DAO.LuogoDAO l = new LuogoPostgresDAO();
@@ -2024,6 +2010,26 @@ public class Controller {
             listaNome.add(luogo.getNome());
             ListaDescrizione.add(luogo.getDescrizione());
 
+        }
+    }
+
+        public void getListaLuogoClassificaGUI(DefaultTableModel tableModel) throws SQLException {
+        // Istanzia il tuo DAO
+        LuogoDAO l = new LuogoPostgresDAO();
+
+        try {
+            // Chiama il metodo per ottenere la lista di Luoghi dalla tua query
+            List<MODEL.Luogo> listaLuogo = l.classificaLuoghiDAO();
+
+            // Pulisci la tabella
+            tableModel.setRowCount(0);
+
+            for (MODEL.Luogo luogo : listaLuogo) {
+                // Aggiungi una riga al modello della tabella
+                tableModel.addRow(new Object[]{luogo.getLatitudine(), luogo.getLongitudine(), luogo.getNome(), luogo.getDescrizione()});
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Gestione dell'eccezione
         }
     }
 

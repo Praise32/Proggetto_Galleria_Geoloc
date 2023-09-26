@@ -1,15 +1,19 @@
-- Creare Menu GUI per le varie opzioni presenti in MenuPrincipaleGUI (Foto, Luogo, Video, ecc.)
-- Inserire le seguenti funzioni:
-  1. Inserimento di luogo, foto, video, ecc.
-  2. Searchbar per ogni categoria
-  3. Pulsante di ritorno al Menu principale
-- Implementare le view di utenti, luoghi, fotografie, collezioni, video, soggetti
-- Inserire un pulsante che implementi ClassificaLuoghi in MenuPrincipaleGui che riporta la view apposita da traccia
-- Implementare KeyListener al pulsante accedi quando si clicca Enter
-- Ricontrollare le misure dei frame e dei singoli componenti (Su risoluzioni più piccole il Login è sminchiato)
+-Controllare che l'utente possa modificare solo le cose create da lui come Video, Collezione ecc...
+-Controllare che solo un'admin possa eliminare un utente e vedere se tutte le trigger funzionano correttamente
+-Vedere perchè quando si passano chiavi esterne con Int e Float danno valore NULL
+-FIXARE per via del punto precedente ci sono dei problemi nelle chiavi esterne di latitudine e longitudine nella tabella fotografie, non funziona la chiamata al
+metodo GetIdVideo all'interno di Frame ma GetIdFotografia a volte funziona e altre volte no, potrebbe essere perchè la chiave primaria di Frame è composta da 
+Id_video e Frame, forse per questo dà dei problemi.
 
-Non funziona l'inserimento dei video
-Non funziona bene l'inserimento delle collezioni
-Forse gli attributi che si modificano da soli tipo "durata" e "numero frames" non bisogna metterli durante l'inserimento.
-Finire di aggiungere "FUNZIONI PER LUOGO" nel controller
-in inserimento luogo forse si può risolvere anche il fatto che non da il valore in fotografia.
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+"Operazione di ricerca: Il sistema deve permettere la ricerca di foto in
+base al luogo in cui sono state scattate o al soggetto rappresentato. Inoltre,
+deve essere possibile visualizzare una classifica dei 3 luoghi più immortalati"
+
+uagliù mentre facevo la relazione mi sono accorto che non abbiamo fatto la ricerca per luogo e soggetto, secondo me basta mettere due barre di ricerca magari 
+con tutti i luoghi e una per tutti i soggetti all'interno di menù fotografia e vaffanculo
+

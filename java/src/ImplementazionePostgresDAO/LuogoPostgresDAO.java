@@ -60,14 +60,15 @@ public class LuogoPostgresDAO implements DAO.LuogoDAO {
 
 
     @Override
-    public boolean classificaLuoghiDAO(List<MODEL.Luogo> classifica) throws SQLException {
+    public List<MODEL.Luogo> classificaLuoghiDAO() throws SQLException {
+        List<MODEL.Luogo> listaLuoghi = new ArrayList<>();
+
         try {
             PreparedStatement vediClass;
-            vediClass = connection.prepareStatement("CREATE OR REPLACE VIEW ClassificaLuoghi AS\n" +
-                    "SELECT latitudine, longitudine, nome, descrizione, COUNT(id_foto) AS NumeroFotografie\n" +
+            vediClass = connection.prepareStatement("SELECT latitudine, longitudine, nome, descrizione\n" +
                     "FROM luogo NATURAL LEFT JOIN fotografia\n" +
                     "GROUP BY latitudine, longitudine, nome, descrizione\n" +
-                    "ORDER BY NumeroFotografie DESC, nome ASC\n" +
+                    "ORDER BY COUNT(id_foto) DESC, nome ASC\n" +
                     "LIMIT 3;");
             ResultSet rs =  vediClass.executeQuery();
             while (rs.next()) {
@@ -75,17 +76,18 @@ public class LuogoPostgresDAO implements DAO.LuogoDAO {
                 float longitudine = rs.getFloat("longitudine");
                 String nome = rs.getString("nome");
                 String descrizione = rs.getString("descrizione");
-                int numeroFotografie = rs.getInt("NumeroFotografie");
 
                 MODEL.Luogo luogo = new MODEL.Luogo(latitudine, longitudine, nome, descrizione);
-                luogo.setNumeroFotografie(numeroFotografie);
+
+                listaLuoghi.add(luogo);
             }
-            return true;
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
+
+        return listaLuoghi;
     }
+
 
     @Override
     public boolean modificaLuogoDAO(String LuogoSelezionato, String descrizione, float latitudine, float longitudine) throws SQLException {
@@ -125,5 +127,3 @@ public class LuogoPostgresDAO implements DAO.LuogoDAO {
 
 
 }
-
-
