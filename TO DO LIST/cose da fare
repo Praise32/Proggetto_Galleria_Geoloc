@@ -13,3 +13,13 @@ Non funziona bene l'inserimento delle collezioni
 Forse gli attributi che si modificano da soli tipo "durata" e "numero frames" non bisogna metterli durante l'inserimento.
 Finire di aggiungere "FUNZIONI PER LUOGO" nel controller
 in inserimento luogo forse si può risolvere anche il fatto che non da il valore in fotografia.
+
+
+
+"Operazione di ricerca: Il sistema deve permettere la ricerca di foto in
+base al luogo in cui sono state scattate o al soggetto rappresentato. Inoltre,
+deve essere possibile visualizzare una classifica dei 3 luoghi più immortalati"
+
+uagliù mentre facevo la relazione mi sono accorto che non abbiamo fatto la ricerca per luogo e soggetto, secondo me basta mettere due barre di ricerca magari 
+con tutti i luoghi e una per tutti i soggetti all'interno di menù fotografia e vaffanculo
+
