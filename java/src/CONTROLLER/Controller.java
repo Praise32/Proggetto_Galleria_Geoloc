@@ -780,7 +780,7 @@ public class Controller {
 
         FotografiaDAO f = new FotografiaPostgresDAO();
 
-        boolean userCheck = f.controlloProprietarioDAO(idFotoSelezionata);
+        boolean userCheck = f.controlloProprietarioDAO(idFotoSelezionata, User.getInstance().getUsername());
         if (!userCheck) return false;
 
         boolean control = f.modificaFotografiaDAO(idFotoSelezionata, DispositivoNuovo, TitoloNuovo);
@@ -796,6 +796,14 @@ public class Controller {
                 }
         }
         return true;
+    }
+
+    public boolean controlloProprietario(int idFotoSelezionata, String username) throws SQLException {
+
+        FotografiaDAO f = new FotografiaPostgresDAO();
+
+        return f.controlloProprietarioDAO(idFotoSelezionata, username);
+
     }
 
 //-------------------------------------------       CONTENUTO      --------------------------------------------------//

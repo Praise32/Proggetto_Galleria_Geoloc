@@ -228,7 +228,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
      * @throws SQLException
      */
     @Override
-    public boolean controlloProprietarioDAO(int idFotoSelezionata) throws SQLException {
+    public boolean controlloProprietarioDAO(int idFotoSelezionata, String username) throws SQLException {
         PreparedStatement controlloProprietario;
         controlloProprietario = connection.prepareStatement("SELECT username_autore FROM fotografia WHERE id_foto = ?");
         controlloProprietario.setInt(1, idFotoSelezionata);
@@ -238,7 +238,7 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
 
         String readUsr = rs.getString("username_autore");
 
-        return readUsr.equals(User.getInstance().getUsername()); //Ritorna vero se i nomi equivalgono, altrimenti ritorna falso
+        return readUsr.equals(username); //Ritorna vero se i nomi equivalgono, altrimenti ritorna falso
     }
 
 }

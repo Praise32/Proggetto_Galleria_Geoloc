@@ -2,6 +2,7 @@ package GUI;
 
 import CONTROLLER.Controller;
 import MAIN.Main;
+import MAIN.User;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
@@ -200,11 +201,15 @@ public class MenuFotografieGUI {
                 int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
                 try {
                     // Creo un'istanza della finestra di dialogo ProfiloImpiegato
+                    if(controller.controlloProprietario(fotoSelezionata, User.getInstance().getUsername())){
+                        ViewFotografiaGUI profiloFoto = new ViewFotografiaGUI(fotoSelezionata, controller, frameMenuFotografie);
+                        frameMenuFotografie.setVisible(false);
+                        // Mostro la finestra di dialogo
+                        profiloFoto.setVisible(true);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa foto");
+                    }
 
-                    ViewFotografiaGUI profiloFoto = new ViewFotografiaGUI(fotoSelezionata, controller, frameMenuFotografie);
-                    frameMenuFotografie.setVisible(false);
-                    // Mostro la finestra di dialogo
-                    profiloFoto.setVisible(true);
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
                     ex.printStackTrace(); // Stampa la traccia dell'eccezione
