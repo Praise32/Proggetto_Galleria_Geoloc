@@ -40,12 +40,14 @@ public class Controller {
     private void dumpdati() {
         updateDatabase();
         dumpDatiUtente();
-        dumpDatiFotografia();
+        dumpDatiVideo();
         dumpDatiLuogo();
+        dumpDatiSoggetto();
+        dumpDatiFotografia();
         dumpDatiCollezione();
         dumpDatiFrame();
-        dumpDatiSoggetto();
-        dumpDatiVideo();
+
+
     }
 
     public void updateDatabase() {
@@ -68,6 +70,22 @@ public class Controller {
         //inizializzo la lista di Utenti
         for (int i = 0; i < usernamelist.size(); i++) {
             listaUtente.add(new Utente(usernamelist.get(i), passwordlist.get(i), adminlist.get(i)));
+        }
+    }
+
+
+    public void dumpDatiLuogo() {
+        GalleriaDAO galleriaDAO = new GalleriaPostgresDAO();
+
+        ArrayList<Float> latitudineList = new ArrayList<>();
+        ArrayList<Float> longitudineList = new ArrayList<>();
+        ArrayList<String> nomeList = new ArrayList<>();
+        ArrayList<String> descrizioneList = new ArrayList<>();
+
+        galleriaDAO.getListLuogoDAO(latitudineList, longitudineList, nomeList, descrizioneList);
+        //inizializzo la lista dei luoghi, uso solo una delle due PK dato che per definizione im SQL un luogo è definito da due coordinate solo
+        for (int i = 0; i < latitudineList.size(); i++) {
+            listaLuogo.add(new Luogo(latitudineList.get(i), longitudineList.get(i), nomeList.get(i), descrizioneList.get(i)));
         }
     }
 
@@ -109,10 +127,11 @@ public class Controller {
             //TODO CONTROLLARE LA FUNZIONE CHE SI OCCUPA DI PRENDERE LA DIMENSIONE DI listaLuogo
             //ciclo che associa ogni luogo le fotografia scattate e ogni fotografia ad un luogo
             for (Luogo lat : listaLuogo) {
-                if (Float.compare(lat.getLatitudine(), luogolatitudineList.get(i)) == 0) {
+                if (Float.compare(lat.getLatitudine(), luogolatitudineList.get(i)) == 0){
                     latitudine = lat;
                     break;
                 }
+
             }
 
             for (Luogo lon : listaLuogo) {
@@ -130,20 +149,7 @@ public class Controller {
 
     }
 
-    public void dumpDatiLuogo() {
-        GalleriaDAO galleriaDAO = new GalleriaPostgresDAO();
 
-        ArrayList<Float> latitudineList = new ArrayList<>();
-        ArrayList<Float> longitudineList = new ArrayList<>();
-        ArrayList<String> nomeList = new ArrayList<>();
-        ArrayList<String> descrizioneList = new ArrayList<>();
-
-        galleriaDAO.getListLuogoDAO(latitudineList, longitudineList, nomeList, descrizioneList);
-        //inizializzo la lista dei luoghi, uso solo una delle due PK dato che per definizione im SQL un luogo è definito da due coordinate solo
-        for (int i = 0; i < latitudineList.size(); i++) {
-            listaLuogo.add(new Luogo(latitudineList.get(i), longitudineList.get(i), nomeList.get(i), descrizioneList.get(i)));
-        }
-    }
 
     public void dumpDatiCollezione() {
         GalleriaDAO galleriaDAO = new GalleriaPostgresDAO();
@@ -167,6 +173,31 @@ public class Controller {
             }
 
             listaCollezione.add(new Collezione(idCollezioneList.get(i), utente, titoloList.get(i), dataCollezioneList.get(i), numeroElementiList.get(i)));
+        }
+    }
+
+    public void dumpDatiVideo() {
+        GalleriaDAO galleriaDAO = new GalleriaPostgresDAO();
+
+        ArrayList<Integer> idVideoList = new ArrayList<>();
+        ArrayList<String> utenteAutoreList = new ArrayList<>();
+        ArrayList<String> titoloList = new ArrayList<>();
+        ArrayList<Integer> numeroFramesList = new ArrayList<>();
+        ArrayList<Integer> durataList = new ArrayList<>();
+        ArrayList<String> descrizioneList = new ArrayList<>();
+
+        galleriaDAO.getListVideoDAO(idVideoList, utenteAutoreList, titoloList, numeroFramesList, durataList, descrizioneList);
+
+        for (int i = 0; i < idVideoList.size(); i++) {
+            Utente utente = null;
+            for (Utente usr : listaUtente) {
+                if (usr.getUsername().equals(utenteAutoreList.get(i))) {
+                    utente = usr;
+                    break;
+                }
+            }
+            Video v = new Video(idVideoList.get(i), utente, titoloList.get(i), numeroFramesList.get(i), durataList.get(i), descrizioneList.get(i));
+            listaVideo.add(v);
         }
     }
 
@@ -214,30 +245,7 @@ public class Controller {
         }
     }
 
-    public void dumpDatiVideo() {
-        GalleriaDAO galleriaDAO = new GalleriaPostgresDAO();
 
-        ArrayList<Integer> idVideoList = new ArrayList<>();
-        ArrayList<String> utenteAutoreList = new ArrayList<>();
-        ArrayList<String> titoloList = new ArrayList<>();
-        ArrayList<Integer> numeroFramesList = new ArrayList<>();
-        ArrayList<Integer> durataList = new ArrayList<>();
-        ArrayList<String> descrizioneList = new ArrayList<>();
-
-        galleriaDAO.getListVideoDAO(idVideoList, utenteAutoreList, titoloList, numeroFramesList, durataList, descrizioneList);
-
-        for (int i = 0; i < idVideoList.size(); i++) {
-            Utente utente = null;
-            for (Utente usr : listaUtente) {
-                if (usr.getUsername().equals(utenteAutoreList.get(i))) {
-                    utente = usr;
-                    break;
-                }
-            }
-            Video v = new Video(idVideoList.get(i), utente, titoloList.get(i), numeroFramesList.get(i), durataList.get(i), descrizioneList.get(i));
-            listaVideo.add(v);
-        }
-    }
 
 
 //____________________________________________________________________________________________________________________//
@@ -1772,7 +1780,7 @@ public class Controller {
 
             // Verifica se il luogo latitudine non è null prima di ottenere la latitudine
             if (fotografia.getLuogolat() != null) {
-                listaLatitudineFoto.add(Float.parseFloat(decimalFormat.format(fotografia.getLuogolat().getLatitudine())));
+                listaLatitudineFoto.add(fotografia.getLuogolat().getLatitudine());
             } else {
                 // Se la latitudine è null, assegna un valore predefinito o gestisci il caso come preferisci
                 listaLatitudineFoto.add(1.0f); // Ad esempio, assegniamo 0.0 come valore predefinito
@@ -1780,7 +1788,7 @@ public class Controller {
 
             // Verifica se il luogo longitudine non è null prima di ottenere la longitudine
             if (fotografia.getLuogolon() != null) {
-                listaLongitudineFoto.add(Float.parseFloat(decimalFormat.format(fotografia.getLuogolon().getLongitudine())));
+                listaLongitudineFoto.add(fotografia.getLuogolon().getLongitudine());
             } else {
                 // Se la longitudine è null, assegna un valore predefinito o gestisci il caso come preferisci
                 listaLongitudineFoto.add(1.0f); // Ad esempio, assegniamo 0.0 come valore predefinito
@@ -2159,7 +2167,7 @@ public class Controller {
                         assert videoselezionato != null;
                         videoselezionato.aggiungiFrame(frame);
 
-                        listaIdVideo.add(videoselezionato.getIdVideo());
+                        listaIdVideo.add(frame.getIdVideo().getIdVideo());
                         listaIdFoto.add(frame.getIdFoto().getIdFoto());
                         listaDurata.add(frame.getDurata());
                         listaOrdine.add(frame.getOrdine());

@@ -45,6 +45,57 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void getListLuogoDAO(ArrayList<Float> latitudineList, ArrayList<Float> longitudineList, ArrayList<String> nomeList, ArrayList<String> descrizioneList) {
+        try {
+            PreparedStatement selectListaLuogo;
+            selectListaLuogo = connection.prepareStatement("SELECT * FROM luogo");
+            ResultSet rs = selectListaLuogo.executeQuery();
+            while (rs.next()) {
+                float latitudine = rs.getFloat("latitudine");
+                float longitudine = rs.getFloat("longitudine");
+                String nome = rs.getString("nome");
+                String descrizione = rs.getString("descrizione");
+
+                latitudineList.add(latitudine);
+                longitudineList.add(longitudine);
+                nomeList.add(nome);
+                descrizioneList.add(descrizione);
+
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void getListVideoDAO(ArrayList<Integer> idVideoList, ArrayList<String> utenteAutoreList, ArrayList<String> titoloList, ArrayList<Integer> numeroFramesList, ArrayList<Integer> durataList, ArrayList<String> descrizioneList){
+        try {
+            PreparedStatement selectListaVideo;
+            selectListaVideo = connection.prepareStatement("SELECT * FROM video");
+            ResultSet rs = selectListaVideo.executeQuery();
+            while (rs.next() ) {
+                int idVideo = rs.getInt("id_video");
+                String autore = rs.getString("autore");
+                String titolo = rs.getString("titolo");
+                int numeroFrames = rs.getInt("numero_frames");
+                int durata = rs.getInt("durata");
+                String descrizione = rs.getString("descrizione");
+
+                idVideoList.add(idVideo);
+                utenteAutoreList.add(autore);
+                titoloList.add(titolo);
+                numeroFramesList.add(numeroFrames);
+                durataList.add(durata);
+                descrizioneList.add(descrizione);
+
+
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     @Override
     public void getListFotografiaDAO (ArrayList <Integer> idFotoList, ArrayList <String> utenteUsernameAutoreList, ArrayList <byte[]> datiFotoList, ArrayList <String> dispositivoList, ArrayList <java.sql.Timestamp> dataFotoList, ArrayList <Float>luogolatitudineList, ArrayList <Float>luogolongituineList, ArrayList <Boolean> condivisaList, ArrayList <String> titoloList){
         try {
@@ -131,28 +182,7 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
         }
     }
 
-    @Override
-    public void getListLuogoDAO(ArrayList<Float> latitudineList, ArrayList<Float> longitudineList, ArrayList<String> nomeList, ArrayList<String> descrizioneList) {
-        try {
-            PreparedStatement selectListaLuogo;
-            selectListaLuogo = connection.prepareStatement("SELECT * FROM luogo");
-            ResultSet rs = selectListaLuogo.executeQuery();
-            while (rs.next()) {
-                float latitudine = rs.getFloat("latitudine");
-                float longitudine = rs.getFloat("longitudine");
-                String nome = rs.getString("nome");
-                String descrizione = rs.getString("descrizione");
 
-                latitudineList.add(latitudine);
-                longitudineList.add(longitudine);
-                nomeList.add(nome);
-                descrizioneList.add(descrizione);
-
-            }
-        } catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void getListSoggettoDAO(ArrayList<String> nomeList, ArrayList<String> categoriaList){
@@ -173,33 +203,7 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
         }
     }
 
-    @Override
-    public void getListVideoDAO(ArrayList<Integer> idVideoList, ArrayList<String> utenteAutoreList, ArrayList<String> titoloList, ArrayList<Integer> numeroFramesList, ArrayList<Integer> durataList, ArrayList<String> descrizioneList){
-        try {
-            PreparedStatement selectListaVideo;
-            selectListaVideo = connection.prepareStatement("SELECT * FROM video");
-            ResultSet rs = selectListaVideo.executeQuery();
-            while (rs.next() ) {
-                int idVideo = rs.getInt("id_video");
-                String autore = rs.getString("autore");
-                String titolo = rs.getString("titolo");
-                int numeroFrames = rs.getInt("numero_frames");
-                int durata = rs.getInt("durata");
-                String descrizione = rs.getString("descrizione");
 
-                idVideoList.add(idVideo);
-                utenteAutoreList.add(autore);
-                titoloList.add(titolo);
-                numeroFramesList.add(numeroFrames);
-                durataList.add(durata);
-                descrizioneList.add(descrizione);
-
-
-            }
-        } catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
 
 
     public void updateDatabaseDAO() throws SQLException{
