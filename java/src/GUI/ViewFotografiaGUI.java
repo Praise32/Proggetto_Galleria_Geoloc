@@ -515,6 +515,5 @@ public class ViewFotografiaGUI extends JDialog {
         }
     }
 
-
-
 }
+

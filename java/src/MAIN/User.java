@@ -2,7 +2,7 @@ package MAIN;
 
 public class User {
     private static User istance = null;
-    public String username = "";
+    private String username = "";
 
     public static User getInstance() {
         if (istance == null) {

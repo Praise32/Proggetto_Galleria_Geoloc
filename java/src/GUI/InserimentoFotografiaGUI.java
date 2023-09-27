@@ -1,20 +1,18 @@
 package GUI;
 
-import CONTROLLER.*;
+import CONTROLLER.Controller;
+import MAIN.User;
+import org.jdesktop.swingx.JXDatePicker;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
-import com.toedter.calendar.JDateChooser;
-import org.jdesktop.swingx.JXDatePicker;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 
 
 /**
@@ -22,7 +20,6 @@ import java.awt.event.ActionEvent;
  */
 public class InserimentoFotografiaGUI extends JDialog {
     private final JTextField IdFotografiaField;
-    private final JComboBox<String> usernameComboBox;
     private final JComboBox<String> nomeLuogoCombobox;
 
     private final JTextField titoloField;
@@ -32,8 +29,8 @@ public class InserimentoFotografiaGUI extends JDialog {
     /**
      * Instantiates a new Inserimento impiegato gui.
      *
-     * @param controller     the controller
-     * @param framePadre     the frame padre
+     * @param controller the controller
+     * @param framePadre the frame padre
      */
     public InserimentoFotografiaGUI(Controller controller, JFrame framePadre) {
 //----------------------------------------------PANNELLO CAMPI-------------------------------------------------------//
@@ -41,8 +38,6 @@ public class InserimentoFotografiaGUI extends JDialog {
         JPanel inputPanel = new JPanel(new GridLayout(0, 2, 5, 5));
         inputPanel.setBorder(BorderFactory.createEmptyBorder(30, 100, 10, 100));
         setTitle("Inserimento Fotografia");
-
-
 
 
         JPanel panel = new JPanel();
@@ -58,20 +53,14 @@ public class InserimentoFotografiaGUI extends JDialog {
         datePicker.getEditor().setBackground(Color.DARK_GRAY);
 
 
-
-
         // CAMPO IDOFOTGRAFIA
         inputPanel.add(new JLabel("Id Fotografia:"));
         IdFotografiaField = new JTextField();
         inputPanel.add(IdFotografiaField);
 
-        // CAMPO USERNAME
-        inputPanel.add(new JLabel("Username:"));
-        usernameComboBox = new JComboBox<>();
-        ArrayList<String> usernameList = controller.getListaUsernameDisponibileCollezioneGUI();
-        for (String i : usernameList)
-            usernameComboBox.addItem(i);
-        inputPanel.add(usernameComboBox);
+        // USERNAME DELL'UTENTE CHE EFFETTUA L'INSERIMENTO
+        inputPanel.add(new JLabel("Username:")); //+ User.getInstance().getUsername()));
+        inputPanel.add(new JLabel(User.getInstance().getUsername()));
 
         //CAMPO NOME LUOGO
         inputPanel.add(new JLabel("Luogo Scatto:"));
@@ -110,14 +99,14 @@ public class InserimentoFotografiaGUI extends JDialog {
         JComboBox<Float> longitudineCombobox = new JComboBox<>();
         inputPanel.add(longitudineCombobox);
 
-        // CHECKBOX CONDIVISA
-        condivisaCheckBox = new JCheckBox("Condivisa");
-        inputPanel.add(condivisaCheckBox);
-
         // CAMPO TITOLO
         inputPanel.add(new JLabel("Titolo:"));
         titoloField = new JTextField();
         inputPanel.add(titoloField);
+
+        // CHECKBOX CONDIVISA
+        condivisaCheckBox = new JCheckBox("Condivisa");
+        inputPanel.add(condivisaCheckBox);
 //LISTENER PER I CAMPI LATITUDINE E LONGITUDINE
 
         // Aggiungi un listener per il JComboBox del nome del luogo
@@ -160,8 +149,6 @@ public class InserimentoFotografiaGUI extends JDialog {
         });
 
 
-
-
 //----------------------------------------------BOTTONI---------------------------------------------------------------//
 
         // BOTTONE SALVA
@@ -171,24 +158,24 @@ public class InserimentoFotografiaGUI extends JDialog {
 
 
             //controllo che non ci siano dei campi vuoti
-            if (usernameComboBox.getSelectedItem() == null || titoloField.getText().isEmpty())  {
+            if (titoloField.getText().isEmpty()) {
                 setVisible(true);
             } else {
                 //Tutti i campi sono stati inseriti
                 int idFotografia = Integer.parseInt(IdFotografiaField.getText());
-                String usernameAutore = (String) usernameComboBox.getSelectedItem();
+                String usernameAutore = User.getInstance().getUsername();
                 String datiFotoText = DatiField.getText();
                 byte[] datiFoto = datiFotoText.getBytes();
                 String dispositivo = DispositivoField.getText();
                 java.util.Date utilDate = dataFotoPicker.getDate();
                 java.sql.Timestamp dataFoto = new java.sql.Timestamp(utilDate.getTime());
-                float luogolat =(float) latitudineCombobox.getSelectedItem();
+                float luogolat = (float) latitudineCombobox.getSelectedItem();
                 float luogolon = (float) longitudineCombobox.getSelectedItem();
                 boolean condivisa = condivisaCheckBox.isSelected();
                 String titolo = titoloField.getText();
 
                 try {
-                    controller.aggiungiFotografia(idFotografia, usernameAutore, datiFoto, dispositivo, dataFoto, luogolat, luogolon,  condivisa,  titolo);
+                    controller.aggiungiFotografia(idFotografia, usernameAutore, datiFoto, dispositivo, dataFoto, luogolat, luogolon, condivisa, titolo);
                     JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
                 } catch (PSQLException ex) {
                     JOptionPane.showMessageDialog(null, "Errore durante il salvataggio dei dati della fotografia:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
@@ -200,7 +187,6 @@ public class InserimentoFotografiaGUI extends JDialog {
                 }
             }
         });
-
 
 
         // BOTTONE ANNULLA

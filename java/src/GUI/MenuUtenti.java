@@ -195,15 +195,29 @@ public class MenuUtenti {
             if (selectedRow != -1 && selectedColumn != -1) {
                 // l'username è nella prima colonna della tabella
                 String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+
+                //Variabili di controllo per assicurarsi che l'utente non possa modificare altri utenti
+                //a meno che non sia admin
+                String tmpAccessedUser = User.getInstance().getUsername();
+                boolean tmpUserAdminFlag;
                 try {
-                    // Creo un'istanza della finestra di dialogo ProfiloImpiegato
-                    ViewUserGUI profiloUtente = new ViewUserGUI(usernameSelezionato, controller, frameMenuUtenti);
-                    frameMenuUtenti.setVisible(false);
-                    // Mostro la finestra di dialogo
-                    profiloUtente.setVisible(true);
-                } catch (java.sql.SQLException ex) {
-                    // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
-                    ex.printStackTrace(); // Stampa la traccia dell'eccezione
+                    tmpUserAdminFlag = controller.controlloAdmin(tmpAccessedUser);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                if(usernameSelezionato.equals(tmpAccessedUser) || tmpUserAdminFlag) {
+                    try {
+
+                        ViewUserGUI profiloUtente = new ViewUserGUI(usernameSelezionato, controller, frameMenuUtenti);
+                        frameMenuUtenti.setVisible(false);
+                        profiloUtente.setVisible(true);
+
+                    } catch (java.sql.SQLException ex) {
+                        ex.printStackTrace(); // Stampa la traccia dell'eccezione
+                    }
+                }else {
+                    JOptionPane.showMessageDialog(null, "Non puoi modificare altri utenti!");
                 }
             } else {
                 // L'utente non ha selezionato una cella
@@ -225,13 +239,17 @@ public class MenuUtenti {
         JPanel panelBottoniLeft = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel panelBottoniRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelBottoniLeft.add(bottoneMenuPrincipale);
-        if(adminCheck) panelBottoniRight.add(bottoneInserisci);
-        panelBottoniRight.add(bottoneElimina);
+
+        //Pulsanti per funzioni da admin
+        if(adminCheck){
+            panelBottoniRight.add(bottoneInserisci);
+            panelBottoniRight.add(bottoneElimina);
+        }
+
         panelBottoniRight.add(bottoneProfiloUtente);
-
-
         panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);
         panelBottoni.add(panelBottoniRight, BorderLayout.EAST);
+
         frameMenuUtenti.add(panelBottoni, BorderLayout.SOUTH);
 
 

@@ -155,6 +155,7 @@ public class UtentePostgresDAO implements UtenteDAO {
         return rs.getBoolean("admin");
 
     }
+
 }
 
 

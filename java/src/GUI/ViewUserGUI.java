@@ -9,13 +9,14 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import CONTROLLER.Controller;
+import MAIN.User;
 import org.postgresql.util.PSQLException;
 
 /**
  * The type Profilo impiegato gui.
  */
 public class ViewUserGUI extends JDialog {
-    private final JCheckBox adminCheckBox;
+    private final JCheckBox adminCheckBox = new JCheckBox();
     final JTable tabellaFotografie;
 
 
@@ -55,13 +56,29 @@ public class ViewUserGUI extends JDialog {
         datiPanel.add(passwordLabel);
         datiPanel.add(passwordField);
 
-        // ADMIN
-        JLabel adminLabel = new JLabel("Admin:", SwingConstants.LEFT);
-        adminCheckBox = new JCheckBox();
-        adminCheckBox.setSelected(adminSelezionato);
-        datiPanel.add(adminLabel);
-        datiPanel.add(adminCheckBox);
+        boolean isAdmin = false;
 
+        //Se l'utente che effettua l'accesso è true, imposta isAdmin a true
+        try {
+            if(controller.controlloAdmin(User.getInstance().getUsername())) {
+                isAdmin = true;
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+
+        // ADMIN SE L'UTENTE ATTIVO È ADMIN A SUA VOLTA
+        if(isAdmin){
+            JLabel adminLabel = new JLabel("Admin: ", SwingConstants.LEFT);
+            adminCheckBox.setSelected(adminSelezionato);
+            datiPanel.add(adminLabel);
+            datiPanel.add(adminCheckBox);
+        }else {
+            JLabel adminLabel = new JLabel("Stato admin non attivo", SwingConstants.LEFT);
+
+            datiPanel.add(adminLabel);
+        }
         // AGGIUNGI DATI AL PANNELLO
         leftPanel.add(datiPanel);
         leftPanel.setPreferredSize(new Dimension(700, 600));
@@ -241,10 +258,15 @@ public class ViewUserGUI extends JDialog {
         add(panel,BorderLayout.CENTER);
 
         // BOTTONE SALVA
+        boolean finalIsAdmin = isAdmin;
         bottoneSalva.addActionListener(e -> {
             setVisible(false);
             String passwordModificata = passwordField.getText();
-            boolean adminModificato = adminCheckBox.isSelected();
+            boolean adminModificato = false;
+
+            if(finalIsAdmin) adminModificato = adminCheckBox.isSelected();
+
+
 
             try {
 

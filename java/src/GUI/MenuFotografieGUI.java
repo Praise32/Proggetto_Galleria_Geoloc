@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -152,20 +153,34 @@ public class MenuFotografieGUI {
             if (selectedRow != -1 && selectedColumn != -1) {
                 // La foto si trova nella prima colonna della tabella
                 int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
-                int response = JOptionPane.showOptionDialog(frameMenuFotografie, "Sei sicuro di voler eliminare la fotografia " + fotoSelezionata + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
-                if (response == JOptionPane.YES_OPTION) {
-                    //elimino l'utente con l'username selezionata
-                    try {
-                        controller.eliminaFotografia(fotoSelezionata);
-                    } catch (PSQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati della fotografia:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
-                    } catch (Exception ee) {
-                        JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                    }
-                    //aggiorno la tabella appena dopo l'eliminazione dell'utente
-                    updateTable(controller, colonneTabella);
+                //Variabile per avviare o meno la funzione di eliminazione
+                boolean ownerCheck;
+
+                try {
+                    ownerCheck = controller.controlloProprietario(fotoSelezionata, User.getInstance().getUsername());
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
+
+                if (ownerCheck) {
+                    int response = JOptionPane.showOptionDialog(frameMenuFotografie, "Sei sicuro di voler eliminare la fotografia " + fotoSelezionata + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+
+                    if (response == JOptionPane.YES_OPTION) {
+                        //elimino l'utente con l'username selezionata
+                        try {
+                            controller.eliminaFotografia(fotoSelezionata);
+                        } catch (PSQLException ex) {
+                            JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati della fotografia:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
+                        } catch (Exception ee) {
+                            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                        //aggiorno la tabella appena dopo l'eliminazione dell'utente
+                        updateTable(controller, colonneTabella);
+                    }
+                } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo foto di cui sei il proprietario!");
+                }
+
             } else {
                 // L'utente non ha selezionato una cella
                 JOptionPane.showMessageDialog(frameMenuFotografie, "Seleziona una fotografia per eliminarla.", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -200,13 +215,15 @@ public class MenuFotografieGUI {
                 // l'username è nella prima colonna della tabella
                 int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
                 try {
-                    // Creo un'istanza della finestra di dialogo ProfiloImpiegato
-                    if(controller.controlloProprietario(fotoSelezionata, User.getInstance().getUsername())){
+                    //Variabile che controlla che la foto selezionata appartenga all'utente che ha fatto l'accesso, usata per pulizia del codice
+                    boolean ownerCheck = controller.controlloProprietario(fotoSelezionata, User.getInstance().getUsername());
+
+                    if (ownerCheck) {
                         ViewFotografiaGUI profiloFoto = new ViewFotografiaGUI(fotoSelezionata, controller, frameMenuFotografie);
                         frameMenuFotografie.setVisible(false);
                         // Mostro la finestra di dialogo
                         profiloFoto.setVisible(true);
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa foto");
                     }
 
@@ -219,8 +236,6 @@ public class MenuFotografieGUI {
                 JOptionPane.showMessageDialog(frameMenuFotografie, "Seleziona una fotografia per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         });
-
-
 
 
         // Aggiungiamo i pulsanti alla finestra
