@@ -129,7 +129,8 @@ BEGIN
 
     -- Indicare che l'operazione di inserimento è stata gestita con successo
     RETURN NEW; -- Poiché stai gestendo l'inserimento manualmente, restituisci NULL
-END;
+
+    END;
 $$ LANGUAGE plpgsql;
 
 
