@@ -128,7 +128,7 @@ BEGIN
     INSERT INTO Fotografia VALUES (NEW.id_foto, NEW.username_autore, NEW.dati_foto, NEW.dispositivo, NEW.data_foto, NEW.latitudine, NEW.longitudine, NEW.condivisa, NEW.titolo);
 
     -- Indicare che l'operazione di inserimento è stata gestita con successo
-    RETURN NULL; -- Poiché stai gestendo l'inserimento manualmente, restituisci NULL
+    RETURN NEW; -- Poiché stai gestendo l'inserimento manualmente, restituisci NULL
 END;
 $$ LANGUAGE plpgsql;
 
@@ -138,6 +138,7 @@ CREATE OR REPLACE TRIGGER tronca_coordinate_trigger
     BEFORE INSERT
     ON fotografia
     FOR EACH ROW
+    WHEN (pg_trigger_depth() = 0)
 EXECUTE FUNCTION tronca_coordinate();
 
 
