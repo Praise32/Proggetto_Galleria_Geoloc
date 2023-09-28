@@ -125,10 +125,12 @@ BEGIN
     NEW.latitudine = round(NEW.latitudine::numeric, 4);
     NEW.longitudine = round(NEW.longitudine::numeric, 4);
 
-    INSERT INTO Fotografia VALUES (NEW.id_foto, NEW.username_autore, NEW.dati_foto, NEW.dispositivo, NEW.data_foto, NEW.latitudine, NEW.longitudine, NEW.condivisa, NEW.titolo);
+    -- Indicare che l'operazione di inserimento è stata gestita con successo, e ritorno quindi l'insert ora modificato
+    RETURN NEW;
 
-    -- Indicare che l'operazione di inserimento è stata gestita con successo
-    RETURN NULL; -- Poiché stai gestendo l'inserimento manualmente, restituisci NULL
+    -- L'implementazione iniziale prevedeva di usare un insert
+    -- INSERT INTO Fotografia VALUES (NEW.id_foto, NEW.username_autore, NEW.dati_foto, NEW.dispositivo, NEW.data_foto, NEW.latitudine, NEW.longitudine, NEW.condivisa, NEW.titolo);
+    -- Seguito da un Return NULL poiché l'insert era gestito manualmente, tuttavia così facendo bisognava rilanciare il programma per vedere la lista aggiornata
 END;
 $$ LANGUAGE plpgsql;
 
@@ -138,6 +140,7 @@ CREATE OR REPLACE TRIGGER tronca_coordinate_trigger
     BEFORE INSERT
     ON fotografia
     FOR EACH ROW
+    WHEN (pg_trigger_depth() = 0)
 EXECUTE FUNCTION tronca_coordinate();
 
 
