@@ -67,17 +67,17 @@ public class ViewUserGUI extends JDialog {
             throw new RuntimeException(ex);
         }
 
-
+        JLabel adminLabel = new JLabel("Stato Admin: ", SwingConstants.LEFT);
+        datiPanel.add(adminLabel);
         // ADMIN SE L'UTENTE ATTIVO È ADMIN A SUA VOLTA
         if(isAdmin){
-            JLabel adminLabel = new JLabel("Admin: ", SwingConstants.LEFT);
+
             adminCheckBox.setSelected(adminSelezionato);
             datiPanel.add(adminLabel);
             datiPanel.add(adminCheckBox);
         }else {
-            JLabel adminLabel = new JLabel("Stato admin non attivo", SwingConstants.LEFT);
-
-            datiPanel.add(adminLabel);
+            JLabel adminLabel2 = new JLabel("Non attivo", SwingConstants.LEFT);
+            datiPanel.add(adminLabel2);
         }
         // AGGIUNGI DATI AL PANNELLO
         leftPanel.add(datiPanel);

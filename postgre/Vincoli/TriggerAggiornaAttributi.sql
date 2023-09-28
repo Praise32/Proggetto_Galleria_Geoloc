@@ -100,3 +100,12 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER riordina_frame_trigger
 AFTER DELETE ON frame
 FOR EACH ROW EXECUTE FUNCTION riordina_frame();
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+-- Trigger che tronca i decimali fino alla quarta cifra quando si riceve un insert di fotografia da Java
+-- Per via della conversione da Java ad SQL, il valore delle coordinate prende molte più cifre decimali, violando la FK
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION tronca_coordinate() RETURNS TRIGGER AS $$
