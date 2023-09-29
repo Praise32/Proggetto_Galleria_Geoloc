@@ -694,10 +694,10 @@ public class Controller {
      * @param titolo         Titolo della fotografia.
      * @throws SQLException Eccezione sollevata in caso di problemi con il database.
      */
-    public void aggiungiFotografia(int idFoto, String usernameAutore, byte[] datiFoto, String dispositivo, Timestamp dataFoto, float luogolat, float luogolon, boolean condivisa, String titolo) throws SQLException {
+    public void aggiungiFotografia(String usernameAutore, byte[] datiFoto, String dispositivo, Timestamp dataFoto, float luogolat, float luogolon, boolean condivisa, String titolo) throws SQLException {
         FotografiaDAO f = new FotografiaPostgresDAO();
 
-        boolean control = f.aggiungiFotografiaDAO(idFoto, usernameAutore, datiFoto, dispositivo, dataFoto, luogolat, luogolon, condivisa, titolo);
+        boolean control = f.aggiungiFotografiaDAO(usernameAutore, datiFoto, dispositivo, dataFoto, luogolat, luogolon, condivisa, titolo);
         if (control) {
 
             //cerco il proprietario fra gli utenti:

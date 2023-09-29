@@ -19,7 +19,6 @@ import java.util.ArrayList;
  * The type Inserimento Utente gui.
  */
 public class InserimentoFotografiaGUI extends JDialog {
-    private final JTextField IdFotografiaField;
     private final JComboBox<String> nomeLuogoCombobox;
 
     private final JTextField titoloField;
@@ -52,11 +51,6 @@ public class InserimentoFotografiaGUI extends JDialog {
         // Cambia il colore di sfondo nell'editor
         datePicker.getEditor().setBackground(Color.DARK_GRAY);
 
-
-        // CAMPO IDOFOTGRAFIA
-        inputPanel.add(new JLabel("Id Fotografia:"));
-        IdFotografiaField = new JTextField();
-        inputPanel.add(IdFotografiaField);
 
         // USERNAME DELL'UTENTE CHE EFFETTUA L'INSERIMENTO
         inputPanel.add(new JLabel("Username:")); //+ User.getInstance().getUsername()));
@@ -162,7 +156,6 @@ public class InserimentoFotografiaGUI extends JDialog {
                 setVisible(true);
             } else {
                 //Tutti i campi sono stati inseriti
-                int idFotografia = Integer.parseInt(IdFotografiaField.getText());
                 String usernameAutore = User.getInstance().getUsername();
                 String datiFotoText = DatiField.getText();
                 byte[] datiFoto = datiFotoText.getBytes();
@@ -175,7 +168,7 @@ public class InserimentoFotografiaGUI extends JDialog {
                 String titolo = titoloField.getText();
 
                 try {
-                    controller.aggiungiFotografia(idFotografia, usernameAutore, datiFoto, dispositivo, dataFoto, luogolat, luogolon, condivisa, titolo);
+                    controller.aggiungiFotografia(usernameAutore, datiFoto, dispositivo, dataFoto, luogolat, luogolon, condivisa, titolo);
                     JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
                 } catch (PSQLException ex) {
                     JOptionPane.showMessageDialog(null, "Errore durante il salvataggio dei dati della fotografia:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
