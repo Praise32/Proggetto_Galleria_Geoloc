@@ -1,196 +1,317 @@
 package GUI;
+import CONTROLLER.Controller;
+import MAIN.User;
+import org.postgresql.util.PSQLException;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.*;
-import javax.swing.table.*;
-
-import CONTROLLER.Controller;
 
 /**
- * The type Modifica Video gui.
+ * The type Menu Video gui.
  */
-public class ViewVideoGUI extends JDialog {
 
-    private final JTextField titoloField;
-    private final JTextField autoreField;
-    private final JTextField descrizioneField;
+public class MenuVideo
+{
 
+    private final JFrame frameMenuVideo;
+    private final JTable table;
+    private final JTextField searchBar;
 
-
-    public ViewVideoGUI(int idVideoSelezionato, Controller controller, JFrame framePadre) throws SQLException {
-        setTitle("Profilo Video");
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        //Creiamo le variabili per ricevere dal controller i dati della collezione
-        idVideoSelezionato = controller.getIdVideoViewGUI(idVideoSelezionato);
-        String AutoreSelezionato = controller.getAutoreVideoViewGUI(idVideoSelezionato);
-        String TitoloSelezionato = controller.getTitoloVideoViewGUI(idVideoSelezionato);
-        int NumeroFramesSelezionati = controller.getNumeroFramesVideoViewGUI(idVideoSelezionato);
-        int DurataSelezionata = controller.getDurataVideoViewGUI(idVideoSelezionato);
-        String DescrizioneSelezionata = controller.getDescrizioneVideoViewGUI(idVideoSelezionato);
+    /**
+     * Instantiates a new Menu impiegati gui.
+     *
+     * @param controller          the controller
+     * @param frameMenuPrincipale the frame menu principale
+     * */
 
 
+    public MenuVideo(Controller controller, JFrame frameMenuPrincipale) {
+//----------------------------------------------FINESTRA--------------------------------------------------------//
 
-        // Creiamo il pannello principale
-        JPanel panel = new JPanel(new BorderLayout());
-
-        // Creiamo il pannello per i dati
-        JPanel datiPanel = new JPanel(new GridLayout(0, 2, 5, 5));
-        datiPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        JPanel leftPanel = new JPanel();
-        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
-
-        //ID VIDEO
-        JLabel VideoLabel = new JLabel("ID Video:", SwingConstants.CENTER);
-        VideoLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        JTextField VideoField = new JTextField();
-        VideoField.setText(String.valueOf(idVideoSelezionato));
-        datiPanel.add(VideoLabel);
-        datiPanel.add(VideoField);
-        VideoField.setEditable(false);
+        frameMenuVideo = new JFrame("Finestra Video");
+        frameMenuVideo.setSize(800, 600);
+        frameMenuVideo.setLocationRelativeTo(null);
+        frameMenuVideo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        // AUTORE
-        JLabel autoreLabel = new JLabel("Autore:", SwingConstants.CENTER);
-        autoreLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        autoreField = new JTextField();
-        autoreField.setText(AutoreSelezionato);
-        autoreField.setPreferredSize(new Dimension(200, 30));
-        datiPanel.add(autoreLabel);
-        datiPanel.add(autoreField);
-        autoreField.setEditable(false);
+//----------------------------------------------TABELLA VIDEO--------------------------------------------------------//
+
+        //Creazione
+        String[] colonneTabella = {"idVideo", "Autore", "Titolo", "NumeroFrames","Durata", "Descrizione"};
+        ArrayList<Integer> listaIdVideo = new ArrayList<>();
+        ArrayList<String> listaAutore = new ArrayList<>();
+        ArrayList<String> listaTitolo = new ArrayList<>();
+        ArrayList<Integer> listaNumeroFrames= new ArrayList<>();
+        ArrayList<Integer> listaDurata = new ArrayList<>();
+        ArrayList<String> listaDescrizione = new ArrayList<>();
+
+        controller.getListaVideoGUI(listaIdVideo,listaAutore,listaTitolo,listaNumeroFrames,listaDurata,listaDescrizione);
+        Object[][] data = new Object[listaAutore.size()][6];
+        for (int i = 0; i < listaIdVideo.size(); i++) {
+            data[i][0] = listaIdVideo.get(i);
+            data[i][1] = listaAutore.get(i);
+            data[i][2] = listaTitolo.get(i);
+            data[i][3] = listaNumeroFrames.get(i);
+            data[i][4] = listaDurata.get(i);
+            data[i][5] = listaDescrizione.get(i);
+        }
 
 
-        // TITOLO
-        JLabel titoloLabel = new JLabel("Titolo:", SwingConstants.CENTER);
-        titoloLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        titoloField = new JTextField();
-        titoloField.setText(TitoloSelezionato);
-        titoloField.setPreferredSize(new Dimension(200, 30));
-        datiPanel.add(titoloLabel);
-        datiPanel.add(titoloField);
+        // Creiamo il modello di tabella
+        DefaultTableModel modelloTabella = new DefaultTableModel(data, colonneTabella);
+
+        // Creiamo la tabella
+        table = new JTable(modelloTabella);
+
+        // Creiamo il TableRowSorter con il tipo di modello di tabella corretto
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modelloTabella);
+        sorter.setSortKeys(java.util.List.of(new RowSorter.SortKey(0, SortOrder.ASCENDING)));
+
+        // Impostiamo il TableRowSorter sulla tabella
+        table.setRowSorter(sorter);
+        table.setDefaultEditor(Object.class, null);
+        table.setDefaultEditor(Object.class, null);
+        table.getTableHeader().setReorderingAllowed(false);
+        table.setShowGrid(true);
+
+        //COLORI TABELLA
+        table.setGridColor(Color.WHITE);
+        table.setBackground(Color.DARK_GRAY);
+        table.setForeground(Color.WHITE);
+        table.getTableHeader().setBackground(Color.BLACK);
+        table.getTableHeader().setForeground(Color.WHITE);
+
+        //barra di scorrimento
+        JScrollPane scrollPane = new JScrollPane(table);
+        frameMenuVideo.add(scrollPane, BorderLayout.CENTER);
 
 
-        //NUMERO FRAMES
-        JLabel NumeroFramesLabel = new JLabel("Numero Frames:", SwingConstants.CENTER);
-        NumeroFramesLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        JTextField  NumeroFramesField = new JTextField();
-        NumeroFramesField.setText(String.valueOf(NumeroFramesSelezionati));
-        datiPanel.add(NumeroFramesLabel);
-        datiPanel.add(NumeroFramesField);
-        NumeroFramesField.setEditable(false);
+//----------------------------------------------BARRA DI RICERCA---------------------------------------------------------------//
 
-        //DURATA
-        JLabel DurataLabel = new JLabel("Durata:", SwingConstants.CENTER);
-        DurataLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        JTextField DurataField = new JTextField();
-        DurataField.setText(String.valueOf(DurataSelezionata));
-        datiPanel.add(DurataLabel);
-        datiPanel.add(DurataField);
-        DurataField.setEditable(false);
+        // Creiamo la barra di ricerca
+        searchBar = new JTextField(20);
+        searchBar.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                search(searchBar.getText());
+            }
 
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                search(searchBar.getText());
+            }
 
-        //DESCRIZIONE
-        JLabel descrizioneLabel = new JLabel("Descrizione:", SwingConstants.CENTER);
-        descrizioneLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        descrizioneField = new JTextField();
-        descrizioneField.setText(DescrizioneSelezionata);
-        descrizioneField.setPreferredSize(new Dimension(200, 30));
-        datiPanel.add(descrizioneLabel);
-        datiPanel.add(descrizioneField);
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                search(searchBar.getText());
+            }
 
+            public void search(String searchString) {
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchString, 2));
+            }
+        });
 
+        JPanel panelSearch = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelSearch.add(new JLabel("Cerca per nome video: "));
+        panelSearch.add(searchBar);
 
-
-        // AGGIUNGI DATI AL PANNELLO
-        leftPanel.add(datiPanel);
-        leftPanel.setPreferredSize(new Dimension(100, 100));
-        panel.add(leftPanel, BorderLayout.CENTER);
+        frameMenuVideo.add(panelSearch, BorderLayout.NORTH);
+        frameMenuVideo.setVisible(true);
 
 
+//----------------------------------------------BOTTONI---------------------------------------------------------------//
+        //MENU PRINCIPALE
+        JButton bottoneMenuPrincipale = new JButton("Menù Principale");
+        bottoneMenuPrincipale.addActionListener(e -> {
+            frameMenuVideo.dispose();
+            frameMenuPrincipale.setVisible(true);
+        });
 
 
-//-----------------------------------------------BOTTONI-----------------------------------------------------------------//
+        //BOTTONE INSERISCI VIDEO
+        JButton bottoneInserisci = new JButton("Inserisci Video");
+        bottoneInserisci.addActionListener(e -> {
+            InserimentoVideoGUI dialog = new InserimentoVideoGUI(controller, frameMenuVideo);
+            frameMenuVideo.setVisible(false);
+            dialog.setVisible(true);
+            // Aggiungo un listener per la finestra di dialogo
+            dialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
+                    updateTable(controller, colonneTabella);
+                }
+            });
+        });
+
+        //BOTTONE ELIMINA VIDEO
+        JButton bottoneElimina = new JButton("Elimina Video");
+        bottoneElimina.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            int selectedColumn = table.getSelectedColumn();
+
+            if (selectedRow != -1 && selectedColumn != -1) {
+                // L'utente si trova nella prima colonna della tabella
+                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int videoSel = Integer.parseInt(usernameSelezionato);
+
+                boolean ownerCheck;
+
+                try {
+                    ownerCheck = controller.controlloProprietarioVideo(videoSel, User.getInstance().getUsername());
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (ownerCheck) {
+                    int response = JOptionPane.showOptionDialog(frameMenuVideo, "Sei sicuro di voler eliminare il video " + usernameSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+                    if (response == JOptionPane.YES_OPTION) {
+                        //elimino il video con l'idvideo selezionato
+                        try {
+                            controller.eliminaVideo(videoSel);
+                        } catch (PSQLException ex) {
+                            JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati del video:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
+                        } catch (Exception ee) {
+                            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                        //aggiorno la tabella appena dopo l'eliminazione del video
+                        updateTable(controller,colonneTabella);
+                    }
+                } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo foto di cui sei il proprietario!");
+                }
+            } else {
+                // L'utente non ha selezionato una cella
+                JOptionPane.showMessageDialog(frameMenuVideo, "Seleziona un video per eliminarlo.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
 
-        // Crea il pannello dei bottoni
+        //BOTTONE PROFILO VIDEO
+
+        JButton bottoneProfiloVideo = new JButton("Visualizza Video");
+        bottoneProfiloVideo.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            int selectedColumn = table.getSelectedColumn();
+            // L'utente ha selezionato una cella
+            if (selectedRow != -1 && selectedColumn != -1) {
+                // IdVideo è nella prima colonna della tabella
+                String idVideoSelezionatoStr = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int idVideoSelezionato = Integer.parseInt(idVideoSelezionatoStr);
+                try {
+                    boolean ownerCheck = controller.controlloProprietarioVideo(idVideoSelezionato, User.getInstance().getUsername());
+
+                    if (ownerCheck) {
+                        // Creo un'istanza della finestra di dialogo
+                        frameMenuVideo.setVisible(false);
+                        ViewFrameGUI profiloUtente = new ViewFrameGUI(idVideoSelezionato, controller, frameMenuVideo);
+                        // Mostro la finestra di dialogo
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa foto");
+                    }
+                } catch (java.sql.SQLException ex) {
+                    // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
+                    ex.printStackTrace(); // Stampa la traccia dell'eccezione
+                }
+            } else {
+                // L'utente non ha selezionato una cella
+                JOptionPane.showMessageDialog(frameMenuVideo, "Seleziona un video per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        //BOTTONE PROFILO VIDEO
+
+        JButton bottoneProfiloFrame = new JButton("Modifica Video");
+        bottoneProfiloFrame.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            int selectedColumn = table.getSelectedColumn();
+            // L'utente ha selezionato una cella
+            if (selectedRow != -1 && selectedColumn != -1) {
+                // IdVideo è nella prima colonna della tabella
+                String idVideoSelezionatoStr = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int idVideoSelezionato = Integer.parseInt(idVideoSelezionatoStr);
+                try {
+
+                    boolean ownerCheck = controller.controlloProprietarioVideo(idVideoSelezionato, User.getInstance().getUsername());
+
+                    if (ownerCheck) {
+                        // Creo un'istanza della finestra di dialogo
+                        ViewVideoGUI profiloUtente = new ViewVideoGUI(idVideoSelezionato, controller, frameMenuVideo);
+                        frameMenuVideo.setVisible(false);
+                        // Mostro la finestra di dialogo
+                        profiloUtente.setVisible(true);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa foto");
+                    }
+                } catch (java.sql.SQLException ex) {
+                    // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
+                    ex.printStackTrace(); // Stampa la traccia dell'eccezione
+                }
+            } else {
+                // L'utente non ha selezionato una cella
+                JOptionPane.showMessageDialog(frameMenuVideo, "Seleziona un video per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+
+
+        // Aggiungiamo i pulsanti alla finestra
         JPanel panelBottoni = new JPanel(new BorderLayout());
         JPanel panelBottoniLeft = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel panelBottoniRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelBottoniLeft.add(bottoneMenuPrincipale);
+        panelBottoniRight.add(bottoneInserisci);
+        panelBottoniRight.add(bottoneElimina);
+        panelBottoniRight.add(bottoneProfiloVideo);
+        panelBottoniRight.add(bottoneProfiloFrame);
+
 
         panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);
         panelBottoni.add(panelBottoniRight, BorderLayout.EAST);
-        JButton bottoneSalva = new JButton("Salva modifiche");
-        JButton bottoneAnnulla = new JButton("Annulla modifiche");
+        frameMenuVideo.add(panelBottoni, BorderLayout.SOUTH);
 
 
 
-        panelBottoniLeft.add(bottoneSalva);
-        panelBottoniLeft.add(bottoneAnnulla);
-
-        // Aggiungo i pannelli alla finestra principale
-        add(panel,BorderLayout.CENTER);
-
-        // BOTTONE SALVA
-        final int idVideo = controller.getIdVideoViewGUI(idVideoSelezionato);
-        int finalIdVideoSelezionato = idVideoSelezionato;
-        bottoneSalva.addActionListener(e -> {
-            setVisible(false);
-            String titoloModificato = titoloField.getText();
-            String descrizioneModificata = descrizioneField.getText();
-
-
-            try {
-
-                controller.modificaVideo(finalIdVideoSelezionato,titoloModificato,descrizioneModificata);
-                JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
-
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Errore durante la modifica dei dati del video:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
-            } catch (Exception ee) {
-                JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-            } finally {
-                dispose();
-                framePadre.setVisible(true);
-            }
-
-        });
-
-        //BOTTONE ANNULLA
-        bottoneAnnulla.addActionListener(e -> {
-            //chiudo la finestra di dialogo
-            dispose();
-            framePadre.setVisible(true);
-        });
 
 
 
-        // Aggiungo i pannelli alla finestra principale
-        add(panel,BorderLayout.CENTER);
-        add(panelBottoni, BorderLayout.SOUTH);
 
 
-        // impostazioni finestra
-        setSize(800, 600);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        //listener per mostrare la finestra padre quando viene chiusa quella figlia
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                framePadre.setVisible(true);
-            }
-        });
+
+    }
+
+    private void updateTable(Controller controller,String[] colonneTabella) {
+
+        //LOAD DEI NUOVI DATI
+        ArrayList<Integer> listaIdVideo = new ArrayList<>();
+        ArrayList<String> listaAutore = new ArrayList<>();
+        ArrayList<String> listaTitolo = new ArrayList<>();
+        ArrayList<Integer> listaNumeroFrames= new ArrayList<>();
+        ArrayList<Integer> listaDurata = new ArrayList<>();
+        ArrayList<String> listaDescrizione = new ArrayList<>();
+
+        controller.getListaVideoGUI(listaIdVideo,listaAutore,listaTitolo,listaNumeroFrames,listaDurata,listaDescrizione);
+        Object[][] newdata = new Object[listaAutore.size()][6];
+        for (int i = 0; i < listaIdVideo.size(); i++) {
+            newdata[i][0] = listaIdVideo.get(i);
+            newdata[i][1] = listaAutore.get(i);
+            newdata[i][2] = listaTitolo.get(i);
+            newdata[i][3] = listaNumeroFrames.get(i);
+            newdata[i][4] = listaDurata.get(i);
+            newdata[i][5] = listaDescrizione.get(i);
+        }
 
 
-        setVisible(true);
-
-
+        //CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setDataVector(newdata, colonneTabella);
     }
 
 
@@ -198,14 +319,4 @@ public class ViewVideoGUI extends JDialog {
 
 
 
-
-
-
-
-
-
-
-
-
 }
-
