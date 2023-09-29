@@ -12,7 +12,7 @@ import CONTROLLER.Controller;
 import org.postgresql.util.PSQLException;
 
 /**
- * The type Profilo Collezione gui.
+ * The type View Collezione gui.
  */
 public class ViewCollezioneGUI extends JDialog {
 
