@@ -1,8 +1,5 @@
 package GUI;
-
 import CONTROLLER.Controller;
-import MAIN.Main;
-import MAIN.User;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
@@ -13,65 +10,50 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * The type Menu fotografie gui.
+ * The type Menu Soggetto gui.
  */
 
-public class MenuFotografieGUI {
+public class MenuSoggetto
+{
 
-    private final JFrame frameMenuFotografie;
+    private final JFrame frameMenuSoggetto;
     private final JTable table;
     private final JTextField searchBar;
 
     /**
-     * Instantiates a new Menu fotografie gui.
+     * Instantiates a new Menu soggetti gui.
      *
      * @param controller          the controller
      * @param frameMenuPrincipale the frame menu principale
-     */
+     * */
 
 
-    public MenuFotografieGUI(Controller controller, JFrame frameMenuPrincipale) {
+    public MenuSoggetto(Controller controller, JFrame frameMenuPrincipale) {
 //----------------------------------------------FINESTRA--------------------------------------------------------//
 
-        frameMenuFotografie = new JFrame("Finestra Fotografie");
-        frameMenuFotografie.setSize(800, 600);
-        frameMenuFotografie.setLocationRelativeTo(null);
-        frameMenuFotografie.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frameMenuSoggetto = new JFrame("Finestra Soggetto");
+        frameMenuSoggetto.setSize(800, 600);
+        frameMenuSoggetto.setLocationRelativeTo(null);
+        frameMenuSoggetto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-//----------------------------------------------TABELLA FOTOGRAFIE--------------------------------------------------------//
-
+//----------------------------------------------TABELLA Video--------------------------------------------------------//
 
         //Creazione
-        String[] colonneTabella = {"Id_foto", "Autore", "Dati Foto", "Dispositivo", "Data Foto", "latitudine", "longitudine", "condivisa", "titolo"};
-        ArrayList<Integer> listaIdFoto = new ArrayList<>();
-        ArrayList<String> listaAutoreFoto = new ArrayList<>();
-        ArrayList<byte[]> listaDatiFoto = new ArrayList<>();
-        ArrayList<String> listaDispositivoFoto = new ArrayList<>();
-        ArrayList<java.sql.Timestamp> listaDatafoto = new ArrayList<>();
-        ArrayList<Float> listaLatitudineFoto = new ArrayList<>();
-        ArrayList<Float> listaLongitudineFoto = new ArrayList<>();
-        ArrayList<Boolean> listaCondivisaFoto = new ArrayList<>();
-        ArrayList<String> listaTitoloFoto = new ArrayList<>();
+        String[] colonneTabella = {"Nome", "Categoria"};
+        ArrayList<String> listaNome = new ArrayList<>();
+        ArrayList<String> listaCategoria = new ArrayList<>();
 
-        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto, listaDatiFoto, listaDispositivoFoto, listaDatafoto, listaLatitudineFoto, listaLongitudineFoto, listaCondivisaFoto, listaTitoloFoto);
-
-        Object[][] data = new Object[listaIdFoto.size()][9];
-        for (int i = 0; i < listaIdFoto.size(); i++) {
-            data[i][0] = listaIdFoto.get(i);
-            data[i][1] = listaAutoreFoto.get(i);
-            data[i][2] = listaDatiFoto.get(i);
-            data[i][3] = listaDispositivoFoto.get(i);
-            data[i][4] = listaDatafoto.get(i);
-            data[i][5] = listaLatitudineFoto.get(i);
-            data[i][6] = listaLongitudineFoto.get(i);
-            data[i][7] = listaCondivisaFoto.get(i);
-            data[i][8] = listaTitoloFoto.get(i);
+        controller.getListaSoggettoGUI(listaNome, listaCategoria);
+        Object[][] data = new Object[listaNome.size()][6];
+        for (int i = 0; i < listaNome.size(); i++) {
+            data[i][0] = listaNome.get(i);
+            data[i][1] = listaCategoria.get(i);
         }
+
 
         // Creiamo il modello di tabella
         DefaultTableModel modelloTabella = new DefaultTableModel(data, colonneTabella);
@@ -99,12 +81,12 @@ public class MenuFotografieGUI {
 
         //barra di scorrimento
         JScrollPane scrollPane = new JScrollPane(table);
-        frameMenuFotografie.add(scrollPane, BorderLayout.CENTER);
+        frameMenuSoggetto.add(scrollPane, BorderLayout.CENTER);
 
 
 //----------------------------------------------BARRA DI RICERCA---------------------------------------------------------------//
 
-        // Creiamo la barra di ricerca per autore
+        // Creiamo la barra di ricerca
         searchBar = new JTextField(20);
         searchBar.getDocument().addDocumentListener(new DocumentListener() {
             @Override
@@ -123,119 +105,100 @@ public class MenuFotografieGUI {
             }
 
             public void search(String searchString) {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchString, 1));
+                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + searchString, 0));
             }
         });
 
         JPanel panelSearch = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        panelSearch.add(new JLabel("Cerca per autore: "));
+        panelSearch.add(new JLabel("Cerca per nome soggetto: "));
         panelSearch.add(searchBar);
 
-        frameMenuFotografie.add(panelSearch, BorderLayout.NORTH);
-        frameMenuFotografie.setVisible(true);
+        frameMenuSoggetto.add(panelSearch, BorderLayout.NORTH);
+        frameMenuSoggetto.setVisible(true);
 
 
 //----------------------------------------------BOTTONI---------------------------------------------------------------//
         //MENU PRINCIPALE
         JButton bottoneMenuPrincipale = new JButton("Menù Principale");
         bottoneMenuPrincipale.addActionListener(e -> {
-            frameMenuFotografie.dispose();
+            frameMenuSoggetto.dispose();
             frameMenuPrincipale.setVisible(true);
         });
 
 
-        //BOTTONE ELIMINA FOTOGRAFIA
-        JButton bottoneElimina = new JButton("Elimina");
-        bottoneElimina.addActionListener(e -> {
-            int selectedRow = table.getSelectedRow();
-            int selectedColumn = table.getSelectedColumn();
-
-            if (selectedRow != -1 && selectedColumn != -1) {
-                // La foto si trova nella prima colonna della tabella
-                int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
-
-                //Variabile per avviare o meno la funzione di eliminazione
-                boolean ownerCheck;
-
-                try {
-                    ownerCheck = controller.controlloProprietario(fotoSelezionata, User.getInstance().getUsername());
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                if (ownerCheck) {
-                    int response = JOptionPane.showOptionDialog(frameMenuFotografie, "Sei sicuro di voler eliminare la fotografia " + fotoSelezionata + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
-
-                    if (response == JOptionPane.YES_OPTION) {
-                        //elimino l'utente con l'username selezionata
-                        try {
-                            controller.eliminaFotografia(fotoSelezionata);
-                        } catch (PSQLException ex) {
-                            JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati della fotografia:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
-                        } catch (Exception ee) {
-                            JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                        }
-                        //aggiorno la tabella appena dopo l'eliminazione dell'utente
-                        updateTable(controller, colonneTabella);
-                    }
-                } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo foto di cui sei il proprietario!");
-                }
-
-            } else {
-                // L'utente non ha selezionato una cella
-                JOptionPane.showMessageDialog(frameMenuFotografie, "Seleziona una fotografia per eliminarla.", "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
-        // BOTTONE INSERISCI FOTOGRAFIA
+        //BOTTONE INSERISCI Soggetto
         JButton bottoneInserisci = new JButton("Inserisci");
         bottoneInserisci.addActionListener(e -> {
-            InserimentoFotografiaGUI dialog = new InserimentoFotografiaGUI(controller, frameMenuFotografie);
-            frameMenuFotografie.setVisible(false);
+            InserimentoSoggettoGUI dialog = new InserimentoSoggettoGUI(controller, frameMenuSoggetto);
+            frameMenuSoggetto.setVisible(false);
             dialog.setVisible(true);
             // Aggiungo un listener per la finestra di dialogo
             dialog.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
                     // Chiamo il metodo updateTable() dopo la chiusura della finestra di dialogo
-                    updateTable(controller, colonneTabella);
+                    updateTable(controller, colonneTabella, modelloTabella);
 
                 }
             });
         });
 
-        //BOTTONE PROFILO FOTO
+        //BOTTONE ELIMINA SOGGETTO
+        JButton bottoneElimina = new JButton("Elimina");
+        bottoneElimina.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            int selectedColumn = table.getSelectedColumn();
 
-        JButton bottoneProfiloFotografia = new JButton("Profilo Fotografia");
-        bottoneProfiloFotografia.addActionListener(e -> {
+            if (selectedRow != -1 && selectedColumn != -1) {
+                // L'utente si trova nella prima colonna della tabella
+                String nomeSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int response = JOptionPane.showOptionDialog(frameMenuSoggetto, "Sei sicuro di voler eliminare il soggetto " + nomeSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+
+                if (response == JOptionPane.YES_OPTION) {
+                    //elimino l'utente con l'username selezionata
+                    try {
+                        controller.eliminaSoggetto(nomeSelezionato);
+                    } catch (PSQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati del soggetto:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
+                    } catch (Exception ee) {
+                        JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                    //aggiorno la tabella appena dopo l'eliminazione dell'utente
+                    updateTable(controller, colonneTabella, modelloTabella);
+                }
+            } else {
+                // L'utente non ha selezionato una cella
+                JOptionPane.showMessageDialog(frameMenuSoggetto, "Seleziona un soggetto per eliminarlo.", "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+
+        //BOTTONE Profilo SOGGETTO
+
+        JButton bottoneProfiloSoggetto = new JButton("Profilo Soggetto");
+        bottoneProfiloSoggetto.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             int selectedColumn = table.getSelectedColumn();
             // L'utente ha selezionato una cella
             if (selectedRow != -1 && selectedColumn != -1) {
-                // l'username è nella prima colonna della tabella
-                int fotoSelezionata = Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString());
+                // il nome è nella prima colonna della tabella
+                String nomeSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
                 try {
-                    //Variabile che controlla che la foto selezionata appartenga all'utente che ha fatto l'accesso, usata per pulizia del codice
-                    boolean ownerCheck = controller.controlloProprietario(fotoSelezionata, User.getInstance().getUsername());
-
-                    if (ownerCheck) {
-                        ViewFotografiaGUI profiloFoto = new ViewFotografiaGUI(fotoSelezionata, controller, frameMenuFotografie);
-                        frameMenuFotografie.setVisible(false);
-                        // Mostro la finestra di dialogo
-                        profiloFoto.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa foto");
-                    }
-
+                    // Creo un'istanza della finestra di dialogo ProfiloImpiegato
+                    ViewSoggettoGUI fotoPerSoggetto = new ViewSoggettoGUI(nomeSelezionato, controller, frameMenuSoggetto);
+                    frameMenuSoggetto.setVisible(false);
+                    // Mostro la finestra di dialogo
+                    fotoPerSoggetto.setVisible(true);
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
                     ex.printStackTrace(); // Stampa la traccia dell'eccezione
                 }
             } else {
                 // L'utente non ha selezionato una cella
-                JOptionPane.showMessageDialog(frameMenuFotografie, "Seleziona una fotografia per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frameMenuSoggetto, "Seleziona un soggetto per continuare", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         });
+
 
 
         // Aggiungiamo i pulsanti alla finestra
@@ -245,50 +208,59 @@ public class MenuFotografieGUI {
         panelBottoniLeft.add(bottoneMenuPrincipale);
         panelBottoniRight.add(bottoneInserisci);
         panelBottoniRight.add(bottoneElimina);
-        panelBottoniRight.add(bottoneProfiloFotografia);
+        panelBottoniRight.add(bottoneProfiloSoggetto);
 
 
         panelBottoni.add(panelBottoniLeft, BorderLayout.WEST);
         panelBottoni.add(panelBottoniRight, BorderLayout.EAST);
-        frameMenuFotografie.add(panelBottoni, BorderLayout.SOUTH);
-        frameMenuFotografie.setVisible(true);
+        frameMenuSoggetto.add(panelBottoni, BorderLayout.SOUTH);
+
+
+
+
+
+
+
 
 
     }
 
-    private void updateTable(Controller controller, String[] colonneTabella) {
+    private void updateTable(Controller controller, String[] colonneTabella, DefaultTableModel model) {
+        // LOAD DEI NUOVI DATI
+        ArrayList<String> listaNome = new ArrayList<>();
+        ArrayList<String> listaCategoria = new ArrayList<>();
 
-        //LOAD DEI NUOVI DATI
-        ArrayList<Integer> listaIdFoto = new ArrayList<>();
-        ArrayList<String> listaAutoreFoto = new ArrayList<>();
-        ArrayList<byte[]> listaDatiFoto = new ArrayList<>();
-        ArrayList<String> listaDispositivoFoto = new ArrayList<>();
-        ArrayList<java.sql.Timestamp> listaDatafoto = new ArrayList<>();
-        ArrayList<Float> listaLatitudineFoto = new ArrayList<>();
-        ArrayList<Float> listaLongitudineFoto = new ArrayList<>();
-        ArrayList<Boolean> listaCondivisaFoto = new ArrayList<>();
-        ArrayList<String> listaTitoloFoto = new ArrayList<>();
+        controller.getListaSoggettoGUI(listaNome, listaCategoria);
+        Object[][] newdata = new Object[listaNome.size()][model.getColumnCount()];
 
-        controller.getListaFotografiaGUI(listaIdFoto, listaAutoreFoto, listaDatiFoto, listaDispositivoFoto, listaDatafoto, listaLatitudineFoto, listaLongitudineFoto, listaCondivisaFoto, listaTitoloFoto);
-
-        Object[][] newdata = new Object[listaIdFoto.size()][9];
-        for (int i = 0; i < listaIdFoto.size(); i++) {
-            newdata[i][0] = listaIdFoto.get(i);
-            newdata[i][1] = listaAutoreFoto.get(i);
-            newdata[i][2] = listaDatiFoto.get(i);
-            newdata[i][3] = listaDispositivoFoto.get(i);
-            newdata[i][4] = listaDatafoto.get(i);
-            newdata[i][5] = listaLatitudineFoto.get(i);
-            newdata[i][6] = listaLongitudineFoto.get(i);
-            newdata[i][7] = listaCondivisaFoto.get(i);
-            newdata[i][8] = listaTitoloFoto.get(i);
+        for (int i = 0; i < listaNome.size(); i++) {
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                // Utilizza j per ottenere il valore corrispondente dalla lista
+                if (j == 0) {
+                    newdata[i][j] = listaNome.get(i);
+                } else if (j == 1) {
+                    newdata[i][j] = listaCategoria.get(i);
+                }
+            }
         }
 
-        //CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setDataVector(newdata, colonneTabella);
-
+        // CODICE PER AGGIORNARE LA TABELLA CON I NUOVI DATI
+        model.setDataVector(newdata, getColumnNames(model));
     }
+
+    // Metodo ausiliario per ottenere i nomi delle colonne dal modello di tabella
+    private String[] getColumnNames(DefaultTableModel model) {
+        String[] columnNames = new String[model.getColumnCount()];
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            columnNames[i] = model.getColumnName(i);
+        }
+        return columnNames;
+    }
+
+
+
+
+
 
 
 }
