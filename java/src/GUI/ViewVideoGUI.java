@@ -136,8 +136,8 @@ public class ViewVideoGUI extends JDialog {
         add(panel,BorderLayout.CENTER);
 
         // BOTTONE SALVA
-        final int idCollezione = controller.getIdVideoViewGUI(idVideoSelezionato);
-        int finalIdCollezioneSelezionato = idVideoSelezionato;
+        final int idVideo = controller.getIdVideoViewGUI(idVideoSelezionato);
+        int finalIdVideoSelezionato = idVideoSelezionato;
         bottoneSalva.addActionListener(e -> {
             setVisible(false);
             String titoloModificato = titoloField.getText();
@@ -146,12 +146,12 @@ public class ViewVideoGUI extends JDialog {
 
             try {
 
-                controller.modificaVideo(finalIdCollezioneSelezionato,titoloModificato,descrizioneModificata);
+                controller.modificaVideo(finalIdVideoSelezionato,titoloModificato,descrizioneModificata);
                 JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Errore durante la modifica dei dati della collezione:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Errore durante la modifica dei dati del video:\n" + ex.getMessage(), "Errore di Salvataggio", JOptionPane.ERROR_MESSAGE);
             } catch (Exception ee) {
                 JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             } finally {
