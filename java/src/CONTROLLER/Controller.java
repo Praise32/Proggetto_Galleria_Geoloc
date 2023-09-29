@@ -2228,7 +2228,7 @@ public class Controller {
         if (control) {
             for (Frame frame : listaFrame) {
                 for (int f : frameAssociati) {
-                    if (frame.getIdFoto().getIdFoto() == f) {
+                    if (frame.getIdFoto().getIdFoto() == f && frame.getIdVideo().getIdVideo() == idVideoSelezionato) {
                         assert videoselezionato != null;
                         videoselezionato.aggiungiFrame(frame);
 
