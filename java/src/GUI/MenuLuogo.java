@@ -13,7 +13,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 /**
- * The type Menu Video gui.
+ * The type Menu Luogo gui.
  */
 
 public class MenuLuogo
@@ -24,7 +24,7 @@ public class MenuLuogo
     private final JTextField searchBar;
 
     /**
-     * Instantiates a new Menu impiegati gui.
+     * Instantiates a new Menu Luogo gui.
      *
      * @param controller          the controller
      * @param frameMenuPrincipale the frame menu principale
@@ -153,14 +153,14 @@ public class MenuLuogo
             int selectedColumn = table.getSelectedColumn();
 
             if (selectedRow != -1 && selectedColumn != -1) {
-                // L'utente si trova nella prima colonna della tabella
-                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 2).toString();
-                int response = JOptionPane.showOptionDialog(frameMenuLuogo, "Sei sicuro di voler eliminare il luogo" + usernameSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+                // Il luogo si trova nella prima colonna della tabella
+                String luogoSelezionato = table.getValueAt(table.getSelectedRow(), 2).toString();
+                int response = JOptionPane.showOptionDialog(frameMenuLuogo, "Sei sicuro di voler eliminare il luogo" + luogoSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
                 if (response == JOptionPane.YES_OPTION) {
-                    //elimino l'utente con l'username selezionata
+                    //elimino il luogo con il nome selezionata
                     try {
-                        controller.eliminaLuogoDAO(usernameSelezionato);
+                        controller.eliminaLuogoDAO(luogoSelezionato);
                     } catch (PSQLException ex) {
                         JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati del luogo:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
                     } catch (Exception ee) {
@@ -176,7 +176,7 @@ public class MenuLuogo
         });
 
 
-        //BOTTONE PROFILO UTENTE
+        //BOTTONE PROFILO LUOGO
 
         JButton bottoneProfiloVideo = new JButton("Profilo Luogo");
         bottoneProfiloVideo.addActionListener(e -> {
@@ -184,14 +184,14 @@ public class MenuLuogo
             int selectedColumn = table.getSelectedColumn();
             // L'utente ha selezionato una cella
             if (selectedRow != -1 && selectedColumn != -1) {
-                // l'username è nella prima colonna della tabella
-                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 2).toString();
+                // il luogo è nella prima colonna della tabella
+                String luogoSelezionato = table.getValueAt(table.getSelectedRow(), 2).toString();
                 try {
                     // Creo un'istanza della finestra di dialogo ProfiloImpiegato
-                    ViewLuogoGUI profiloUtente = new ViewLuogoGUI(usernameSelezionato, controller, frameMenuLuogo);
+                    ViewLuogoGUI profiloLuogo = new ViewLuogoGUI(luogoSelezionato, controller, frameMenuLuogo);
                     frameMenuLuogo.setVisible(false);
                     // Mostro la finestra di dialogo
-                    profiloUtente.setVisible(true);
+                    profiloLuogo.setVisible(true);
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
                     ex.printStackTrace(); // Stampa la traccia dell'eccezione
