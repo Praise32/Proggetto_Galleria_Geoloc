@@ -12,7 +12,7 @@ import CONTROLLER.Controller;
 import org.postgresql.util.PSQLException;
 
 /**
- * The type Foto per Soggetto gui.
+ * The type view Luogo gui.
  */
 public class ViewLuogoGUI extends JDialog {
 
@@ -41,12 +41,12 @@ public class ViewLuogoGUI extends JDialog {
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
         // Latitudine
-        JLabel passwordLabel = new JLabel("Latitudine:", SwingConstants.CENTER);
-        passwordLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        JTextField passwordField = new JTextField();
-        passwordField.setText(String.valueOf(LatitudineSelezionata));
-        datiPanel.add(passwordLabel);
-        datiPanel.add(passwordField);
+        JLabel latitudineLabel = new JLabel("Latitudine:", SwingConstants.CENTER);
+        latitudineLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        JTextField latitudineField = new JTextField();
+        latitudineField.setText(String.valueOf(LatitudineSelezionata));
+        datiPanel.add(latitudineLabel);
+        datiPanel.add(latitudineField);
 
         // Longitudine
         JLabel LongitudineLabel = new JLabel("Longitudine:", SwingConstants.CENTER);
@@ -159,7 +159,7 @@ public class ViewLuogoGUI extends JDialog {
         // BOTTONE SALVA
         bottoneSalva.addActionListener(e -> {
             setVisible(false);
-            String latitudineModificataText = passwordField.getText();
+            String latitudineModificataText = latitudineField.getText();
             float latitudineModificata = Float.parseFloat(latitudineModificataText);
             String longitudineModificataText = LongitudineField.getText();
             float longitudineModificata = Float.parseFloat(longitudineModificataText);
@@ -200,7 +200,7 @@ public class ViewLuogoGUI extends JDialog {
         add(panelBottoni, BorderLayout.SOUTH);
 
         // username non modificabile
-        passwordField.setEditable(false);
+        latitudineField.setEditable(false);
         LongitudineField.setEditable(false);
 
 
