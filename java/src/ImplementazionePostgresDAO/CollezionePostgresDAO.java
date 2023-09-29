@@ -121,5 +121,19 @@ public class CollezionePostgresDAO implements CollezioneDAO{
         return false;
     }
 
+    @Override
+    public boolean controlloProprietarioCollezioneDAO(int idCollezioneSelezionata, String username) throws SQLException {
+        PreparedStatement controlloProprietario;
+        controlloProprietario = connection.prepareStatement("SELECT username FROM collezione WHERE id_collezione = ?");
+        controlloProprietario.setInt(1, idCollezioneSelezionata);
+
+        ResultSet rs = controlloProprietario.executeQuery();
+        rs.next();
+
+        String readUsr = rs.getString("username");
+
+        return readUsr.equals(username); //Ritorna vero se i nomi equivalgono, altrimenti ritorna falso
+    }
+
 
 }
