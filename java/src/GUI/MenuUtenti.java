@@ -16,7 +16,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * The type Menu impiegati gui.
+ * The type Menu utent gui.
  */
 
 public class MenuUtenti {
