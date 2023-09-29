@@ -2,6 +2,7 @@ package GUI;
 import CONTROLLER.Controller;
 import org.postgresql.util.PSQLException;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
@@ -168,19 +169,33 @@ public class MenuCollezioniGUI
                     String idCollezioneSelezionatoStr = idCollezioneSelezionatoObj.toString();
                     try {
                         int idCollezioneSelezionato = Integer.parseInt(idCollezioneSelezionatoStr);
-                        int response = JOptionPane.showOptionDialog(frameMenuCollezioni, "Sei sicuro di voler eliminare la collezione " + idCollezioneSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
-                        if (response == JOptionPane.YES_OPTION) {
-                            //elimino la collezione con l'id selezionato
-                            try {
-                                controller.eliminaCollezione(idCollezioneSelezionato);
-                                // Aggiornamento della tabella dopo l'eliminazione con successo
-                                updateTable(controller, colonneTabella, modelloTabella);
-                            } catch (PSQLException ex) {
-                                JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati della collezione:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
-                            } catch (Exception ee) {
-                                JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                        //Variabile per avviare o meno la funzione di eliminazione
+                        boolean ownerCheck;
+
+                        try {
+                            ownerCheck = controller.controlloProprietarioCollezione(idCollezioneSelezionato, MAIN.User.getInstance().getUsername());
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+                        if (ownerCheck){
+                            int response = JOptionPane.showOptionDialog(frameMenuCollezioni, "Sei sicuro di voler eliminare la collezione " + idCollezioneSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+
+                            if (response == JOptionPane.YES_OPTION) {
+                                //elimino la collezione con l'id selezionato
+                                try {
+                                    controller.eliminaCollezione(idCollezioneSelezionato);
+                                    // Aggiornamento della tabella dopo l'eliminazione con successo
+                                    updateTable(controller, colonneTabella, modelloTabella);
+                                } catch (PSQLException ex) {
+                                    JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati della collezione:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
+                                } catch (Exception ee) {
+                                    JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                                }
                             }
+
+                        } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo collezioni di cui sei il proprietario!");
                         }
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(frameMenuCollezioni, "L'ID della collezione selezionata non è un numero valido.", "Errore", JOptionPane.ERROR_MESSAGE);
@@ -205,13 +220,19 @@ public class MenuCollezioniGUI
             if (selectedRow != -1 && selectedColumn != -1) {
                 // L'id della collezione è nella prima colonna della tabella
                 String idCollezioneSelezionatoStr = table.getValueAt(table.getSelectedRow(), 0).toString();
+                try{
                 int idCollezioneSelezionato = Integer.parseInt(idCollezioneSelezionatoStr);
-                try {
+                boolean ownerCheck = controller.controlloProprietarioCollezione(idCollezioneSelezionato, MAIN.User.getInstance().getUsername());
+                if (ownerCheck) {
                     // Creo un'istanza della finestra di dialogo ProfiloCollezioneGUI
                     ViewCollezioneGUI profiloCollezione = new ViewCollezioneGUI(idCollezioneSelezionato, controller, frameMenuCollezioni);
                     frameMenuCollezioni.setVisible(false);
                     // Mostro la finestra di dialogo
                     profiloCollezione.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa collezione");
+                }
+
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
                     ex.printStackTrace(); // Stampa la traccia dell'eccezione
