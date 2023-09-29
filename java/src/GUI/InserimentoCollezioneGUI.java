@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * The type Inserimento Utente gui.
+ * The type Inserimento Collezioni gui.
  */
 public class InserimentoCollezioneGUI extends JDialog {
     private final JTextField IdCollezioneField;
@@ -23,7 +23,7 @@ public class InserimentoCollezioneGUI extends JDialog {
     private final JXDatePicker dataCollezionePicker;
 
     /**
-     * Instantiates a new Inserimento impiegato gui.
+     * Instantiates a new Inserimento Collezioni gui.
      *
      * @param controller     the controller
      * @param framePadre     the frame padre
