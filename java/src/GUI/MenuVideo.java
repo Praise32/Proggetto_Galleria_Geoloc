@@ -184,7 +184,7 @@ public class MenuVideo
                         //aggiorno la tabella appena dopo l'eliminazione del video
                         updateTable(controller,colonneTabella);
                     }
-                } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo foto di cui sei il proprietario!");
+                } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo video di cui sei il proprietario!");
                 }
             } else {
                 // L'utente non ha selezionato una cella
@@ -244,7 +244,7 @@ public class MenuVideo
                         profiloUtente.setVisible(true);
 
                     } else {
-                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa foto");
+                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questo video");
                     }
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore

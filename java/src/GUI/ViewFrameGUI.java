@@ -173,7 +173,7 @@ public class ViewFrameGUI {
                     //aggiorno la tabella appena dopo l'eliminazione dell'utente
                     updateTable(controller, colonneTabella);
 
-                } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo foto di cui sei il proprietario!");
+                } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo video di cui sei il proprietario!");
                 }
                 }
             } else {
@@ -182,10 +182,18 @@ public class ViewFrameGUI {
             }
         });
 
+
         // BOTTONE INSERISCI FRAME
         JButton bottoneInserisci = new JButton("Inserisci Frame");
         bottoneInserisci.addActionListener(e -> {
+            boolean ownerCheck;
 
+            try {
+                ownerCheck = controller.controlloProprietarioVideo(idvideosec, User.getInstance().getUsername());
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+            if (ownerCheck) {
 
             InserimentoFrameGUI dialog = new InserimentoFrameGUI(idvideosec, controller, frameMenuFotografie);
             frameMenuFotografie.setVisible(false);
@@ -199,6 +207,9 @@ public class ViewFrameGUI {
 
                 }
             });
+            } else {
+                JOptionPane.showMessageDialog(null, "Non hai i permessi inserire il frame");
+            }
         });
 
         //BOTTONE PROFILO FOTO
@@ -223,7 +234,7 @@ public class ViewFrameGUI {
                     // Mostro la finestra di dialogo
                     profiloFoto.setVisible(true);
                     } else {
-                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa foto");
+                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questo video");
                     }
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
