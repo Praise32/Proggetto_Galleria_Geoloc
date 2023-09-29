@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * The type Inserimento Utente gui.
+ * The type Inserimento video gui.
  */
 public class InserimentoVideoGUI extends JDialog {
     private final JTextField IdVideoField;
@@ -24,7 +24,7 @@ public class InserimentoVideoGUI extends JDialog {
 
 
     /**
-     * Instantiates a new Inserimento impiegato gui.
+     * Instantiates a new Inserimento video gui.
      *
      * @param controller     the controller
      * @param framePadre     the frame padre
@@ -54,18 +54,7 @@ public class InserimentoVideoGUI extends JDialog {
         inputPanel.add(new JLabel("Titolo:"));
         titoloField = new JTextField();
         inputPanel.add(titoloField);
-        /*
-        // CAMPO NUMEROFRAMES
-        inputPanel.add(new JLabel("Numero Frames:"));
-        numeroFrameField = new JTextField();
-        inputPanel.add(numeroFrameField);
 
-        // CAMPO DURATA
-        inputPanel.add(new JLabel("Durata:"));
-        durataField = new JTextField();
-        inputPanel.add(durataField);
-
-         */
 
         // CAMPO DESCRIZIONE
         inputPanel.add(new JLabel("Descrizione:"));
