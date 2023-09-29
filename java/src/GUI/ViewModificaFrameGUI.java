@@ -37,39 +37,39 @@ public class ViewModificaFrameGUI extends JDialog {
         JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
 
-        // Latitudine
-        JLabel passwordLabel = new JLabel("ID Video:", SwingConstants.CENTER);
-        passwordLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        JTextField passwordField = new JTextField();
-        passwordField.setText(String.valueOf(IdVideoSelezionato));
-        datiPanel.add(passwordLabel);
-        datiPanel.add(passwordField);
-        passwordField.setEditable(false);
+        // ID VIDEO
+        JLabel idVideoLabel = new JLabel("ID Video:", SwingConstants.CENTER);
+        idVideoLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        JTextField idVideoField = new JTextField();
+        idVideoField.setText(String.valueOf(IdVideoSelezionato));
+        datiPanel.add(idVideoField);
+        datiPanel.add(idVideoField);
+        idVideoField.setEditable(false);
 
-        // Longitudine
-        JLabel LongitudineLabel = new JLabel("ID Foto:", SwingConstants.CENTER);
-        LongitudineLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        JTextField LongitudineField = new JTextField();
-        LongitudineField.setText(String.valueOf(IdFotoSelezionata));
-        datiPanel.add(LongitudineLabel);
-        datiPanel.add(LongitudineField);
-        LongitudineField.setEditable(false);
+        // ID FOTO
+        JLabel idFotoLabel = new JLabel("ID Foto:", SwingConstants.CENTER);
+        idFotoLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        JTextField idFotoField = new JTextField();
+        idFotoField.setText(String.valueOf(IdFotoSelezionata));
+        datiPanel.add(idFotoLabel);
+        datiPanel.add(idFotoField);
+        idFotoField.setEditable(false);
 
-        // NOME
-        JLabel usernameLabel = new JLabel("Durata:", SwingConstants.CENTER);
-        usernameLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        JTextField usernameField = new JTextField();
-        usernameField.setText(String.valueOf(DurataSelezionata));
-        datiPanel.add(usernameLabel);
-        datiPanel.add(usernameField);
+        // DURATA
+        JLabel durataLabel = new JLabel("Durata:", SwingConstants.CENTER);
+        durataLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        JTextField durataField = new JTextField();
+        durataField.setText(String.valueOf(DurataSelezionata));
+        datiPanel.add(durataLabel);
+        datiPanel.add(durataField);
 
-        // CATEGORIA
-        JLabel CategoriaLabel = new JLabel("Ordine:", SwingConstants.CENTER);
-        CategoriaLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        JTextField CategoriaField = new JTextField();
-        CategoriaField.setText(String.valueOf(OrdineSelezionato));
-        datiPanel.add(CategoriaLabel);
-        datiPanel.add(CategoriaField);
+        // ORDINE
+        JLabel OrdineLabel = new JLabel("Ordine:", SwingConstants.CENTER);
+        OrdineLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        JTextField OrdineField = new JTextField();
+        OrdineField.setText(String.valueOf(OrdineSelezionato));
+        datiPanel.add(OrdineLabel);
+        datiPanel.add(OrdineField);
 
 
         // AGGIUNGI DATI AL PANNELLO
@@ -104,13 +104,13 @@ public class ViewModificaFrameGUI extends JDialog {
         // BOTTONE SALVA
         bottoneSalva.addActionListener(e -> {
             setVisible(false);
-            String IDVideoModificatoText = passwordField.getText();
+            String IDVideoModificatoText = idVideoField.getText();
             int IdVideoModificato = Integer.parseInt(IDVideoModificatoText);
-            String IdFotoModificataText = LongitudineField.getText();
+            String IdFotoModificataText = idFotoField.getText();
             int IdFotoModificata = Integer.parseInt(IdFotoModificataText);
-            String durataModificataText = usernameField.getText();
+            String durataModificataText = durataField.getText();
             int durataModificata = Integer.parseInt(durataModificataText);
-            String OrdineModificatoText = CategoriaField.getText();
+            String OrdineModificatoText = OrdineField.getText();
             int ordineModificato = Integer.parseInt(OrdineModificatoText);
 
 
@@ -147,9 +147,9 @@ public class ViewModificaFrameGUI extends JDialog {
         add(panel,BorderLayout.CENTER);
         add(panelBottoni, BorderLayout.SOUTH);
 
-        // username non modificabile
-        passwordField.setEditable(false);
-        LongitudineField.setEditable(false);
+        // id non modificabile
+        idVideoField.setEditable(false);
+        idFotoField.setEditable(false);
 
 
         // impostazioni finestra
