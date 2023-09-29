@@ -24,7 +24,7 @@ public class MenuSoggetto
     private final JTextField searchBar;
 
     /**
-     * Instantiates a new Menu impiegati gui.
+     * Instantiates a new Menu soggetti gui.
      *
      * @param controller          the controller
      * @param frameMenuPrincipale the frame menu principale
@@ -110,7 +110,7 @@ public class MenuSoggetto
         });
 
         JPanel panelSearch = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        panelSearch.add(new JLabel("Cerca per nome video: "));
+        panelSearch.add(new JLabel("Cerca per nome soggetto: "));
         panelSearch.add(searchBar);
 
         frameMenuSoggetto.add(panelSearch, BorderLayout.NORTH);
@@ -143,7 +143,7 @@ public class MenuSoggetto
             });
         });
 
-        //BOTTONE ELIMINA UTENTE
+        //BOTTONE ELIMINA SOGGETTO
         JButton bottoneElimina = new JButton("Elimina");
         bottoneElimina.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -151,13 +151,13 @@ public class MenuSoggetto
 
             if (selectedRow != -1 && selectedColumn != -1) {
                 // L'utente si trova nella prima colonna della tabella
-                String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
-                int response = JOptionPane.showOptionDialog(frameMenuSoggetto, "Sei sicuro di voler eliminare il soggetto " + usernameSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
+                String nomeSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
+                int response = JOptionPane.showOptionDialog(frameMenuSoggetto, "Sei sicuro di voler eliminare il soggetto " + nomeSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
                 if (response == JOptionPane.YES_OPTION) {
                     //elimino l'utente con l'username selezionata
                     try {
-                        controller.eliminaUtente(usernameSelezionato);
+                        controller.eliminaSoggetto(nomeSelezionato);
                     } catch (PSQLException ex) {
                         JOptionPane.showMessageDialog(null, "Errore durante l'eliminazione dei dati del soggetto:\n" + ex.getMessage(), "Errore di Eliminazione", JOptionPane.ERROR_MESSAGE);
                     } catch (Exception ee) {
@@ -181,7 +181,7 @@ public class MenuSoggetto
             int selectedColumn = table.getSelectedColumn();
             // L'utente ha selezionato una cella
             if (selectedRow != -1 && selectedColumn != -1) {
-                // l'username è nella prima colonna della tabella
+                // il nome è nella prima colonna della tabella
                 String nomeSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
                 try {
                     // Creo un'istanza della finestra di dialogo ProfiloImpiegato
@@ -241,7 +241,6 @@ public class MenuSoggetto
                 } else if (j == 1) {
                     newdata[i][j] = listaCategoria.get(i);
                 }
-                // Puoi aggiungere ulteriori condizioni per altre colonne, se necessario
             }
         }
 
