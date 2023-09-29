@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 
 /**
- * The type Inserimento Utente gui.
+ * The type Inserimento Fotografia gui.
  */
 public class InserimentoFotografiaGUI extends JDialog {
     private final JComboBox<String> nomeLuogoCombobox;
@@ -26,7 +26,7 @@ public class InserimentoFotografiaGUI extends JDialog {
     private final JCheckBox condivisaCheckBox;
 
     /**
-     * Instantiates a new Inserimento impiegato gui.
+     * Instantiates a new Inserimento Fotografia gui.
      *
      * @param controller the controller
      * @param framePadre the frame padre
@@ -219,40 +219,4 @@ public class InserimentoFotografiaGUI extends JDialog {
 
 }
 
-/*
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- */
