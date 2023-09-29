@@ -9,7 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * The type Inserimento Utente gui.
+ * The type Inserimento Soggetto gui.
  */
 public class InserimentoSoggettoGUI extends JDialog {
     private final JTextField nomeField;
@@ -17,7 +17,7 @@ public class InserimentoSoggettoGUI extends JDialog {
 
 
     /**
-     * Instantiates a new Inserimento impiegato gui.
+     * Instantiates a new Inserimento Soggetto gui.
      *
      * @param controller the controller
      * @param framePadre the frame padre
@@ -29,12 +29,12 @@ public class InserimentoSoggettoGUI extends JDialog {
         inputPanel.setBorder(BorderFactory.createEmptyBorder(30, 100, 10, 100));
         setTitle("Inserimento Soggetto");
 
-        // CAMPO USERNAME
+        // CAMPO NOME
         inputPanel.add(new JLabel("Nome:"));
         nomeField = new JTextField();
         inputPanel.add(nomeField);
 
-        // CAMPO PASSWORD
+        // CAMPO CATEGORIA
         inputPanel.add(new JLabel("Categoria:"));
         categoriaField = new JTextField();
         inputPanel.add(categoriaField);
