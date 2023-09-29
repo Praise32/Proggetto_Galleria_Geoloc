@@ -9,7 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * The type Inserimento Utente gui.
+ * The type Inserimento Luogo gui.
  */
 public class InserimentoLuogoGUI extends JDialog {
 
@@ -21,7 +21,7 @@ public class InserimentoLuogoGUI extends JDialog {
 
 
     /**
-     * Instantiates a new Inserimento impiegato gui.
+     * Instantiates a new Inserimento Luogo gui.
      *
      * @param controller the controller
      * @param framePadre the frame padre
