@@ -12,7 +12,7 @@ import CONTROLLER.Controller;
 import org.postgresql.util.PSQLException;
 
 /**
- * The type Foto per Soggetto gui.
+ * The type Soggetto gui.
  */
 public class ViewSoggettoGUI extends JDialog {
 
@@ -47,12 +47,12 @@ public class ViewSoggettoGUI extends JDialog {
         datiPanel.add(usernameField);
 
         // CATEGORIA
-        JLabel passwordLabel = new JLabel("Categoria:", SwingConstants.CENTER);
-        passwordLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        JTextField passwordField = new JTextField();
-        passwordField.setText(CategoriaSelezionata);
-        datiPanel.add(passwordLabel);
-        datiPanel.add(passwordField);
+        JLabel categoriaLabel = new JLabel("Categoria:", SwingConstants.CENTER);
+        categoriaLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        JTextField categoriaField = new JTextField();
+        categoriaField.setText(CategoriaSelezionata);
+        datiPanel.add(categoriaLabel);
+        datiPanel.add(categoriaField);
 
 
         // AGGIUNGI DATI AL PANNELLO
@@ -140,13 +140,13 @@ public class ViewSoggettoGUI extends JDialog {
         // BOTTONE SALVA
         bottoneSalva.addActionListener(e -> {
             setVisible(false);
-            String passwordModificata = passwordField.getText();
+            String categoriaModificata = categoriaField.getText();
             String nomeModificato = usernameField.getText();
 
 
             try {
 
-                controller.modificaSoggettoString(nomeSelezionato, passwordModificata, nomeModificato);
+                controller.modificaSoggettoString(nomeSelezionato, categoriaModificata, nomeModificato);
                 JOptionPane.showMessageDialog(null, "Modifica eseguita correttamente!\n", "Salvataggio Completato", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (SQLException ex) {
