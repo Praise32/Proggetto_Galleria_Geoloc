@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * The type Menu impiegati gui.
+ * The type Menu fotografie gui.
  */
 
 public class MenuFotografieGUI {
@@ -27,7 +27,7 @@ public class MenuFotografieGUI {
     private final JTextField searchBar;
 
     /**
-     * Instantiates a new Menu impiegati gui.
+     * Instantiates a new Menu fotografie gui.
      *
      * @param controller          the controller
      * @param frameMenuPrincipale the frame menu principale
@@ -167,7 +167,7 @@ public class MenuFotografieGUI {
                     int response = JOptionPane.showOptionDialog(frameMenuFotografie, "Sei sicuro di voler eliminare la fotografia " + fotoSelezionata + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
                     if (response == JOptionPane.YES_OPTION) {
-                        //elimino l'utente con l'username selezionata
+                        //elimino la foto con l'id selezionata
                         try {
                             controller.eliminaFotografia(fotoSelezionata);
                         } catch (PSQLException ex) {
@@ -175,7 +175,7 @@ public class MenuFotografieGUI {
                         } catch (Exception ee) {
                             JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                         }
-                        //aggiorno la tabella appena dopo l'eliminazione dell'utente
+                        //aggiorno la tabella appena dopo l'eliminazione della fotografia
                         updateTable(controller, colonneTabella);
                     }
                 } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo foto di cui sei il proprietario!");
