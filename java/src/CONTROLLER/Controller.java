@@ -2,6 +2,7 @@ package CONTROLLER;
 
 import DAO.*;
 import ImplementazionePostgresDAO.*;
+import ImplementazionePostgresDAO.CollezionePostgresDAO;
 import ImplementazionePostgresDAO.FramePostgresDAO;
 import ImplementazionePostgresDAO.VideoPostgresDAO;
 import MAIN.User;
@@ -675,6 +676,15 @@ public class Controller {
         }
     }
 
+    public boolean controlloProprietarioCollezione(int idCollezioneSelezionata, String username) throws SQLException {
+
+        CollezioneDAO c = new CollezionePostgresDAO();
+
+        return c.controlloProprietarioCollezioneDAO(idCollezioneSelezionata, username);
+
+    }
+
+
 //____________________________________________________________________________________________________________________//
 //____________________________________________________________________________________________________________________//
 
@@ -848,6 +858,10 @@ public class Controller {
         return f.controlloProprietarioDAO(idFotoSelezionata, username);
 
     }
+
+
+
+
 
 //-------------------------------------------       CONTENUTO      --------------------------------------------------//
 
