@@ -25,4 +25,6 @@ public interface CollezioneDAO {
 
     // Metodo per modificare i dettagli di una collezione esistente nel database.
     public boolean modificaCollezioneDAO(int idCollezioneSelezionato, String titolo) throws SQLException;
+
+    public boolean controlloProprietarioCollezioneDAO(int idCollezioneSelezionata, String username) throws SQLException;
 }
