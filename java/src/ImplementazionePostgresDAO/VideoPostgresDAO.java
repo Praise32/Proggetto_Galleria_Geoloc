@@ -80,7 +80,22 @@ public class VideoPostgresDAO implements VideoDAO{
         }
     }
 
+    @Override
+    public boolean controlloProprietarioVideoDAO(int idVideoSelezionato, String username) throws SQLException{
 
+        PreparedStatement controlloProprietario;
+        controlloProprietario = connection.prepareStatement("SELECT autore FROM video WHERE id_video = ?");
+        controlloProprietario.setInt(1, idVideoSelezionato);
+
+        ResultSet rs = controlloProprietario.executeQuery();
+        rs.next();
+
+        String readUsr = rs.getString("autore");
+
+        return readUsr.equals(username); //Ritorna vero se i nomi equivalgono, altrimenti ritorna falso
+
+
+    }
 
 
 

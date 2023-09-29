@@ -1,5 +1,6 @@
 package GUI;
 import CONTROLLER.Controller;
+import MAIN.User;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -134,7 +136,7 @@ public class MenuVideo
         });
 
 
-        //BOTTONE INSERISCI UTENTE
+        //BOTTONE INSERISCI VIDEO
         JButton bottoneInserisci = new JButton("Inserisci Video");
         bottoneInserisci.addActionListener(e -> {
             InserimentoVideoGUI dialog = new InserimentoVideoGUI(controller, frameMenuVideo);
@@ -150,7 +152,7 @@ public class MenuVideo
             });
         });
 
-        //BOTTONE ELIMINA UTENTE
+        //BOTTONE ELIMINA VIDEO
         JButton bottoneElimina = new JButton("Elimina Video");
         bottoneElimina.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -160,10 +162,18 @@ public class MenuVideo
                 // L'utente si trova nella prima colonna della tabella
                  String usernameSelezionato = table.getValueAt(table.getSelectedRow(), 0).toString();
                 int videoSel = Integer.parseInt(usernameSelezionato);
-                int response = JOptionPane.showOptionDialog(frameMenuVideo, "Sei sicuro di voler eliminare il video " + usernameSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
 
+                boolean ownerCheck;
+
+                try {
+                    ownerCheck = controller.controlloProprietarioVideo(videoSel, User.getInstance().getUsername());
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (ownerCheck) {
+                int response = JOptionPane.showOptionDialog(frameMenuVideo, "Sei sicuro di voler eliminare il video " + usernameSelezionato + "?", "Conferma eliminazione", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Si", "No"}, "Si");
                 if (response == JOptionPane.YES_OPTION) {
-                    //elimino l'utente con l'username selezionata
+                    //elimino il video con l'idvideo selezionato
                     try {
                         controller.eliminaVideo(videoSel);
                     } catch (PSQLException ex) {
@@ -171,8 +181,10 @@ public class MenuVideo
                     } catch (Exception ee) {
                         JOptionPane.showMessageDialog(null, "Errore durante l'esecuzione del programma: " + ee.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
-                    //aggiorno la tabella appena dopo l'eliminazione dell'utente
+                    //aggiorno la tabella appena dopo l'eliminazione del video
                     updateTable(controller,colonneTabella);
+                }
+                } else { JOptionPane.showMessageDialog(null, "Puoi eliminare solo foto di cui sei il proprietario!");
                 }
             } else {
                 // L'utente non ha selezionato una cella
@@ -189,14 +201,20 @@ public class MenuVideo
             int selectedColumn = table.getSelectedColumn();
             // L'utente ha selezionato una cella
             if (selectedRow != -1 && selectedColumn != -1) {
-                // l'username è nella prima colonna della tabella
+                // IdVideo è nella prima colonna della tabella
                 String idVideoSelezionatoStr = table.getValueAt(table.getSelectedRow(), 0).toString();
                 int idVideoSelezionato = Integer.parseInt(idVideoSelezionatoStr);
                 try {
-                    // Creo un'istanza della finestra di dialogo ProfiloImpiegato
+                    boolean ownerCheck = controller.controlloProprietarioVideo(idVideoSelezionato, User.getInstance().getUsername());
+
+                    if (ownerCheck) {
+                    // Creo un'istanza della finestra di dialogo
                     frameMenuVideo.setVisible(false);
                     ViewFrameGUI profiloUtente = new ViewFrameGUI(idVideoSelezionato, controller, frameMenuVideo);
                     // Mostro la finestra di dialogo
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa foto");
+                    }
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
                     ex.printStackTrace(); // Stampa la traccia dell'eccezione
@@ -215,15 +233,23 @@ public class MenuVideo
             int selectedColumn = table.getSelectedColumn();
             // L'utente ha selezionato una cella
             if (selectedRow != -1 && selectedColumn != -1) {
-                // l'username è nella prima colonna della tabella
+                // IdVideo è nella prima colonna della tabella
                 String idVideoSelezionatoStr = table.getValueAt(table.getSelectedRow(), 0).toString();
                 int idVideoSelezionato = Integer.parseInt(idVideoSelezionatoStr);
                 try {
-                    // Creo un'istanza della finestra di dialogo ProfiloImpiegato
+
+                    boolean ownerCheck = controller.controlloProprietarioVideo(idVideoSelezionato, User.getInstance().getUsername());
+
+                    if (ownerCheck) {
+                    // Creo un'istanza della finestra di dialogo
                     ViewVideoGUI profiloUtente = new ViewVideoGUI(idVideoSelezionato, controller, frameMenuVideo);
                     frameMenuVideo.setVisible(false);
                     // Mostro la finestra di dialogo
                     profiloUtente.setVisible(true);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Non hai i permessi per modificare questa foto");
+                    }
                 } catch (java.sql.SQLException ex) {
                     // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore
                     ex.printStackTrace(); // Stampa la traccia dell'eccezione

@@ -16,4 +16,5 @@ public interface VideoDAO {
 
     // Ottiene l'elenco dei frame associati a un video specifico
     boolean vediFrameVideoDAO(int idVideoSelezionato, ArrayList<Integer> frameAssociati) throws SQLException;
+    public boolean controlloProprietarioVideoDAO(int idVideoSelezionato, String username) throws SQLException;
 }

@@ -1552,6 +1552,17 @@ public class Controller {
 
     }
 
+
+
+    public boolean controlloProprietarioVideo(int idVideoSelezionato, String username) throws SQLException {
+
+        VideoDAO v = new VideoPostgresDAO();
+
+        return v.controlloProprietarioVideoDAO(idVideoSelezionato, username);
+
+    }
+
+
 //____________________________________________________________________________________________________________________//
 //____________________________________________________________________________________________________________________//
 
