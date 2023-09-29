@@ -110,8 +110,6 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
                 byte[] datiFoto = rs.getBytes("dati_foto");
                 String dispositivo = rs.getString("dispositivo");
                 Timestamp dataFoto = rs.getTimestamp("data_foto");
-
-                //TODO RISOLVERE IL FLOAT CHE VIENE LETTO COME NULL
                 float latitudine = rs.getFloat("latitudine");
                 float longitudine = rs.getFloat("longitudine");
                 boolean condivisa = rs.getBoolean("condivisa");
@@ -132,6 +130,48 @@ public class GalleriaPostgresDAO implements GalleriaDAO {
         } catch (SQLException e) {
             System.out.println("Errore nel dump dei dati Fotografia...");
         }
+    }
+
+    @Override
+    public void updateDumpFoto (ArrayList <Integer> idFotoList, ArrayList <String> utenteUsernameAutoreList, ArrayList <byte[]> datiFotoList, ArrayList <String> dispositivoList, ArrayList <java.sql.Timestamp> dataFotoList, ArrayList <Float>luogolatitudineList, ArrayList <Float>luogolongituineList, ArrayList <Boolean> condivisaList, ArrayList <String> titoloList){
+        try {
+            PreparedStatement updateDumpFoto;
+            PreparedStatement getLastId = connection.prepareStatement("SELECT last_value FROM fotografia_id_foto_seq");
+            ResultSet rs = getLastId.executeQuery();
+            rs.next();
+            int lastId = rs.getInt("last_value");
+
+            updateDumpFoto = connection.prepareStatement("SELECT * FROM fotografia WHERE id_foto = ?");
+            updateDumpFoto.setInt(1, lastId);
+
+            rs = updateDumpFoto.executeQuery();
+
+            while(rs.next()){
+                int idFoto = rs.getInt("id_foto");
+                String usernameAutore = rs.getString("username_autore");
+                byte[] datiFoto = rs.getBytes("dati_foto");
+                String dispositivo = rs.getString("dispositivo");
+                Timestamp dataFoto = rs.getTimestamp("data_foto");
+                float latitudine = rs.getFloat("latitudine");
+                float longitudine = rs.getFloat("longitudine");
+                boolean condivisa = rs.getBoolean("condivisa");
+                String titolo = rs.getString("titolo");
+
+                //Aggiungo i valori dell'ultimo inserimento alle liste
+                idFotoList.add(idFoto);
+                utenteUsernameAutoreList.add(usernameAutore);
+                datiFotoList.add(datiFoto);
+                dispositivoList.add(dispositivo);
+                dataFotoList.add(dataFoto);
+                luogolatitudineList.add(latitudine);
+                luogolongituineList.add(longitudine);
+                condivisaList.add(condivisa);
+                titoloList.add(titolo);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override

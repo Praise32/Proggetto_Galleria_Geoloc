@@ -1,15 +1,12 @@
 package ImplementazionePostgresDAO;
 
+import CONTROLLER.Controller;
 import DAO.FotografiaDAO;
 import DBconnection.ConnessioneDB;
 import MAIN.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Timestamp;
 
 /**
  * The type Fotografia postgres dao.
@@ -49,22 +46,24 @@ public class FotografiaPostgresDAO implements FotografiaDAO{
     @Override
     public boolean aggiungiFotografiaDAO(int idFoto, String usernameAutore, byte[] datiFoto, String dispositivo, Timestamp dataFoto, float luogolat, float luogolon, boolean condivisa, String titolo) throws SQLException{
         PreparedStatement insertFot;
-        insertFot = connection.prepareStatement("INSERT INTO Fotografia (id_foto, username_autore, dati_foto, dispositivo, data_foto, latitudine, longitudine, condivisa, titolo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        insertFot.setInt(1, idFoto);
-        insertFot.setString(2, usernameAutore);
-        insertFot.setBytes(3, datiFoto);
-        insertFot.setString(4, dispositivo);
-        insertFot.setTimestamp(5, dataFoto);
-        insertFot.setFloat(6, luogolat);
-        insertFot.setFloat(7, luogolon);
-        insertFot.setBoolean(8, condivisa);
-        insertFot.setString(9, titolo);
+        // Automatizzato l'inserimento dell'id per sfruttare il SERIAL da database
+        insertFot = connection.prepareStatement("INSERT INTO Fotografia (username_autore, dati_foto, dispositivo, data_foto, latitudine, longitudine, condivisa, titolo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        insertFot.setString(1, usernameAutore);
+        insertFot.setBytes(2, datiFoto);
+        insertFot.setString(3, dispositivo);
+        insertFot.setTimestamp(4, dataFoto);
+        insertFot.setFloat(5, luogolat);
+        insertFot.setFloat(6, luogolon);
+        insertFot.setBoolean(7, condivisa);
+        insertFot.setString(8, titolo);
         int result = insertFot.executeUpdate();
+
         if (result == 1) {
             return true;
         }
         return false;
     }
+
     public boolean modificaFotografiaDAO(int idFotoSelezionata,String DispositivoNuovo ,String TitoloNuovo) throws SQLException{
         PreparedStatement modificaFot;
         modificaFot = connection.prepareStatement("UPDATE fotografia SET dispositivo = ?, titolo = ? WHERE id_foto = ?");

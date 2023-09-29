@@ -123,15 +123,6 @@ public class Controller {
                 }
             }
 
-            /** CONTROLLANDO IN DEBUG NON ENTRA PROPRIO IN QUESTA PARTE DI CODICE
-             * listaLuogo HA size = 0 PER TUTTA L'ESECUZIONE
-             * Inserire Breakpoint al for e latitudine = lata per verificare
-             * Il controllo del for viene eseguito, tuttavia il suo contenuto, cioè if no
-             * in quanto il programma rileva come se non ci fossero elementi in listaLuogo
-             */
-
-            //TODO CONTROLLARE LA FUNZIONE CHE SI OCCUPA DI PRENDERE LA DIMENSIONE DI listaLuogo
-            //ciclo che associa ogni luogo le fotografia scattate e ogni fotografia ad un luogo
             for (Luogo lat : listaLuogo) {
                 if (Float.compare(lat.getLatitudine(), luogolatitudineList.get(i)) == 0) {
                     latitudine = lat;
@@ -738,8 +729,60 @@ public class Controller {
                 }
             }
 
-            Fotografia fotografia = new Fotografia(idFoto, proprietario, datiFoto, dispositivo, dataFoto, latitudine1, longitudine1, condivisa, titolo);
-            listaFotografia.add(fotografia);
+            updateDumpFoto();
+            //Fotografia fotografia = new Fotografia(idFoto, proprietario, datiFoto, dispositivo, dataFoto, latitudine1, longitudine1, condivisa, titolo);
+            //listaFotografia.add(fotografia);
+        }
+
+    }
+
+    public void updateDumpFoto() {
+        GalleriaDAO galleriaDAO = new GalleriaPostgresDAO();
+
+        Utente utente = null;
+        Luogo latitudine = null;
+        Luogo longitudine = null;
+        ArrayList<Integer> idFotoList = new ArrayList<>();
+        ArrayList<String> utenteUsernameAutoreList = new ArrayList<>();
+        ArrayList<byte[]> datiFotoList = new ArrayList<>();
+        ArrayList<String> dispositivoList = new ArrayList<>();
+        ArrayList<java.sql.Timestamp> dataFotoList = new ArrayList<>();
+        ArrayList<Float> luogolatitudineList = new ArrayList<>();
+        ArrayList<Float> luogolongituineList = new ArrayList<>();
+        ArrayList<Boolean> condivisaList = new ArrayList<>();
+        ArrayList<String> titoloList = new ArrayList<>();
+
+        galleriaDAO.updateDumpFoto(idFotoList, utenteUsernameAutoreList, datiFotoList, dispositivoList, dataFotoList, luogolatitudineList, luogolongituineList, condivisaList, titoloList);
+
+
+        for (int i = 0; i < idFotoList.size(); i++) {
+
+            //ciclo che associa ogni utente le sue fotografia e ogni fotografia l'username dell'autore
+            for (Utente usr : listaUtente) {
+                if (usr.getUsername().equals(utenteUsernameAutoreList.get(i))) {
+                    utente = usr;
+                    break;
+                }
+            }
+
+            for (Luogo lat : listaLuogo) {
+                if (Float.compare(lat.getLatitudine(), luogolatitudineList.get(i)) == 0) {
+                    latitudine = lat;
+                    break;
+                }
+
+            }
+
+            for (Luogo lon : listaLuogo) {
+                if (Float.compare(lon.getLongitudine(), luogolongituineList.get(i)) == 0) {
+                    longitudine = lon;
+                    break;
+                }
+            }
+
+
+            Fotografia f = new Fotografia(idFotoList.get(i), utente, datiFotoList.get(i), dispositivoList.get(i), dataFotoList.get(i), latitudine, longitudine, condivisaList.get(i), titoloList.get(i));
+            listaFotografia.add(f);
         }
 
     }

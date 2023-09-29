@@ -16,6 +16,9 @@ public interface GalleriaDAO {
     // Metodo per ottenere la lista delle fotografie
     public void getListFotografiaDAO(ArrayList<Integer> idFotoList, ArrayList<String> utenteUsernameAutoreList, ArrayList<byte[]> datiFotoList, ArrayList<String> dispositivoList, ArrayList<java.sql.Timestamp> dataFotoList, ArrayList<Float>luogolatitudineList, ArrayList<Float>luogolongituineList, ArrayList<Boolean> condivisaList, ArrayList<String> titoloList);
 
+    //Metodo utilizzato per aggiornare il dump una volta che viene inserita una nuova foto
+    public void updateDumpFoto(ArrayList<Integer> idFotoList, ArrayList<String> utenteUsernameAutoreList, ArrayList<byte[]> datiFotoList, ArrayList<String> dispositivoList, ArrayList<java.sql.Timestamp> dataFotoList, ArrayList<Float>luogolatitudineList, ArrayList<Float>luogolongituineList, ArrayList<Boolean> condivisaList, ArrayList<String> titoloList);
+
     // Metodo per ottenere la lista dei frames di un video
     public void getListFrameDAO(ArrayList<Integer> videoidVideoList, ArrayList<Integer> fotografiaidFotoList, ArrayList<Integer> durataList, ArrayList<Integer> ordineList);
 
@@ -28,6 +31,5 @@ public interface GalleriaDAO {
     // Metodo per ottenere la lista dei video
     public void getListVideoDAO(ArrayList<Integer> idVideoList, ArrayList<String> utenteAutoreList, ArrayList<String> titoloList, ArrayList<Integer> numeroFramesList, ArrayList<Integer> durataList, ArrayList<String> descrizioneList);
 
-    // Metodo per aggiornare il database con i nuovi dati
     void updateDatabaseDAO() throws SQLException;
 }
