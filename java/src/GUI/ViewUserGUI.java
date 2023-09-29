@@ -13,7 +13,7 @@ import MAIN.User;
 import org.postgresql.util.PSQLException;
 
 /**
- * The type Profilo impiegato gui.
+ * The type Profilo utente gui.
  */
 public class ViewUserGUI extends JDialog {
     private final JCheckBox adminCheckBox = new JCheckBox();
