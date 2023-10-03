@@ -1,6 +1,7 @@
 package GUI;
 
 import CONTROLLER.*;
+import MAIN.User;
 import org.postgresql.util.PSQLException;
 
 import javax.swing.*;
@@ -18,7 +19,6 @@ import java.util.ArrayList;
  */
 public class InserimentoCollezioneGUI extends JDialog {
     private final JTextField IdCollezioneField;
-    private final JComboBox<String> usernameComboBox;
     private final JTextField titoloField;
     private final JXDatePicker dataCollezionePicker;
 
@@ -41,13 +41,9 @@ public class InserimentoCollezioneGUI extends JDialog {
         IdCollezioneField = new JTextField();
         inputPanel.add(IdCollezioneField);
 
-        // CAMPO USERNAME
-        inputPanel.add(new JLabel("Username:"));
-        usernameComboBox = new JComboBox<>();
-        ArrayList<String> usernameList = controller.getListaUsernameDisponibileCollezioneGUI();
-        for (String i : usernameList)
-            usernameComboBox.addItem(i);
-        inputPanel.add(usernameComboBox);
+        // USERNAME DELL'UTENTE CHE EFFETTUA L'INSERIMENTO
+        inputPanel.add(new JLabel("Username:")); //+ User.getInstance().getUsername()));
+        inputPanel.add(new JLabel(User.getInstance().getUsername()));
 
         // CAMPO TITOLO
         inputPanel.add(new JLabel("Titolo:"));
@@ -75,12 +71,12 @@ public class InserimentoCollezioneGUI extends JDialog {
 
 
             //controllo che non ci siano dei campi vuoti
-            if (usernameComboBox.getSelectedItem() == null || titoloField.getText().isEmpty())  {
+            if (titoloField.getText().isEmpty())  {
                 setVisible(true);
             } else {
                 //Tutti i campi sono stati inseriti
                 int idCollezione = Integer.parseInt(IdCollezioneField.getText());
-                String username = (String) usernameComboBox.getSelectedItem();
+                String username = User.getInstance().getUsername();
                 String titolo = titoloField.getText();
                 java.util.Date utilDate = dataCollezionePicker.getDate();
                 java.sql.Timestamp dataCollezione = new java.sql.Timestamp(utilDate.getTime());

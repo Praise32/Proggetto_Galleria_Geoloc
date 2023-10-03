@@ -694,7 +694,7 @@ public class Controller {
     /**
      * Aggiunge una nuova fotografia al sistema con i dettagli forniti.
      *
-     * @param idFoto         ID univoco della fotografia da aggiungere.
+     * @param id_Foto         ID univoco della fotografia da aggiungere.
      * @param usernameAutore Nome utente dell'autore della fotografia.
      * @param datiFoto       Dati binari della fotografia (ad esempio, l'immagine stessa).
      * @param dispositivo    Dispositivo con cui è stata scattata la fotografia.
@@ -2202,7 +2202,7 @@ public class Controller {
                 listaIdFoto.add(100);
             }
             listaDurata.add(frame.getDurata());
-            listaOrdine.add(frame.getDurata());
+            listaOrdine.add(frame.getOrdine());
 
         }
     }
